@@ -1,0 +1,7 @@
+[0519/122857.833018:ERROR:file_io_posix.cc(153)] open /home/syanak/.config/Code/Crashpad/pending/24c6b0b0-c036-48c5-9aba-2fe22ccc9aae.lock: File exists (17)
+[90m[main 2025-05-19T09:28:58.587Z][0m update#setState idle
+[2796767:0519/122859.546459:ERROR:mime_util_xdg.cc(137)] Invalid mime.cache file does not contain null prior to ALIAS_LIST_OFFSET=44
+[90m[main 2025-05-19T09:29:28.593Z][0m update#setState checking for updates
+[90m[main 2025-05-19T09:29:28.605Z][0m update#setState available for download
+[0519/123857.833229:ERROR:file_io_posix.cc(153)] open /home/syanak/.config/Code/Crashpad/pending/24c6b0b0-c036-48c5-9aba-2fe22ccc9aae.lock: File exists (17)
+[0519/123857.833329:ERROR:file_io_posix.cc(153)] open /home/syanak/.config/Code/Crashpad/pending/24c6b0b0-c036-48c5-9aba-2fe22ccc9aae.lock: File exists (17)

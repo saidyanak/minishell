@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yuocak <yuocak@student.42kocaeli.com.tr>   +#+  +:+       +#+        */
+/*   By: syanak <syanak@student.42kocaeli.com.tr >  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/05 12:12:03 by yuocak            #+#    #+#             */
-/*   Updated: 2025/05/15 12:55:18 by yuocak           ###   ########.fr       */
+/*   Updated: 2025/05/19 12:34:35 by syanak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,25 +27,23 @@ typedef struct s_env
 
 typedef struct s_cmd
 {
-	char	*cmd;
-	char	*param;
-	int		build_in;
-	struct t_cmd *next; 
-}t_cmd;
+	char			*cmd;
+	char			*param;
+	int				build_in;
+	struct t_cmd	*next;
+}					t_cmd;
 
-typedef struct	s_token
+typedef struct s_token
 {
-	struct s_token *next;
-	
-}t_token;
+	struct s_token	*next;
+
+}					t_token;
 
 typedef struct s_base
 {
-	t_token	*token;
-	t_env	*env;
-} t_base;
-
-
+	t_token			*token;
+	t_env			*env;
+}					t_base;
 
 // 🔧 Environment Fonksiyonları
 t_env				*init_env(char **envp);
@@ -59,6 +57,6 @@ char				*ft_strdup(const char *s1);
 char				*ft_strndup(const char *s1, size_t n);
 
 // execute
-void	execute_command(char	**args, t_env *my_env);
+void				execute_command(char **args, t_env *my_env);
 
 #endif
