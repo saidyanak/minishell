@@ -6,7 +6,7 @@
 /*   By: yuocak <yuocak@student.42kocaeli.com.tr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/05 12:23:06 by yuocak            #+#    #+#             */
-/*   Updated: 2025/05/09 12:28:14 by yuocak           ###   ########.fr       */
+/*   Updated: 2025/05/09 17:26:51 by yuocak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,12 +22,6 @@ t_env	*create_env_node(char *env_str)
 	int		key_len;
 
 	new_node = malloc(sizeof(t_env));
-
-
-
-
-
-
 	if (!new_node)
 		return (NULL);
 	equal_sign = ft_strchr(env_str, '=');

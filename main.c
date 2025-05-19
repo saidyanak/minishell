@@ -6,35 +6,33 @@
 /*   By: syanak <syanak@student.42kocaeli.com.tr >  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/05 12:12:06 by yuocak            #+#    #+#             */
-/*   Updated: 2025/05/19 12:29:21 by syanak           ###   ########.fr       */
+/*   Updated: 2025/05/19 12:39:48 by syanak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include <readline/readline.h>
-#include <stdlib.h>
 #include <stdio.h>
+#include <stdlib.h>
 
 int	main(int argc, char **argv, char **envp)
 {
 	char	*input;
-	t_env	*my_env;
+	t_base	my_base;
 	char	**args;
 
 	(void)argc;
 	(void)argv;
-	my_env = init_env(envp);
+	my_base.env = init_env(envp);
 	while (1)
 	{
-	    input = readline("minishell$ ");
-	    if (!input)
-	        break ;
-		args = tokenize_input(input);
-		if (!args[3])
-			break;
-		//execute_command(args, &my_env);
-	    free(input);
-
+		input = readline("minishell$ ");
+		if (!input)
+			break ;
+		tokenize_input(input, my_base);
+		// execute_command(args, &my_env);
+		free(input);
+		// execute_command(args, &my_env);
 	}
 	return (0);
 }
