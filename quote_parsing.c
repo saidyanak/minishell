@@ -1,29 +1,38 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   tokenize.c                                         :+:      :+:    :+:   */
+/*   quote_parsing.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yuocak <yuocak@student.42kocaeli.com.tr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/05/05 16:38:34 by yuocak            #+#    #+#             */
-/*   Updated: 2025/05/15 13:01:58 by yuocak           ###   ########.fr       */
+/*   Created: 2025/05/09 17:30:50 by yuocak            #+#    #+#             */
+/*   Updated: 2025/05/12 14:14:13 by yuocak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdlib.h>
-#include <string.h>
-#include "minishell.h"
-#include <stdio.h>
+static int is_quote(char c)
+{
+    if (c == '\"' || c == '\'')
+        return(1);
+}
 
-void    tokenize_input(char *input, t_base my_base)
+static int  token_lenght(char *word)
 {
     int i;
+    int quote;
 
+    quote = 0;
     i = 0;
-    while (input[i])
+    while (!word)
     {
-    
-        i++;
+        if (!is_quote(word[i]))
+            i++;
+        else if (is_quote(word[i]))
+        {
+           
+        }
+
     }
+    
     
 }
