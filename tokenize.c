@@ -3,14 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   tokenize.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: syanak <syanak@student.42kocaeli.com.tr >  +#+  +:+       +#+        */
+/*   By: yuocak <yuocak@student.42kocaeli.com.tr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/05/05 16:38:34 by yuocak            #+#    #+#             */
-/*   Updated: 2025/05/22 20:17:43 by syanak           ###   ########.fr       */
+/*   Created: 2025/06/02 12:30:21 by yuocak            #+#    #+#             */
+/*   Updated: 2025/06/16 14:55:21 by yuocak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+#include "libft/libft.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -50,51 +51,37 @@ void	add_token(t_token **head, char *str, t_token_type type)
 	}
 }
 
-char	*parse_word_with_quotes(char *input, int *i)
+static void	handle_word_or_error(char *input, int *i, t_token **head)
 {
-	int		start;
-	char	*result;
-	char	quote;
-	char	*tmp;
+	char	*word;
 
-	result = ft_strdup("");
-	while (input[*i] && !ft_isspace(input[*i]) && input[*i] != '|'
-		&& input[*i] != '<' && input[*i] != '>')
+	word = parse_word_with_quotes(input, i);
+	if (!word)
 	{
-		if (input[*i] == '\'' || input[*i] == '"')
-		{
-			quote = input[*i];
-			(*i)++;
-			start = *i;
-			while (input[*i] && input[*i] != quote)
-				(*i)++;
-			if (!input[*i])
-			{
-				free(result);
-				return (NULL); // ❌ tırnak kapanmadı
-			}
-			tmp = ft_substr(input, start, *i - start);
-			result = ft_strjoin_free(result, tmp);
-			(*i)++; // tırnağı geç
-		}
-		else
-		{
-			start = *i;
-			while (input[*i] && !ft_isspace(input[*i]) && input[*i] != '|'
-				&& input[*i] != '<' && input[*i] != '>' && input[*i] != '"'
-				&& input[*i] != '\'')
-				(*i)++;
-			tmp = ft_substr(input, start, *i - start);
-			result = ft_strjoin_free(result, tmp);
-		}
+		printf("minishell: syntax error: unclosed quote\n");
+		//freleme yap;
+		return ;
 	}
-	return (result);
+	add_token(head, word, TOKEN_WORD);
+}
+
+static void	handle_opeartor(char *input, int *i, t_token **head)
+{
+	if (input[*i] == '|')
+	{
+		add_token(head, ft_strdup('|'), TOKEN_PIPE);
+		(*i)++;
+	}
+	else if (input[*i] == '<' || input[*i] == '>')
+	{
+		//tokenlar işlenecek;
+		(*i)++;
+	}
 }
 
 void	tokenize_input(char *input, t_base *base)
 {
 	int		i;
-	char	*word;
 	t_token	*head;
 
 	i = 0;
@@ -103,27 +90,12 @@ void	tokenize_input(char *input, t_base *base)
 	{
 		if (ft_isspace(input[i]))
 			i++;
-		else if (input[i] == '|')
-		{
-			add_token(&head, ft_strdup("|"), TOKEN_PIPE);
-			i++;
-		}
-		else if (input[i] == '<' || input[i] == '>')
-		{
-			// yönlendirmeleri handle edebilirsin buradan
-			i++; // basitçe geçelim
-		}
+		else if (input[i] == '|' || input[i] == '<' || input[i] == '>')
+			handle_opeartor(input, &i, &head);
 		else
-		{
-			word = parse_word_with_quotes(input, &i);
-			if (!word)
-			{
-				printf("minishell: syntax error: unclosed quote\n");
-				// TODO: token freele
-				return ;
-			}
-			add_token(&head, word, TOKEN_WORD);
-		}
+			handle_word_or_error(input, &i, &head);
 	}
 	base->token = head;
 }
+
+
