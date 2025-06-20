@@ -13,6 +13,7 @@
 #include <readline/readline.h>
 #include "minishell.h"
 #include <stdlib.h>
+#include <stdio.h>
 
 int main(int argc, char **argv, char **env)
 {
@@ -29,5 +30,14 @@ int main(int argc, char **argv, char **env)
         if (!input)
             break;
         tokenize_input(input, &my_base);
+    }
+    t_token *head;
+    
+    head = my_base->token;
+    while (head->next)
+    {
+        printf("%s", my_base->token->content);
+        printf("\n");
+        head = head->next;
     }
 }
