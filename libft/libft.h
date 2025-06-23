@@ -6,7 +6,7 @@
 /*   By: yuocak <yuocak@student.42kocaeli.com.tr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/29 13:45:16 by yuocak            #+#    #+#             */
-/*   Updated: 2025/04/11 12:21:38 by yuocak           ###   ########.fr       */
+/*   Updated: 2025/06/19 13:06:10 by yuocak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,7 @@ char	**ft_split(const char *s, char c);
 char	*ft_strchr(const char *s, int c);
 char	*ft_strtrim(const char *s1, const char *set);
 char	*ft_strdup(const char *s);
+char    *ft_strndup(const char *s, size_t n);
 char	*ft_itoa(int n);
 char	*ft_strmapi(char const *s, char (*f)(unsigned int, char));
 char	*ft_strnstr(const char *haystack, const char *needle, size_t len);

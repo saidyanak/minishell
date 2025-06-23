@@ -6,12 +6,14 @@
 /*   By: yuocak <yuocak@student.42kocaeli.com.tr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/02 11:39:59 by yuocak            #+#    #+#             */
-/*   Updated: 2025/06/16 14:55:50 by yuocak           ###   ########.fr       */
+/*   Updated: 2025/06/19 15:01:49 by yuocak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
+
+#include <stddef.h>
 
 typedef enum e_token_type
 {
@@ -49,8 +51,14 @@ void	tokenize_input(char *input, t_base *base);
 char	*ft_strdup(const char *s1);
 char	*ft_strjoin(char const *s1, char const *s2);
 char	*ft_strchr(const char *s, int c);
-char	*ft_strndup(const char *s, size_t n);
 char	*ft_substr(char const *s, unsigned int start, size_t len);
 int		ft_isspace(char c);
+char	*ft_strjoin_free(char *s1, char *s2);
+t_env *init_env(char **env);
 
+
+
+
+void	print_tokens(t_token *token);
+void	debug_parse_quotes(char *input);
 #endif

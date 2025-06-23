@@ -1,33 +1,39 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ft_strndup.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yuocak <yuocak@student.42kocaeli.com.tr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/06/02 11:39:31 by yuocak            #+#    #+#             */
-/*   Updated: 2025/06/19 15:19:40 by yuocak           ###   ########.fr       */
+/*   Created: 2025/06/19 13:05:35 by yuocak            #+#    #+#             */
+/*   Updated: 2025/06/19 13:05:48 by yuocak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <readline/readline.h>
-#include "minishell.h"
 #include <stdlib.h>
 
-int main(int argc, char **argv, char **env)
+char    *ft_strndup(const char *s, size_t n)
 {
-    char    *input;
-    char    **args;
-    t_base  my_base;
+    char    *dup;
+    size_t  len;
+    size_t  i;
 
-    (void)argc;
-    (void)argv;
-    my_base.env = init_env(env);
-    while(1)
+    if (!s)
+        return (NULL);
+    len = 0;
+    while (s[len] && len < n)
+        len++;
+    
+    dup = (char *)malloc(sizeof(char) * (len + 1));
+    if (!dup)
+        return (NULL);
+    
+    i = 0;
+    while (i < len)
     {
-        input = readline("minishell$ ");
-        if (!input)
-            break;
-        tokenize_input(input, &my_base);
+        dup[i] = s[i];
+        i++;
     }
+    dup[i] = '\0';
+    return (dup);
 }

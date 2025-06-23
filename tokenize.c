@@ -6,7 +6,7 @@
 /*   By: yuocak <yuocak@student.42kocaeli.com.tr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/02 12:30:21 by yuocak            #+#    #+#             */
-/*   Updated: 2025/06/16 14:55:21 by yuocak           ###   ########.fr       */
+/*   Updated: 2025/06/19 15:02:16 by yuocak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,10 +25,13 @@ char	*ft_strjoin_free(char *s1, char *s2)
 {
 	char	*res;
 
+	if (!s1 && !s2)
+		return (NULL);
+	else if (!s1)
+		return (s2);
+	else if (!s2)
+		return (s1);
 	res = ft_strjoin(s1, s2);
-	free(s1);
-	free(s2);
-	return (res);
 }
 
 void	add_token(t_token **head, char *str, t_token_type type)
@@ -69,13 +72,28 @@ static void	handle_opeartor(char *input, int *i, t_token **head)
 {
 	if (input[*i] == '|')
 	{
-		add_token(head, ft_strdup('|'), TOKEN_PIPE);
+		add_token(head, ft_strdup("|"), TOKEN_PIPE);
 		(*i)++;
 	}
-	else if (input[*i] == '<' || input[*i] == '>')
+	else if (input[*i] == '<')
 	{
-		//tokenlar işlenecek;
+		add_token(head, ft_strdup("<"), TOKEN_REDIRECT_IN);
 		(*i)++;
+	}
+	else if (input[*i] == '<' && input[*i + 1] == '<')
+	{
+		add_token(head, ft_strdup("<<"), TOKEN_HEREDOC);
+		(*i) += 2;
+	}
+	else if (input[*i] == '>')
+	{
+		add_token(head, ft_strdup(">"), TOKEN_REDIRECT_OUT);
+		(*i)++;
+	}
+	else if (input[*i] == '>' && input[*i + 1] == '>')
+	{
+		add_token(head, ft_strdup(">>"), TOKEN_APPEND);
+		(*i) += 2;
 	}
 }
 
