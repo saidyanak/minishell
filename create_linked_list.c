@@ -6,7 +6,7 @@
 /*   By: yuocak <yuocak@student.42kocaeli.com.tr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/02 11:46:17 by yuocak            #+#    #+#             */
-/*   Updated: 2025/06/24 14:17:13 by yuocak           ###   ########.fr       */
+/*   Updated: 2025/06/24 14:51:42 by yuocak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +71,15 @@ void	add_new_node(t_env **head, t_env *new_node)
 	}
 }
 
+void	env_null_check(t_env *env_lst)
+{
+	if (!env_list)
+	{
+		printf("minishell: error initializing environment\n");
+		exit(1);
+	}
+}
+
 t_env	*init_env(char **env)
 {
 	int		i;
@@ -78,11 +87,9 @@ t_env	*init_env(char **env)
 	t_env	*node;
 
 	if (!env)
-		return (NULL);
-	
+		exit(1);
 	env_list = NULL;
 	i = 0;
-	
 	while (env[i])
 	{
 		node = create_new_node(env[i]);
@@ -90,11 +97,11 @@ t_env	*init_env(char **env)
 			add_new_node(&env_list, node);
 		else
 		{
-			// Bellek hatası durumunda tüm listeyi temizle
 			free_env(env_list);
-			return (NULL);
+			return (env_null_check);
 		}
 		i++;
 	}
+	env_null_check(env_list);
 	return (env_list);
 }

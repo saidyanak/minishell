@@ -6,7 +6,7 @@
 /*   By: yuocak <yuocak@student.42kocaeli.com.tr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/29 13:45:16 by yuocak            #+#    #+#             */
-/*   Updated: 2025/06/19 13:06:10 by yuocak           ###   ########.fr       */
+/*   Updated: 2025/06/24 16:07:58 by yuocak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ int		ft_memcmp(const void *s1, const void *s2, size_t n);
 int		ft_tolower(int c);
 int		ft_toupper(int c);
 int		ft_strncmp(const char *s1, const char *s2, size_t n);
+int     ft_strcmp(char *s1, char *s2);
 
 void	*ft_calloc(size_t count, size_t size);
 void	*ft_memmove(void *dst, const void *src, size_t len);

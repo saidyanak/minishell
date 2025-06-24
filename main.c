@@ -6,7 +6,7 @@
 /*   By: yuocak <yuocak@student.42kocaeli.com.tr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/02 11:39:31 by yuocak            #+#    #+#             */
-/*   Updated: 2025/06/24 14:14:30 by yuocak           ###   ########.fr       */
+/*   Updated: 2025/06/24 14:55:09 by yuocak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,18 +58,9 @@ int main(int argc, char **argv, char **env)
 
 	(void)argc;
 	(void)argv;
-	
-	// Base yapısını başlat
 	base.token = NULL;
 	base.env = init_env(env);
 	base.exit_status = 0;
-	
-	if (!base.env)
-	{
-		printf("minishell: error initializing environment\n");
-		return (1);
-	}
-	
 	setup_signals();
 	while (1)
 	{
@@ -79,13 +70,11 @@ int main(int argc, char **argv, char **env)
 			printf("exit\n");
 			break;
 		}
-		
 		if (*input) // Sadece boş olmayan input'ları işle
 			process_input(input, &base);
-		
+		excute_command(base);
 		free(input);
 	}
-	// Cleanup
 	cleanup_base(&base);
 	return (base.exit_status);
 }
