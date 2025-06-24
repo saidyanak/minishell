@@ -6,123 +6,85 @@
 /*   By: yuocak <yuocak@student.42kocaeli.com.tr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/04 13:14:40 by yuocak            #+#    #+#             */
-/*   Updated: 2025/06/19 15:05:54 by yuocak           ###   ########.fr       */
+/*   Updated: 2025/06/24 12:53:53 by yuocak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft/libft.h"
 #include "minishell.h"
 #include <stdlib.h>
 #include <stdio.h>
 
-/*const char *token_type_to_str(t_token_type type)
+char	*handle_quoted_word(char *input, int *i, char *result)
 {
-	if (type == TOKEN_WORD)
-		return "WORD";
-	else if (type == TOKEN_PIPE)
-		return "PIPE";
-	else if (type == TOKEN_REDIRECT_IN)
-		return "REDIRECT_IN";
-	else if (type == TOKEN_REDIRECT_OUT)
-		return "REDIRECT_OUT";
-	else if (type == TOKEN_APPEND)
-		return "APPEND";
-	else if (type == TOKEN_HEREDOC)
-		return "HEREDOC";
-	else if (type == TOKEN_QUOTED_WORD)
-		return "QUOTED_WORD";
-	return "UNKNOWN";
-}
-
-void	print_tokens(t_token *token)
-{
-	while (token)
-	{
-		printf("Token: [%-12s] | Content: \"%s\"\n",
-			token_type_to_str(token->type), token->content);
-		token = token->next;
-	}
-}
-
-void	debug_parse_quotes(char *input)
-{
-	int		i = 0;
-	char	*word;
-
-	printf("Debug: quote parsing for input: \"%s\"\n", input);
-	while (input[i])
-	{
-		if (ft_isspace(input[i]))
-			i++;
-		else
-		{
-			word = parse_word_with_quotes(input, &i);
-			if (!word)
-			{
-				printf("❌ Hata: Kapalı olmayan tırnak tespit edildi!\n");
-				return ;
-			}
-			printf("✅ Parsed Word: \"%s\"\n", word);
-			free(word);
-		}
-	}
-}*/
-
-
-static char	*handle_quoted_word(char *input, int *i, char *result)
-{
-	int		start;
-	char	qoute;
+	char	quote;
 	char	*tmp;
+	int		start;
 
-	qoute = input[*i];
+	quote = input[*i];
 	(*i)++;
 	start = *i;
-	while (input[*i] && input[*i] != qoute)
+	while (input[*i] && input[*i] != quote)
 		(*i)++;
 	if (!input[*i])
-	{
-		free(result);
-		return (NULL);
-	}
+		return (free(result), NULL);
 	tmp = ft_substr(input, start, *i - start);
+	if (!tmp)
+		return (free(result), NULL);
 	result = ft_strjoin_free(result, tmp);
 	(*i)++;
 	return (result);
 }
 
-static char	*handle_unquoted_word(char *input, int *i, char *result)
+char	*handle_unquoted_word(char *input, int *i, char *result)
 {
 	int		start;
 	char	*tmp;
 
 	start = *i;
-	while (input[*i] && !ft_isspace(input[*i]) && input[*i] != '|'
-		&& input[*i] != '<' && input[*i] != '>' && input[*i] != '"'
-		&& input[*i] != '\'')
+	while (input[*i]
+		&& !is_special(input[*i])
+		&& input[*i] != '\''
+		&& input[*i] != '"')
 		(*i)++;
+	if (*i == start)
+		return (result);
 	tmp = ft_substr(input, start, *i - start);
+	if (!tmp)
+		return (free(result), NULL);
 	return (ft_strjoin_free(result, tmp));
 }
 
-char	*parse_word_with_quotes(char *input, int *i)
+char	*parse_word_with_quotes(char *input, int *i, t_token_type *type)
 {
 	char	*result;
+	int		start;
+	int		quoted;
 
+	if (!input || !i || !type)
+		return (NULL);
 	result = ft_strdup("");
-	while (input[*i])
+	if (!result)
+		return (NULL);
+	start = *i;
+	quoted = 0;
+	while (input[*i] && !is_special(input[*i]))
 	{
-		if (ft_isspace(input[*i]) || input[*i] == '|' || input[*i] == '<'
-			|| input[*i] == '>')
-			break ;
 		if (input[*i] == '\'' || input[*i] == '"')
 		{
+			quoted = 1;
 			result = handle_quoted_word(input, i, result);
-			if (!result)
-				return (NULL);
 		}
 		else
 			result = handle_unquoted_word(input, i, result);
+		if (!result)
+			return (NULL);
 	}
+	if (*i == start)
+		return (free(result), NULL);
+	if (quoted)
+		*type = TOKEN_QUOTED_WORD;
+	else
+		*type = TOKEN_WORD;
 	return (result);
 }
+

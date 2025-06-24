@@ -6,43 +6,56 @@
 /*   By: yuocak <yuocak@student.42kocaeli.com.tr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/02 12:30:21 by yuocak            #+#    #+#             */
-/*   Updated: 2025/06/19 15:02:16 by yuocak           ###   ########.fr       */
+/*   Updated: 2025/06/24 14:14:45 by yuocak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-#include "libft/libft.h"
 #include <stdio.h>
 #include <stdlib.h>
-#include <string.h>
 
 int	ft_isspace(char c)
 {
 	return (c == ' ' || (c >= 9 && c <= 13));
 }
 
+int	is_special(char c)
+{
+	return (c == '|' || c == '<' || c == '>' || ft_isspace(c) || c == '\0');
+}
 char	*ft_strjoin_free(char *s1, char *s2)
 {
 	char	*res;
 
 	if (!s1 && !s2)
 		return (NULL);
-	else if (!s1)
+	if (!s1)
 		return (s2);
-	else if (!s2)
+	if (!s2)
 		return (s1);
 	res = ft_strjoin(s1, s2);
+	free(s1);
+	free(s2);
+	return (res);
 }
-
 void	add_token(t_token **head, char *str, t_token_type type)
 {
 	t_token	*new;
 	t_token	*tmp;
 
+	if (!str)
+		return;
+	
 	new = malloc(sizeof(t_token));
+	if (!new)
+	{
+		free(str);
+		return;
+	}
 	new->content = str;
 	new->type = type;
 	new->next = NULL;
+	
 	if (!*head)
 		*head = new;
 	else
@@ -56,21 +69,34 @@ void	add_token(t_token **head, char *str, t_token_type type)
 
 static void	handle_word_or_error(char *input, int *i, t_token **head)
 {
-	char	*word;
+	char			*word;
+	t_token_type	type;
 
-	word = parse_word_with_quotes(input, i);
+	word = parse_word_with_quotes(input, i, &type);
 	if (!word)
 	{
 		printf("minishell: syntax error: unclosed quote\n");
-		//freleme yap;
-		return ;
+		// Token listesini temizle ve çık
+		free_tokens(*head);
+		*head = NULL;
+		return;
 	}
-	add_token(head, word, TOKEN_WORD);
+	add_token(head, word, type);
 }
 
-static void	handle_opeartor(char *input, int *i, t_token **head)
+static void	handle_operator(char *input, int *i, t_token **head)
 {
-	if (input[*i] == '|')
+	if (input[*i] == '<' && input[*i + 1] == '<')
+	{
+		add_token(head, ft_strdup("<<"), TOKEN_HEREDOC);
+		(*i) += 2;
+	}
+	else if (input[*i] == '>' && input[*i + 1] == '>')
+	{
+		add_token(head, ft_strdup(">>"), TOKEN_APPEND);
+		(*i) += 2;
+	}
+	else if (input[*i] == '|')
 	{
 		add_token(head, ft_strdup("|"), TOKEN_PIPE);
 		(*i)++;
@@ -80,20 +106,10 @@ static void	handle_opeartor(char *input, int *i, t_token **head)
 		add_token(head, ft_strdup("<"), TOKEN_REDIRECT_IN);
 		(*i)++;
 	}
-	else if (input[*i] == '<' && input[*i + 1] == '<')
-	{
-		add_token(head, ft_strdup("<<"), TOKEN_HEREDOC);
-		(*i) += 2;
-	}
 	else if (input[*i] == '>')
 	{
 		add_token(head, ft_strdup(">"), TOKEN_REDIRECT_OUT);
 		(*i)++;
-	}
-	else if (input[*i] == '>' && input[*i + 1] == '>')
-	{
-		add_token(head, ft_strdup(">>"), TOKEN_APPEND);
-		(*i) += 2;
 	}
 }
 
@@ -102,16 +118,24 @@ void	tokenize_input(char *input, t_base *base)
 	int		i;
 	t_token	*head;
 
+	if (!input || !base)
+		return;
+	
 	i = 0;
 	head = NULL;
+	
 	while (input[i])
 	{
 		if (ft_isspace(input[i]))
 			i++;
 		else if (input[i] == '|' || input[i] == '<' || input[i] == '>')
-			handle_opeartor(input, &i, &head);
+			handle_operator(input, &i, &head);
 		else
+		{
 			handle_word_or_error(input, &i, &head);
+			if (!head) // Hata durumunda çık
+				break;
+		}
 	}
 	base->token = head;
 }
