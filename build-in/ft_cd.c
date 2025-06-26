@@ -6,7 +6,7 @@
 /*   By: yuocak <yuocak@student.42kocaeli.com.tr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/24 16:30:00 by yuocak            #+#    #+#             */
-/*   Updated: 2025/06/26 18:39:41 by yuocak           ###   ########.fr       */
+/*   Updated: 2025/06/26 18:44:22 by yuocak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -133,23 +133,19 @@ t_base	ft_cd(t_token *current_prompt, t_base base)
 
 	if (!current_prompt)
 		return (base);
-	
-	// Birden fazla argüman hatası
 	if (current_prompt->next && current_prompt->next->next)
 	{
 		printf("minishell: cd: too many arguments\n");
 		base.exit_status = 1;
 		return (base);
 	}
-	
-	// Target path'i alıyoruz
 	target_path = get_target_path(current_prompt, base.env);
+	printf("target path:%s", target_path);
 	if (!target_path)
 	{
 		base.exit_status = 1;
 		return (base);
 	}
-	
 	// Çalıştığımız dizini değiştirip setliyoruz
 	result = change_directory(target_path, &(base.env));
 	base.exit_status = result;
