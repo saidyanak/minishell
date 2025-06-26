@@ -11,6 +11,7 @@ READLINE_FLAGS = -lreadline
 SRCDIR = src
 OBJDIR = obj
 LIBFTDIR = libft
+BUILTINDIR = build-in
 
 # Libft
 LIBFT = $(LIBFTDIR)/libft.a
@@ -22,7 +23,11 @@ SRCS = main.c \
        parse_quote.c \
        create_linked_list.c \
        clean_up.c \
-       debug.c
+       debug.c \
+       execute.c \
+       $(BUILTINDIR)/build_in.c \
+       $(BUILTINDIR)/ft_echo.c \
+
 
 # Object files
 OBJS = $(SRCS:%.c=$(OBJDIR)/%.o)
@@ -43,7 +48,7 @@ $(NAME): $(LIBFT) $(OBJS)
 	@echo "$(GREEN)✅ $(NAME) compiled successfully!$(NC)"
 
 $(OBJDIR)/%.o: %.c
-	@mkdir -p $(OBJDIR)
+	@mkdir -p $(dir $@)
 	@echo "$(YELLOW)Compiling $<...$(NC)"
 	@$(CC) $(CFLAGS) $(INCLUDES) -c $< -o $@
 

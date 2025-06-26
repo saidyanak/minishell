@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yuocak <yuocak@student.42kocaeli.com.tr>   +#+  +:+       +#+        */
+/*   By: yuocak <yuocak@student.42kocaeli.com.tr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/02 11:39:31 by yuocak            #+#    #+#             */
-/*   Updated: 2025/06/24 14:55:09 by yuocak           ###   ########.fr       */
+/*   Updated: 2025/06/26 16:21:20 by yuocak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,7 @@ int main(int argc, char **argv, char **env)
 		}
 		if (*input) // Sadece boş olmayan input'ları işle
 			process_input(input, &base);
-		excute_command(base);
+		execute_command(base);
 		free(input);
 	}
 	cleanup_base(&base);

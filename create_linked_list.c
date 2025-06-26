@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   create_linked_list.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yuocak <yuocak@student.42kocaeli.com.tr>   +#+  +:+       +#+        */
+/*   By: yuocak <yuocak@student.42kocaeli.com.tr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/02 11:46:17 by yuocak            #+#    #+#             */
-/*   Updated: 2025/06/24 14:51:42 by yuocak           ###   ########.fr       */
+/*   Updated: 2025/06/26 15:04:31 by yuocak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,7 @@ void	add_new_node(t_env **head, t_env *new_node)
 
 void	env_null_check(t_env *env_lst)
 {
-	if (!env_list)
+	if (!env_lst)
 	{
 		printf("minishell: error initializing environment\n");
 		exit(1);
@@ -98,7 +98,8 @@ t_env	*init_env(char **env)
 		else
 		{
 			free_env(env_list);
-			return (env_null_check);
+			printf("minishell: error initializing environment\n");
+			exit(1);
 		}
 		i++;
 	}
