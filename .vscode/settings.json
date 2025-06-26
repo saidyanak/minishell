@@ -1,8 +1,5 @@
 {
     "files.associations": {
-        "minishell.h": "c",
-        "libft.h": "c",
-        "readline.h": "c",
-        "stdlib.h": "c"
+        "minishell.h": "c"
     }
 }
