@@ -6,7 +6,7 @@
 /*   By: yuocak <yuocak@student.42kocaeli.com.tr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/02 11:39:59 by yuocak            #+#    #+#             */
-/*   Updated: 2025/06/26 16:29:35 by yuocak           ###   ########.fr       */
+/*   Updated: 2025/06/26 18:43:46 by yuocak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,5 +91,6 @@ void	debug_parse_quotes(char *input);
 
 //Build-in
 int ft_echo(t_token *current_prompt, t_base base);
+t_base	ft_cd(t_token *current_prompt, t_base base);
 
 #endif
