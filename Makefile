@@ -27,7 +27,7 @@ SRCS = main.c \
        execute.c \
        $(BUILTINDIR)/build_in.c \
        $(BUILTINDIR)/ft_echo.c \
-
+	   $(BUILTINDIR)/ft_cd.c
 
 # Object files
 OBJS = $(SRCS:%.c=$(OBJDIR)/%.o)

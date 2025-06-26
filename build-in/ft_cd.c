@@ -1,20 +1,17 @@
-#include "minishell.h"
-#include "libft.h"
-
-
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   ft_cd.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yuocak <yuocak@student.42kocaeli.com.tr>   +#+  +:+       +#+        */
+/*   By: yuocak <yuocak@student.42kocaeli.com.tr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/24 16:30:00 by yuocak            #+#    #+#             */
-/*   Updated: 2025/06/24 16:30:00 by yuocak           ###   ########.fr       */
+/*   Updated: 2025/06/26 18:39:41 by yuocak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+#include "libft.h"
 #include <unistd.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -24,7 +21,7 @@ char	*get_env_value(t_env *env, char *key)
 {
 	while (env)
 	{
-		if (ft_strcmp(env->key, key) == 0)
+		if (ft_strcmp(env->key, key) == 1)
 			return (env->value);
 		env = env->next;
 	}
@@ -39,7 +36,7 @@ void	set_env_value(t_env **env, char *key, char *value)
 	current = *env;
 	while (current)
 	{
-		if (ft_strcmp(current->key, key) == 0)
+		if (ft_strcmp(current->key, key) == 1)
 		{
 			free(current->value);
 			current->value = ft_strdup(value);
@@ -80,7 +77,7 @@ static char	*get_target_path(t_token *token, t_env *env)
 	}
 	
 	// Handle "cd -" (go to previous directory)
-	if (ft_strcmp(token->content, "-") == 0)
+	if (ft_strcmp(token->content, "-") == 1)
 	{
 		path = get_env_value(env, "OLDPWD");
 		if (!path)
@@ -96,7 +93,7 @@ static char	*get_target_path(t_token *token, t_env *env)
 	return (ft_strdup(token->content));
 }
 
-static int	change_directory(char *path, t_base *base)
+static int	change_directory(char *path, t_env **env)
 {
 	char	*old_pwd;
 	char	cwd[1024];
@@ -118,43 +115,45 @@ static int	change_directory(char *path, t_base *base)
 	}
 	
 	// Update OLDPWD with previous directory
-	set_env_value(&(base->env), "OLDPWD", old_pwd);
+	set_env_value(env, "OLDPWD", old_pwd);
 	
 	// Update PWD with new directory
 	if (getcwd(cwd, sizeof(cwd)))
-		set_env_value(&(base->env), "PWD", cwd);
+		set_env_value(env, "PWD", cwd);
 	
 	free(old_pwd);
 	return (0);
 }
 
-void	ft_cd(t_token *current_prompt, t_base *base)
+// Updated base yapısını geri döndüren fonksiyon
+t_base	ft_cd(t_token *current_prompt, t_base base)
 {
 	char	*target_path;
 	int		result;
 
-	if (!current_prompt || !base)
-		return;
+	if (!current_prompt)
+		return (base);
 	
-	// Birden fazl argüman hatası
+	// Birden fazla argüman hatası
 	if (current_prompt->next && current_prompt->next->next)
 	{
 		printf("minishell: cd: too many arguments\n");
-		base->exit_status = 1;
-		return;
+		base.exit_status = 1;
+		return (base);
 	}
 	
-	// Target path i alıyruz.
-	target_path = get_target_path(current_prompt, base->env);
+	// Target path'i alıyoruz
+	target_path = get_target_path(current_prompt, base.env);
 	if (!target_path)
 	{
-		base->exit_status = 1;
-		return;
+		base.exit_status = 1;
+		return (base);
 	}
 	
-	// Caliştığımız dizini değiştirio setliyoruz
-	result = change_directory(target_path, base);
-	base->exit_status = result;
-	printf("%s\n", target_path);
+	// Çalıştığımız dizini değiştirip setliyoruz
+	result = change_directory(target_path, &(base.env));
+	base.exit_status = result;
+	printf("cwd:%s\n", get_env_value(base.env, "PWD"));	
 	free(target_path);
+	return (base);  // Güncellenmiş base'i geri döndürüyoruz
 }
