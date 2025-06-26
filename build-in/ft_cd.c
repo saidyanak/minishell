@@ -1,7 +1,3 @@
-#include "minishell.h"
-#include "libft.h"
-
-
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
@@ -128,7 +124,7 @@ static int	change_directory(char *path, t_base *base)
 	return (0);
 }
 
-void	ft_cd(t_token *current_prompt, t_base *base)
+void	ft_cd(t_token *current_prompt, t_base base)
 {
 	char	*target_path;
 	int		result;

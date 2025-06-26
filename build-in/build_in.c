@@ -17,8 +17,8 @@ void ft_build_in(t_token *current_prompt, t_base base)
 {
     if (ft_strcmp(current_prompt->content, "echo") == 1)//aocak
         ft_echo(current_prompt, base); 
-    //else if (ft_strcmp(current_prompt->content, "cd") == 0) //said
-     //   ft_cd(current_prompt, base);
+    else if (ft_strcmp(current_prompt->content, "cd") == 0) //said
+       ft_cd(current_prompt, base);
     //else if (ft_strcmp(current_prompt->content, "pwd") == 0)// aocak
       //  ft_pwd(current_prompt, base);
     //else if (ft_strcmp(current_prompt->content, "unset") == 0) //said
