@@ -155,6 +155,6 @@ void	ft_cd(t_token *current_prompt, t_base *base)
 	// Caliştığımız dizini değiştirio setliyoruz
 	result = change_directory(target_path, base);
 	base->exit_status = result;
-	
+	printf("%s\n", target_path);
 	free(target_path);
 }
