@@ -136,7 +136,7 @@ void	ft_cd(t_token *current_prompt, t_base *base)
 	if (!current_prompt || !base)
 		return;
 	
-	// Check if there are too many arguments
+	// Birden fazl argüman hatası
 	if (current_prompt->next && current_prompt->next->next)
 	{
 		printf("minishell: cd: too many arguments\n");
@@ -144,7 +144,7 @@ void	ft_cd(t_token *current_prompt, t_base *base)
 		return;
 	}
 	
-	// Get the target directory path
+	// Target path i alıyruz.
 	target_path = get_target_path(current_prompt, base->env);
 	if (!target_path)
 	{
@@ -152,7 +152,7 @@ void	ft_cd(t_token *current_prompt, t_base *base)
 		return;
 	}
 	
-	// Change directory and update exit status
+	// Caliştığımız dizini değiştirio setliyoruz
 	result = change_directory(target_path, base);
 	base->exit_status = result;
 	
