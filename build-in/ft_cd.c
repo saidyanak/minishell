@@ -136,6 +136,7 @@ void	ft_cd(t_token *current_prompt, t_base *base)
 	if (!current_prompt || !base)
 		return;
 	
+
 	// Birden fazl argüman hatası
 	if (current_prompt->next && current_prompt->next->next)
 	{
@@ -146,6 +147,7 @@ void	ft_cd(t_token *current_prompt, t_base *base)
 	
 	// Target path i alıyruz.
 	target_path = get_target_path(current_prompt, base->env);
+	printf("target path:%s", target_path);
 	if (!target_path)
 	{
 		base->exit_status = 1;
@@ -155,6 +157,5 @@ void	ft_cd(t_token *current_prompt, t_base *base)
 	// Caliştığımız dizini değiştirio setliyoruz
 	result = change_directory(target_path, base);
 	base->exit_status = result;
-	printf("%s\n", target_path);
 	free(target_path);
 }

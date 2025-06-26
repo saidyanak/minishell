@@ -91,5 +91,7 @@ void	debug_parse_quotes(char *input);
 
 //Build-in
 int ft_echo(t_token *current_prompt, t_base base);
+void	ft_cd(t_token *current_prompt, t_base *base);
+
 
 #endif
