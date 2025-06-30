@@ -125,12 +125,7 @@ static int	change_directory(char *path, t_env **env)
 	return (0);
 }
 
-<<<<<<< HEAD
-void	ft_cd(t_token *current_prompt, t_base base)
-=======
-// Updated base yapısını geri döndüren fonksiyon
 t_base	ft_cd(t_token *current_prompt, t_base base)
->>>>>>> 91e2958c349ef3260dd87d1ec87cf0a6b57e00b6
 {
 	char	*target_path;
 	int		result;

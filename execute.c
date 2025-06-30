@@ -12,6 +12,7 @@
 
 #include "minishell.h"
 #include "libft/libft.h"
+#include <stdio.h>
 
 int check_build_in(char *input)
 {
@@ -24,7 +25,7 @@ void execute_command(t_base base)
     t_token *current_promt;
 
     current_promt = base.token;
-    if (base.token->type == TOKEN_WORD)
+    if (base.token->type == TOKEN_WORD || base.token->type == TOKEN_QUOTED_WORD) // Enumlar 0123456 (TOKEN_WORD = 0 TOKEN_QUOTED_WORD = 6) diye sıralanır sadece token olduğuna bakarsak tırnek içerindeki word u build in de ele alamayız.
     {
         if (check_build_in(current_promt->content))
             ft_build_in(current_promt, base); 
