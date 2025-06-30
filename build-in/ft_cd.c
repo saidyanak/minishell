@@ -3,152 +3,24 @@
 /*                                                        :::      ::::::::   */
 /*   ft_cd.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yuocak <yuocak@student.42kocaeli.com.tr    +#+  +:+       +#+        */
+/*   By: syanak <syanak@student.42kocaeli.com.tr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/06/24 16:30:00 by yuocak            #+#    #+#             */
-/*   Updated: 2025/06/26 18:44:22 by yuocak           ###   ########.fr       */
+/*   Created: 2025/06/30 10:38:03 by syanak            #+#    #+#             */
+/*   Updated: 2025/06/30 11:03:25 by syanak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-#include "libft.h"
-#include <unistd.h>
 #include <stdio.h>
-#include <stdlib.h>
 
-// Environment variable helper functions
-char	*get_env_value(t_env *env, char *key)
+t_base ft_cd(t_token *current_promt, t_base base)
 {
-	while (env)
-	{
-		if (ft_strcmp(env->key, key) == 1)
-			return (env->value);
-		env = env->next;
-	}
-	return (NULL);
-}
-
-void	set_env_value(t_env **env, char *key, char *value)
-{
-	t_env	*current;
-	t_env	*new_node;
-
-	current = *env;
-	while (current)
-	{
-		if (ft_strcmp(current->key, key) == 1)
-		{
-			free(current->value);
-			current->value = ft_strdup(value);
-			return;
-		}
-		current = current->next;
-	}
-	
-	// If key doesn't exist, create new node
-	new_node = malloc(sizeof(t_env));
-	if (!new_node)
-		return;
-	new_node->key = ft_strdup(key);
-	new_node->value = ft_strdup(value);
-	new_node->next = *env;
-	*env = new_node;
-}
-
-static char	*get_target_path(t_token *token, t_env *env)
-{
-	char	*path;
-	char	*home;
-
-	// Move to the argument after "cd"
-	if (token && token->next)
-		token = token->next;
-	
-	// If no argument provided, go to HOME
-	if (!token || !token->content)
-	{
-		home = get_env_value(env, "HOME");
-		if (!home)
-		{
-			printf("minishell: cd: HOME not set\n");
-			return (NULL);
-		}
-		return (ft_strdup(home));
-	}
-	
-	// Handle "cd -" (go to previous directory)
-	if (ft_strcmp(token->content, "-") == 1)
-	{
-		path = get_env_value(env, "OLDPWD");
-		if (!path)
-		{
-			printf("minishell: cd: OLDPWD not set\n");
-			return (NULL);
-		}
-		printf("%s\n", path); // Print the directory we're going to
-		return (ft_strdup(path));
-	}
-	
-	// Regular path
-	return (ft_strdup(token->content));
-}
-
-static int	change_directory(char *path, t_env **env)
-{
-	char	*old_pwd;
-	char	cwd[1024];
-
-	// Get current directory before changing
-	if (!getcwd(cwd, sizeof(cwd)))
-	{
-		perror("minishell: cd: getcwd");
-		return (1);
-	}
-	old_pwd = ft_strdup(cwd);
-	
-	// Try to change directory
-	if (chdir(path) == -1)
-	{
-		perror("minishell: cd");
-		free(old_pwd);
-		return (1);
-	}
-	
-	// Update OLDPWD with previous directory
-	set_env_value(env, "OLDPWD", old_pwd);
-	
-	// Update PWD with new directory
-	if (getcwd(cwd, sizeof(cwd)))
-		set_env_value(env, "PWD", cwd);
-	
-	free(old_pwd);
-	return (0);
-}
-
-t_base	ft_cd(t_token *current_prompt, t_base base)
-{
-	char	*target_path;
-	int		result;
-
-	if (!current_prompt)
-		return (base);
-	if (current_prompt->next && current_prompt->next->next)
-	{
-		printf("minishell: cd: too many arguments\n");
-		base.exit_status = 1;
-		return (base);
-	}
-	target_path = get_target_path(current_prompt, base.env);
-	printf("target path:%s", target_path);
-	if (!target_path)
-	{
-		base.exit_status = 1;
-		return (base);
-	}
-	// Çalıştığımız dizini değiştirip setliyoruz
-	result = change_directory(target_path, &(base.env));
-	base.exit_status = result;
-	printf("cwd:%s\n", get_env_value(base.env, "PWD"));	
-	free(target_path);
-	return (base);  // Güncellenmiş base'i geri döndürüyoruz
+    // ilk once gitmek istediğimiz yeri görmeden once birden fazla argüman girilmiş mi onu görelim.
+    // ardından target location u bulucaz 
+    // peşine de target a girme işlemi yapıcaz
+    // bunları yaparken oldpwd yi yani eski konumu tutmamız lazım ki - paremetresi girilirse eski konuma gidilsin 
+    // bu eski konum meselesi tabiki bir "" içerisinde yada '' içerisinde gelirse onu bir dosya olarak algılayacağız.
+    // kısacası işimiz kolay bunları getcwd access chdir gibi unistd.h kütüphanesinin içerisindeki fonksyonlarla yapıcaz 
+    // burası ekstra access fonksyonu gönderilen flag e göre yetki sorgulaması yazma sorgulaması yada "dir" ise yine yetki sorgusu
+    // yapabiliyoruz bu sayede farklı hata durumları verebiliriz.
 }
