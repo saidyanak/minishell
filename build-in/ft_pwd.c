@@ -6,7 +6,7 @@
 /*   By: syanak <syanak@student.42kocaeli.com.tr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/30 11:59:25 by yuocak            #+#    #+#             */
-/*   Updated: 2025/07/01 17:49:01 by syanak           ###   ########.fr       */
+/*   Updated: 2025/07/01 19:36:00 by syanak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,12 +20,12 @@ char *get_env_value(t_base base, char *key)
     t_env *current;
     
     if (!base.env || !key)
-    return (NULL);
+        return (NULL);
     current = base.env;
     while (current)
     {
         if (ft_strcmp(current->key, key) == 0)
-        return (current->value);
+            return (current->value);
         current = current->next;
     }
     return (NULL);
