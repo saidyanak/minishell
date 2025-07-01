@@ -3,19 +3,19 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yuocak <yuocak@student.42kocaeli.com.tr    +#+  +:+       +#+        */
+/*   By: syanak <syanak@student.42kocaeli.com.tr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/02 11:39:31 by yuocak            #+#    #+#             */
-/*   Updated: 2025/06/26 16:21:20 by yuocak           ###   ########.fr       */
+/*   Updated: 2025/07/01 13:17:40 by syanak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <signal.h>
-#include <readline/readline.h>
-#include <readline/history.h>
 #include "minishell.h"
-#include <stdlib.h>
+#include <readline/history.h>
+#include <readline/readline.h>
+#include <signal.h>
 #include <stdio.h>
+#include <stdlib.h>
 
 static void	handle_sigint(int sig)
 {
@@ -35,28 +35,23 @@ static void	setup_signals(void)
 static void	process_input(char *input, t_base *base)
 {
 	if (!input || !*input)
-		return;
-	
+		return ;
 	add_history(input);
-	
 	// Önceki token'ları temizle
 	if (base->token)
 	{
 		free_tokens(base->token);
 		base->token = NULL;
 	}
-	
 	tokenize_input(input, base);
-	
 	// Debug için token'ları yazdır (geliştirme aşamasında)
 	print_tokens(base->token);
 }
 
-int main(int argc, char **argv, char **env)
+int	main(int argc, char **argv, char **env)
 {
 	char	*input;
 	t_base	base;
-
 
 	(void)argc;
 	(void)argv;
@@ -70,11 +65,11 @@ int main(int argc, char **argv, char **env)
 		if (!input) // Ctrl+D
 		{
 			printf("exit\n");
-			break;
+			break ;
 		}
 		if (*input) // Sadece boş olmayan input'ları işle
 			process_input(input, &base);
-		execute_command(base);
+		execute_command(&base);
 		free(input);
 	}
 	cleanup_base(&base);
