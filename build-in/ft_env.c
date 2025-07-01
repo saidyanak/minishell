@@ -1,27 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strcmp.c                                        :+:      :+:    :+:   */
+/*   ft_env.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yuocak <yuocak@student.42kocaeli.com.tr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/06/24 15:10:32 by yuocak            #+#    #+#             */
-/*   Updated: 2025/07/01 12:51:55 by yuocak           ###   ########.fr       */
+/*   Created: 2025/07/01 14:45:26 by yuocak            #+#    #+#             */
+/*   Updated: 2025/07/01 15:16:22 by yuocak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-int ft_strcmp(char *s1, char *s2)
-{
-    int i;
+#include "minishell.h"
+#include <stdio.h>
 
-    i = 0;
-    if (!s1)
-        return(1);
-    while (s1[i] || s2[i])
+int   ft_env(t_base base)
+{
+    t_env   *head;
+    head = base.env;
+    while (head->next != NULL)
     {
-        if((s1[i] != s2[i]))
-            return(1);
-        i++;
+        printf("%s", head->key);
+        printf("=");
+        printf("%s", head->value);
+        printf("\n");
+        head = head->next;
+        base.exit_status = 0; 
     }
-    return(0);
+    return(base.exit_status);
 }

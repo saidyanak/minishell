@@ -6,7 +6,7 @@
 /*   By: syanak <syanak@student.42kocaeli.com.tr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/02 11:39:31 by yuocak            #+#    #+#             */
-/*   Updated: 2025/07/01 13:17:40 by syanak           ###   ########.fr       */
+/*   Updated: 2025/07/01 17:44:25 by syanak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ static void	process_input(char *input, t_base *base)
 	}
 	tokenize_input(input, base);
 	// Debug için token'ları yazdır (geliştirme aşamasında)
-	print_tokens(base->token);
+	// print_tokens(base->token);
 }
 
 int	main(int argc, char **argv, char **env)

@@ -6,7 +6,7 @@
 /*   By: yuocak <yuocak@student.42kocaeli.com.tr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/04 13:14:40 by yuocak            #+#    #+#             */
-/*   Updated: 2025/06/24 12:53:53 by yuocak           ###   ########.fr       */
+/*   Updated: 2025/07/01 13:03:51 by yuocak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ char	*handle_quoted_word(char *input, int *i, char *result)
 		return (free(result), NULL);
 	result = ft_strjoin_free(result, tmp);
 	(*i)++;
-	return (result);
+	return (result);	
 }
 
 char	*handle_unquoted_word(char *input, int *i, char *result)

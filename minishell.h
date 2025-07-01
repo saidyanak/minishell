@@ -6,13 +6,14 @@
 /*   By: syanak <syanak@student.42kocaeli.com.tr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/02 11:39:59 by yuocak            #+#    #+#             */
-/*   Updated: 2025/07/01 15:16:21 by syanak           ###   ########.fr       */
+/*   Updated: 2025/07/01 17:48:42 by syanak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
+# include <limits.h>
 # include <stddef.h>
 # include <stdio.h>
 # include <stdlib.h>
@@ -78,6 +79,7 @@ char				*ft_strchr(const char *s, int c);
 char				*ft_substr(char const *s, unsigned int start, size_t len);
 int					ft_isspace(char c);
 char				*ft_strjoin_free(char *s1, char *s2);
+char				*get_env_value(t_base base, char *key);
 
 // Cleanup functions
 void				free_tokens(t_token *tokens);
@@ -93,5 +95,7 @@ void				debug_parse_quotes(char *input);
 // Build-in
 int					ft_echo(t_token *current_prompt, t_base base);
 t_base				*ft_cd(t_token *current_prompt, t_base *base);
+int					ft_pwd(t_base base);
+int					ft_env(t_base base);
 
 #endif

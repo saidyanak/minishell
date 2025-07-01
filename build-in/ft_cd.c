@@ -5,24 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: syanak <syanak@student.42kocaeli.com.tr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/06/30 10:38:03 by syanak            #+#    #+#             */
-/*   Updated: 2025/07/01 17:08:13 by syanak           ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
-#include "minishell.h"
-#include <linux/limits.h>
-#include <stdio.h>
-
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   ft_cd.c                                            :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: yuocak <yuocak@student.42kocaeli.com.tr>   +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/01 17:00:00 by yuocak            #+#    #+#             */
-/*   Updated: 2025/07/01 17:00:00 by yuocak           ###   ########.fr       */
+/*   Updated: 2025/07/01 17:49:56 by syanak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +27,7 @@ int	ft_strcmp(const char *s1, const char *s2)
 }
 
 // Environment'tan değer al
-char	*get_env_value(t_env *env, char *key)
+static char	*get_value(t_env *env, char *key)
 {
 	while (env)
 	{
@@ -85,7 +69,7 @@ static char	*get_home_dir(t_env *env)
 {
 	char	*home;
 
-	home = get_env_value(env, "HOME");
+	home = get_value(env, "HOME");
 	if (!home)
 	{
 		printf("minishell: cd: HOME not set\n");
@@ -99,7 +83,7 @@ static char	*get_oldpwd_dir(t_env *env)
 {
 	char	*oldpwd;
 
-	oldpwd = get_env_value(env, "OLDPWD");
+	oldpwd = get_value(env, "OLDPWD");
 	if (!oldpwd)
 	{
 		printf("minishell: cd: OLDPWD not set\n");
@@ -138,7 +122,7 @@ static int	check_dir_access(char *path)
 	return (1);
 }
 
-// envdeki PWD ve OLDPWD güncelle 
+// envdeki PWD ve OLDPWD güncelle
 static void	update_pwd_vars(t_env **env, char *old_dir)
 {
 	char	new_dir[PATH_MAX];
@@ -148,7 +132,7 @@ static void	update_pwd_vars(t_env **env, char *old_dir)
 		set_env_value(env, "PWD", new_dir);
 }
 
-// Dizin değiştir chdir ile 
+// Dizin değiştir chdir ile
 static int	change_to_dir(char *path, t_env **env)
 {
 	char	current_dir[PATH_MAX];
@@ -191,7 +175,7 @@ t_base	*ft_cd(t_token *token, t_base *base)
 		return (base);
 	}
 	base->exit_status = change_to_dir(target, &(base->env));
-	printf("--%s--\n", get_env_value(base->env, "PWD"));
+	printf("--%s--\n", get_value(base->env, "PWD"));
 	return (base);
 }
 /*
@@ -201,4 +185,4 @@ bu eski konum meselesi tabiki bir "" içerisinde yada '' içerisinde gelirse onu
 kısacası işimiz kolay bunları getcwd access chdir gibi unistd.h kütüphanesinin içerisindeki fonksyonlarla yapıcaz
 burası ekstra access fonksyonu gönderilen flag e göre yetki sorgulaması yazma sorgulaması yada "dir" ise yine yetki sorgusu
 yapabiliyoruz bu sayede farklı hata durumları verebiliriz.
-printf("%s\n", get_env_value(base->env, "PWD")); */
+printf("%s\n", get_value(base->env, "PWD")); */
