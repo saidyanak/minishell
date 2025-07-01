@@ -6,7 +6,7 @@
 /*   By: syanak <syanak@student.42kocaeli.com.tr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/01 17:00:00 by yuocak            #+#    #+#             */
-/*   Updated: 2025/07/01 17:49:56 by syanak           ###   ########.fr       */
+/*   Updated: 2025/07/01 18:34:48 by syanak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -151,12 +151,23 @@ static int	change_to_dir(char *path, t_env **env)
 	return (0);
 }
 
+void	controll_pipe(t_token *token)
+{
+	token = token->next;
+	if (token->content == '|' && token->type == )
+	{
+		exit(1);
+	}
+	
+}
+
 t_base	*ft_cd(t_token *token, t_base *base)
 {
 	char	*target;
 
 	if (!token || !base)
 		return (base);
+	controll_pipe(token);
 	if (token->next && token->next->next)
 	{
 		printf("minishell: cd: too many arguments\n");
