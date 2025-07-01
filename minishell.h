@@ -6,13 +6,14 @@
 /*   By: syanak <syanak@student.42kocaeli.com.tr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/02 11:39:59 by yuocak            #+#    #+#             */
-/*   Updated: 2025/07/01 18:48:22 by syanak           ###   ########.fr       */
+/*   Updated: 2025/07/01 19:58:27 by syanak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
+# include "libft/libft.h"
 # include <limits.h>
 # include <stddef.h>
 # include <stdio.h>
@@ -96,7 +97,7 @@ void				debug_parse_quotes(char *input);
 int					ft_echo(t_token *current_prompt, t_base base);
 t_base				*ft_cd(t_token *current_prompt, t_base *base);
 int					ft_pwd(t_base base);
-int					ft_env(t_base base);
 t_base				*ft_export(t_token *token, t_base *base);
+int					ft_env(t_base *base);
 
 #endif

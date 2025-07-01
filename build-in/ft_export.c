@@ -6,7 +6,7 @@
 /*   By: syanak <syanak@student.42kocaeli.com.tr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/01 18:24:14 by syanak            #+#    #+#             */
-/*   Updated: 2025/07/01 19:08:19 by syanak           ###   ########.fr       */
+/*   Updated: 2025/07/01 19:59:10 by syanak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,5 +15,7 @@
 
 t_base	*ft_export(t_token *token, t_base *base)
 {
-    
+	(void)token;
+	(void)base;
+	return (NULL);
 }

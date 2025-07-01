@@ -6,11 +6,10 @@
 /*   By: syanak <syanak@student.42kocaeli.com.tr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/04 13:08:48 by yuocak            #+#    #+#             */
-/*   Updated: 2025/07/01 18:27:01 by syanak           ###   ########.fr       */
+/*   Updated: 2025/07/01 19:57:12 by syanak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft/libft.h"
 #include "minishell.h"
 
 // echo export unset exit cd pwd
@@ -23,7 +22,7 @@ void	ft_build_in(t_token *current_prompt, t_base *base)
 	else if (ft_strcmp(current_prompt->content, "pwd") == 0) // aocak
 		ft_pwd(*base);
 	else if (ft_strcmp(current_prompt->content, "env") == 0) // aocak
-		ft_env(*base);
+		ft_env(base);
 	else if (ft_strcmp(current_prompt->content, "export") == 0) // said
 		ft_export(current_prompt, base);
 	// else if (ft_strcmp(current_prompt->content, "unset") == 0) //said
