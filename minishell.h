@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: syanak <syanak@student.42kocaeli.com.tr    +#+  +:+       +#+        */
+/*   By: yuocak <yuocak@student.42kocaeli.com.tr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/02 11:39:59 by yuocak            #+#    #+#             */
-/*   Updated: 2025/07/01 17:48:42 by syanak           ###   ########.fr       */
+/*   Updated: 2025/07/01 18:16:04 by yuocak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,6 +96,6 @@ void				debug_parse_quotes(char *input);
 int					ft_echo(t_token *current_prompt, t_base base);
 t_base				*ft_cd(t_token *current_prompt, t_base *base);
 int					ft_pwd(t_base base);
-int					ft_env(t_base base);
+int					ft_env(t_base *base);
 
 #endif

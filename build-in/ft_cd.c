@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_cd.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: syanak <syanak@student.42kocaeli.com.tr    +#+  +:+       +#+        */
+/*   By: yuocak <yuocak@student.42kocaeli.com.tr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/01 17:00:00 by yuocak            #+#    #+#             */
-/*   Updated: 2025/07/01 17:49:56 by syanak           ###   ########.fr       */
+/*   Updated: 2025/07/01 18:24:09 by yuocak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -175,7 +175,6 @@ t_base	*ft_cd(t_token *token, t_base *base)
 		return (base);
 	}
 	base->exit_status = change_to_dir(target, &(base->env));
-	printf("--%s--\n", get_value(base->env, "PWD"));
 	return (base);
 }
 /*

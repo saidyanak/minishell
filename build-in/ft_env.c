@@ -6,25 +6,36 @@
 /*   By: yuocak <yuocak@student.42kocaeli.com.tr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/01 14:45:26 by yuocak            #+#    #+#             */
-/*   Updated: 2025/07/01 15:16:22 by yuocak           ###   ########.fr       */
+/*   Updated: 2025/07/01 19:37:36 by yuocak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include <stdio.h>
+#include "libft/libft.h"
 
-int   ft_env(t_base base)
+int   ft_env(t_base *base)
 {
     t_env   *head;
-    head = base.env;
-    while (head->next != NULL)
+    
+    head = base->env;
+    if (!base || !base->env)
     {
-        printf("%s", head->key);
-        printf("=");
-        printf("%s", head->value);
-        printf("\n");
-        head = head->next;
-        base.exit_status = 0; 
+        base->exit_status = 0;
+        return (base->exit_status);
     }
-    return(base.exit_status);
+    head = base->env;
+    while (head != NULL)
+    {
+        if (head->key && head->value)
+        {
+            write(1, head->key, ft_strlen(head->key));
+            write(1, "=", 1);
+            write(1, head->value, ft_strlen(head->value));
+            write(1, "\n", 1);
+        }
+        head = head->next;
+    }
+    base->exit_status = 0;
+    return (base->exit_status);
 }
