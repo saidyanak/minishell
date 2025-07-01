@@ -6,7 +6,7 @@
 /*   By: syanak <syanak@student.42kocaeli.com.tr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/02 11:39:59 by yuocak            #+#    #+#             */
-/*   Updated: 2025/06/30 10:38:15 by syanak           ###   ########.fr       */
+/*   Updated: 2025/07/01 15:16:21 by syanak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,8 +83,8 @@ char				*ft_strjoin_free(char *s1, char *s2);
 void				free_tokens(t_token *tokens);
 void				free_env(t_env *env);
 void				cleanup_base(t_base *base);
-void				ft_build_in(t_token *current_prompt, t_base base);
-void				execute_command(t_base base);
+void				ft_build_in(t_token *current_prompt, t_base *base);
+void				execute_command(t_base *base);
 
 // Debug functions
 void				print_tokens(t_token *token);
@@ -92,6 +92,6 @@ void				debug_parse_quotes(char *input);
 
 // Build-in
 int					ft_echo(t_token *current_prompt, t_base base);
-t_base				ft_cd(t_token *current_prompt, t_base base);
+t_base				*ft_cd(t_token *current_prompt, t_base *base);
 
 #endif
