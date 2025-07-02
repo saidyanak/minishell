@@ -6,7 +6,7 @@
 /*   By: syanak <syanak@student.42kocaeli.com.tr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/24 15:07:31 by yuocak            #+#    #+#             */
-/*   Updated: 2025/07/01 19:02:09 by syanak           ###   ########.fr       */
+/*   Updated: 2025/07/02 14:11:26 by syanak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ int	check_build_in(char *input)
 	return (ft_strcmp(input, "cd") == 0 || ft_strcmp(input, "echo") == 0
 		|| ft_strcmp(input, "env") == 0 || ft_strcmp(input, "pwd") == 0
 		|| ft_strcmp(input, "unset") == 0 || ft_strcmp(input, "exit") == 0
-		|| ft_strcmp(input, "export") == 0);
+		|| ft_strcmp(input, "export") == 0 || ft_strcmp(input, "list") == 0);
 }
 
 void	execute_command(t_base *base)

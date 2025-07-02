@@ -6,7 +6,7 @@
 /*   By: syanak <syanak@student.42kocaeli.com.tr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/02 11:39:59 by yuocak            #+#    #+#             */
-/*   Updated: 2025/07/01 19:58:27 by syanak           ###   ########.fr       */
+/*   Updated: 2025/07/02 13:07:40 by syanak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,7 @@ typedef struct s_env
 {
 	char			*key;
 	char			*value;
+	int				exported;
 	struct s_env	*next;
 }					t_env;
 
@@ -99,5 +100,6 @@ t_base				*ft_cd(t_token *current_prompt, t_base *base);
 int					ft_pwd(t_base base);
 t_base				*ft_export(t_token *token, t_base *base);
 int					ft_env(t_base *base);
+t_base				*ft_unset(t_token *token, t_base *base);
 
 #endif
