@@ -6,7 +6,7 @@
 /*   By: syanak <syanak@student.42kocaeli.com.tr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/02 13:05:21 by syanak            #+#    #+#             */
-/*   Updated: 2025/07/02 15:50:22 by syanak           ###   ########.fr       */
+/*   Updated: 2025/07/02 15:52:57 by syanak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,7 +91,7 @@ int	unset_env_var(t_env **env, char *key)
 int	process_unset_arg(char *arg, t_base *base)
 {
 	if (ft_strchr(arg, '='))
-		return (0); // If contains '=', ignore it (don't unset)
+		return (0);
 	if (!is_valid_unset_name(arg))
 		return (handle_unset_error(arg));
 	unset_env_var(&(base->env), arg);
