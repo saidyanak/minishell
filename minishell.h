@@ -6,7 +6,7 @@
 /*   By: syanak <syanak@student.42kocaeli.com.tr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/02 11:39:59 by yuocak            #+#    #+#             */
-/*   Updated: 2025/07/01 19:58:27 by syanak           ###   ########.fr       */
+/*   Updated: 2025/07/02 11:49:01 by syanak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,7 @@ typedef struct s_env
 {
 	char			*key;
 	char			*value;
+	int				exported;
 	struct s_env	*next;
 }					t_env;
 

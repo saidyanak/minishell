@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   create_linked_list.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yuocak <yuocak@student.42kocaeli.com.tr    +#+  +:+       +#+        */
+/*   By: syanak <syanak@student.42kocaeli.com.tr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/02 11:46:17 by yuocak            #+#    #+#             */
-/*   Updated: 2025/06/26 15:04:31 by yuocak           ###   ########.fr       */
+/*   Updated: 2025/07/02 10:18:27 by syanak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,15 +21,12 @@ t_env	*create_new_node(char *env)
 
 	if (!env)
 		return (NULL);
-	
 	new_node = malloc(sizeof(t_env));
 	if (!new_node)
 		return (NULL);
-	
 	equal_sign = ft_strchr(env, '=');
 	if (!equal_sign)
 	{
-		// = işareti yoksa, değer boş string olarak ayarla
 		new_node->key = ft_strdup(env);
 		new_node->value = ft_strdup("");
 	}
@@ -39,8 +36,6 @@ t_env	*create_new_node(char *env)
 		new_node->key = ft_strndup(env, key_len);
 		new_node->value = ft_strdup(equal_sign + 1);
 	}
-	
-	// Bellek tahsisi kontrolleri
 	if (!new_node->key || !new_node->value)
 	{
 		free(new_node->key);
@@ -48,7 +43,7 @@ t_env	*create_new_node(char *env)
 		free(new_node);
 		return (NULL);
 	}
-	
+	new_node->exported = 1;
 	new_node->next = NULL;
 	return (new_node);
 }
@@ -56,10 +51,9 @@ t_env	*create_new_node(char *env)
 void	add_new_node(t_env **head, t_env *new_node)
 {
 	t_env	*tmp;
-	
+
 	if (!head || !new_node)
-		return;
-	
+		return ;
 	if (!*head)
 		*head = new_node;
 	else
