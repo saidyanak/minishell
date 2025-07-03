@@ -6,7 +6,7 @@
 /*   By: syanak <syanak@student.42kocaeli.com.tr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/02 11:39:59 by yuocak            #+#    #+#             */
-/*   Updated: 2025/07/02 13:07:40 by syanak           ###   ########.fr       */
+/*   Updated: 2025/07/03 12:17:19 by syanak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,9 @@ char				*parse_word_with_quotes(char *input, int *i,
 void				tokenize_input(char *input, t_base *base);
 void				add_token(t_token **head, char *str, t_token_type type);
 int					is_special(char c);
+
+// Expand functions
+void				expand_tokens(t_base *base);
 
 // Environment functions
 t_env				*create_new_node(char *env);

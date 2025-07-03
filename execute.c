@@ -6,7 +6,7 @@
 /*   By: syanak <syanak@student.42kocaeli.com.tr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/24 15:07:31 by yuocak            #+#    #+#             */
-/*   Updated: 2025/07/02 14:11:26 by syanak           ###   ########.fr       */
+/*   Updated: 2025/07/03 11:32:40 by syanak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,9 @@ void	execute_command(t_base *base)
 	{
 		if (check_build_in(current_promt->content))
 			ft_build_in(current_promt, base);
-		// else
-		// execv();
+		else
+		{
+			
+		}
 	}
 }

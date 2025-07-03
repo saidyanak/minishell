@@ -6,7 +6,7 @@
 /*   By: syanak <syanak@student.42kocaeli.com.tr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/02 11:39:31 by yuocak            #+#    #+#             */
-/*   Updated: 2025/07/01 17:44:25 by syanak           ###   ########.fr       */
+/*   Updated: 2025/07/03 15:32:47 by syanak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,7 @@ int	main(int argc, char **argv, char **env)
 		}
 		if (*input) // Sadece boş olmayan input'ları işle
 			process_input(input, &base);
+		expand_tokens(&base);
 		execute_command(&base);
 		free(input);
 	}
