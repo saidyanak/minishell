@@ -32,7 +32,8 @@ SRCS = main.c \
 	   $(BUILTINDIR)/ft_pwd.c \
 	   $(BUILTINDIR)/ft_env.c \
 	   $(BUILTINDIR)/ft_export.c \
-	   $(BUILTINDIR)/ft_unset.c
+	   $(BUILTINDIR)/ft_unset.c \
+	   $(BUILTINDIR)/ft_exit.c
 
 # Object files
 OBJS = $(SRCS:%.c=$(OBJDIR)/%.o)
