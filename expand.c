@@ -6,7 +6,7 @@
 /*   By: syanak <syanak@student.42kocaeli.com.tr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/03 12:16:15 by syanak            #+#    #+#             */
-/*   Updated: 2025/07/03 15:33:39 by syanak           ###   ########.fr       */
+/*   Updated: 2025/07/03 15:56:58 by syanak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -183,7 +183,7 @@ void	expand_tokens(t_base *base)
 		if (should_expand(current))
 			expand_token_content(current, base);
 		else if (has_tilde_sign(current->content)
-			&& current->q_type == NONE_QUOTE)
+			&& current->type == TOKEN_WORD)
 		{
 			free(current->content);
 			expanded = ft_strdup(get_env_value(*base, "HOME"));
