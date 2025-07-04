@@ -6,7 +6,7 @@
 /*   By: syanak <syanak@student.42kocaeli.com.tr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/03 12:16:15 by syanak            #+#    #+#             */
-/*   Updated: 2025/07/03 15:56:58 by syanak           ###   ########.fr       */
+/*   Updated: 2025/07/04 18:21:51 by syanak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,22 +40,6 @@ int	is_valid_var_char(char c, int first)
 	return (ft_isalnum(c) || c == '_');
 }
 
-char	*extract_braced_var(char *str, int *len)
-{
-	int	i;
-
-	i = 1;
-	while (str[i] && str[i] != '}')
-		i++;
-	if (str[i] == '}')
-	{
-		*len = i + 1;
-		return (ft_substr(str, 1, i - 1));
-	}
-	*len = 0;
-	return (NULL);
-}
-
 char	*extract_var_name(char *str, int *len)
 {
 	int	i;
@@ -63,8 +47,6 @@ char	*extract_var_name(char *str, int *len)
 	*len = 0;
 	if (!str || !str[0])
 		return (NULL);
-	if (str[0] == '{')
-		return (extract_braced_var(str, len));
 	if (!is_valid_var_char(str[0], 1))
 		return (NULL);
 	i = 0;
@@ -85,7 +67,7 @@ char	*find_env_value(t_base *base, char *key)
 	current = base->env;
 	while (current)
 	{
-		if (ft_strcmp(current->key, key) == 0 && current->exported)
+		if (ft_strcmp(current->key, key) == 0)
 			return (ft_strdup(current->value));
 		current = current->next;
 	}
@@ -154,9 +136,12 @@ char	*process_expansion(char *content, t_base *base)
 
 int	should_expand(t_token *token)
 {
-	if (!token || !token->content)
+	if (!token || !token->content || token->type != TOKEN_WORD)
 		return (0);
-	return (has_dollar_sign(token->content));
+	else
+	{
+		return (has_dollar_sign(token->content));
+	}
 }
 
 void	expand_token_content(t_token *token, t_base *base)
