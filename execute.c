@@ -6,7 +6,7 @@
 /*   By: yuocak <yuocak@student.42kocaeli.com.tr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/24 15:07:31 by yuocak            #+#    #+#             */
-/*   Updated: 2025/07/03 17:22:45 by yuocak           ###   ########.fr       */
+/*   Updated: 2025/07/04 15:46:44 by yuocak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,9 +18,6 @@
 #include <sys/wait.h>
 #include <unistd.h>
 
-// Forward declarations
-static void	free_argv(char **argv);
-
 int	check_build_in(char *input)
 {
 	return (ft_strcmp(input, "cd") == 0 || ft_strcmp(input, "echo") == 0
@@ -28,16 +25,34 @@ int	check_build_in(char *input)
 		|| ft_strcmp(input, "unset") == 0 || ft_strcmp(input, "exit") == 0
 		|| ft_strcmp(input, "export") == 0 || ft_strcmp(input, "list") == 0);
 }
+
+int	validate_path_and_command(char *path_env, )
+{
+
+}
 int execute_external_command(t_token *current_prompt, t_base *base)
 {
-	printf("Executing: %s\n", current_prompt->content);
-	//PATH'le komut bul
-	char **paths;
-	paths = ft_split(getenv(""));
-	
+	char	**paths;
+	char	*command_path;
+	char	**argv;
+	char	**envp;
+	char	*path_env;
+
+	path_env = getenv("PATH");
+	if (!validate_path_and_command(path_env, current_prompt->content))
+		return (-1);
+	paths = ft_split(path_env, ':');
+	command_path = find_command_in_paths(paths, current_prompt->content);
+	if (!command_path)
+	{
+		printf("minishell: %s: command not found\n", current_prompt->content);
+		free_string_array(paths);
+		return (-1);
+	}
+	execute_command_with_path(command_path, argv, envp);
+	cleanup_execution_resources(command_path, paths, argv, envp);
 	return (0);
 }
-
 
 int single_execute_command(t_token *token, t_base *base)
 {
