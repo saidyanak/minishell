@@ -27,6 +27,21 @@
 
 
 
+
+execute_command()
+├── is_single_execute() ? 
+│   ├── YES → single_execute_command()
+│   │   ├── builtin? → ft_build_in() (fork yok)
+│   │   └── external → execute_external_simple() (fork var)
+│   └── NO → multiple_execute_command()
+│       ├── has_pipe() → execute_pipeline()
+│       ├── has_background() → execute_background()  
+│       └── sequential → execute_sequential()
+
+
+
+
+
 static void	free_argv(char **argv)
 {
 	int	i;
