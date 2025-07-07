@@ -6,7 +6,7 @@
 /*   By: yuocak <yuocak@student.42kocaeli.com.tr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/24 15:07:31 by yuocak            #+#    #+#             */
-/*   Updated: 2025/07/05 16:13:07 by yuocak           ###   ########.fr       */
+/*   Updated: 2025/07/07 06:56:30 by yuocak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,40 +18,24 @@
 #include <sys/wait.h>
 #include <unistd.h>
 
-
-
-int	check_build_in(char *input)
+void	multiple_execute_command(t_token *token, t_base *base)
 {
-	return (ft_strcmp(input, "cd") == 0 || ft_strcmp(input, "echo") == 0
-		|| ft_strcmp(input, "env") == 0 || ft_strcmp(input, "pwd") == 0
-		|| ft_strcmp(input, "unset") == 0 || ft_strcmp(input, "exit") == 0
-		|| ft_strcmp(input, "export") == 0 || ft_strcmp(input, "list") == 0);
+	(void)token;
+	(void)base;
+	printf("Multiple command execution not implemented yet\n");
 }
 
-int	multiple_execute_command(t_token *token, t_base *base)
+int	single_execute_command(t_token *token, t_base *base)
 {
-	t_command_list	*commands = parse_commands(token);
-	if (has_pipe(token))
-		return (execute_pipeline(commands, base));
-	else if (has_background(commands, base))
-		return (execute_background(commands, base));
-	else
-		return(execute_sequential(commands, base));
-}
-
-int single_execute_command(t_token *token, t_base *base)
-{
-
 	if (base->token->type == TOKEN_WORD
 		|| base->token->type == TOKEN_QUOTED_WORD)
 	{
 		if (check_build_in(token->content))
 			ft_build_in(token, base);
 		else
-		{
-			execute_external_command(token, base);
-		}
+			return (execute_external_command(token, base));
 	}
+	return (0);
 }
 
 void	execute_command(t_base *base)
