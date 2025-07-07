@@ -25,6 +25,11 @@ SRCS = main.c \
        clean_up.c \
        debug.c \
        execute.c \
+	   execute_utils.c \
+	   execute_path.c \
+	   execute_argv_envp.c \
+	   execute_envp.c \
+	   execute_external.c \
 	   expand.c	\
        $(BUILTINDIR)/build_in.c \
        $(BUILTINDIR)/ft_echo.c \
