@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: syanak <syanak@student.42kocaeli.com.tr    +#+  +:+       +#+        */
+/*   By: yuocak <yuocak@student.42kocaeli.com.tr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/02 11:39:31 by yuocak            #+#    #+#             */
-/*   Updated: 2025/07/03 15:32:47 by syanak           ###   ########.fr       */
+/*   Updated: 2025/07/07 07:05:16 by yuocak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,9 +68,14 @@ int	main(int argc, char **argv, char **env)
 			break ;
 		}
 		if (*input) // Sadece boş olmayan input'ları işle
+		{
 			process_input(input, &base);
-		expand_tokens(&base);
-		execute_command(&base);
+			if (base.token) // Tokenize başarılı olduysa devam et
+			{
+				expand_tokens(&base);
+				execute_command(&base);
+			}
+		}
 		free(input);
 	}
 	cleanup_base(&base);
