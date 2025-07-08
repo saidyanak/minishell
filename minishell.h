@@ -6,7 +6,7 @@
 /*   By: syanak <syanak@student.42kocaeli.com.tr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/02 11:39:59 by yuocak            #+#    #+#             */
-/*   Updated: 2025/07/03 15:45:41 by syanak           ###   ########.fr       */
+/*   Updated: 2025/07/07 05:17:37 by syanak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,9 +106,11 @@ typedef struct s_base
 /*
  * 📝 Parse input string and convert to tokens
  */
-char	*parse_word_with_quotes(char *input, int *i, t_token_type *type);
+char	*parse_word_with_quotes(char *input, int *i, t_token_type *type,
+			t_quote_type *q_type);
 void	tokenize_input(char *input, t_base *base);
-void	add_token(t_token **head, char *str, t_token_type type);
+void	add_token(t_token **head, char *str, t_token_type type,
+			t_quote_type q_type);
 int		is_special(char c);
 
 // Expand functions
@@ -159,6 +161,7 @@ void	execute_command(t_base *base);
  */
 void	print_tokens(t_token *token);
 void	debug_parse_quotes(char *input);
+int		is_fully_quoted(char *str, char quote_char);
 
 /* ─────────────────── 🏠 BUILT-IN COMMANDS ─────────────────── */
 /*

@@ -6,7 +6,7 @@
 /*   By: syanak <syanak@student.42kocaeli.com.tr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/03 12:16:15 by syanak            #+#    #+#             */
-/*   Updated: 2025/07/04 18:21:51 by syanak           ###   ########.fr       */
+/*   Updated: 2025/07/08 18:01:16 by syanak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,74 +74,144 @@ char	*find_env_value(t_base *base, char *key)
 	return (ft_strdup(""));
 }
 
-int	handle_dollar_sign(char *content, char **result, int i, t_base *base)
+static char	*join_and_free(char *s1, char *s2)
+{
+	char	*result;
+
+	result = ft_strjoin(s1, s2);
+	free(s1);
+	free(s2);
+	return (result);
+}
+
+static int	expand_dollar_var(char *str, int i, char **result, t_base *base)
 {
 	char	*var_name;
 	char	*var_value;
-	char	*temp;
 	int		var_len;
 
-	var_name = extract_var_name(content + i + 1, &var_len);
+	var_name = extract_var_name(str + i + 1, &var_len);
+	printf("var_name: %s\n", var_name);
 	if (var_name && var_len > 0)
 	{
 		var_value = find_env_value(base, var_name);
-		temp = ft_strjoin(*result, var_value);
-		free(*result);
+		*result = join_and_free(*result, var_value);
 		free(var_name);
-		free(var_value);
-		*result = temp;
 		return (i + var_len + 1);
 	}
 	if (var_name)
 		free(var_name);
-	temp = ft_strjoin(*result, "$");
-	free(*result);
-	*result = temp;
+	*result = join_and_free(*result, ft_strdup("$"));
 	return (i + 1);
 }
 
-int	handle_regular_chars(char *content, char **result, int i)
+static int	copy_regular_text(char *str, int i, char **result)
 {
-	char	*temp;
-	char	*substr;
 	int		j;
+	char	*text;
 
 	j = i;
-	while (content[j] && content[j] != '$')
+	while (str[j] && str[j] != '$')
 		j++;
-	substr = ft_substr(content, i, j - i);
-	temp = ft_strjoin(*result, substr);
-	free(*result);
-	free(substr);
-	*result = temp;
+	if (j > i)
+	{
+		text = ft_substr(str, i, j - i);
+		*result = join_and_free(*result, text);
+	}
 	return (j);
 }
 
-char	*process_expansion(char *content, t_base *base)
+char	*expand_variables(char *str, t_base *base)
 {
 	char	*result;
 	int		i;
 
+	if (!str)
+		return (ft_strdup(""));
 	result = ft_strdup("");
 	i = 0;
-	while (content[i])
+	while (str[i])
 	{
-		if (content[i] == '$')
-			i = handle_dollar_sign(content, &result, i, base);
+		if (str[i] == '$')
+			i = expand_dollar_var(str, i, &result, base);
 		else
-			i = handle_regular_chars(content, &result, i);
+			i = copy_regular_text(str, i, &result);
 	}
 	return (result);
 }
 
-int	should_expand(t_token *token)
+static int	process_single_quote_section(char *str, int i, char **result)
 {
-	if (!token || !token->content || token->type != TOKEN_WORD)
-		return (0);
-	else
+	int		start;
+	char	*content;
+
+	i++;
+	start = i;
+	while (str[i] && str[i] != '\'')
+		i++;
+	content = ft_substr(str, start, i - start);
+	*result = join_and_free(*result, content);
+	if (str[i] == '\'')
+		i++;
+	return (i);
+}
+
+static int	process_double_quote_section(char *str, int i, char **result,
+		t_base *base)
+{
+	int		start;
+	char	*content;
+	char	*expanded;
+
+	i++;
+	start = i;
+	while (str[i] && str[i] != '"')
+		i++;
+	content = ft_substr(str, start, i - start);
+	expanded = expand_variables(content, base);
+	*result = join_and_free(*result, expanded);
+	free(content);
+	if (str[i] == '"')
+		i++;
+	return (i);
+}
+
+static int	process_unquoted_section(char *str, int i, char **result,
+		t_base *base)
+{
+	int		start;
+	char	*content;
+	char	*expanded;
+
+	start = i;
+	while (str[i] && str[i] != '\'' && str[i] != '"')
+		i++;
+	content = ft_substr(str, start, i - start);
+	expanded = expand_variables(content, base);
+	*result = join_and_free(*result, expanded);
+	free(content);
+	return (i);
+}
+
+char	*process_mixed_quotes(char *str, t_base *base)
+{
+	char	*result;
+	int		i;
+
+	if (!str)
+		return (ft_strdup(""));
+	result = ft_strdup("");
+	i = 0;
+	while (str[i])
 	{
-		return (has_dollar_sign(token->content));
+		if (str[i] == '\'')
+			i = process_single_quote_section(str, i, &result);
+		else if (str[i] == '"')
+			i = process_double_quote_section(str, i, &result, base);
+		else
+			i = process_unquoted_section(str, i, &result, base);
 	}
+	return (result);
 }
 
 void	expand_token_content(t_token *token, t_base *base)
@@ -150,7 +220,7 @@ void	expand_token_content(t_token *token, t_base *base)
 
 	if (!token || !token->content)
 		return ;
-	expanded = process_expansion(token->content, base);
+	expanded = process_mixed_quotes(token->content, base);
 	free(token->content);
 	token->content = expanded;
 }
@@ -165,14 +235,17 @@ void	expand_tokens(t_base *base)
 	current = base->token;
 	while (current)
 	{
-		if (should_expand(current))
-			expand_token_content(current, base);
-		else if (has_tilde_sign(current->content)
-			&& current->type == TOKEN_WORD)
+		if (current->type == TOKEN_WORD || current->type == TOKEN_QUOTED_WORD)
 		{
-			free(current->content);
-			expanded = ft_strdup(get_env_value(*base, "HOME"));
-			current->content = expanded;
+			if (has_tilde_sign(current->content)
+				&& current->q_type == NONE_QUOTE)
+			{
+				free(current->content);
+				expanded = find_env_value(base, "HOME");
+				current->content = expanded;
+			}
+			else
+				expand_token_content(current, base);
 		}
 		current = current->next;
 	}
