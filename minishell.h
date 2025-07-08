@@ -6,7 +6,7 @@
 /*   By: yuocak <yuocak@student.42kocaeli.com.tr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/02 11:39:59 by yuocak            #+#    #+#             */
-/*   Updated: 2025/07/07 06:56:30 by yuocak           ###   ########.fr       */
+/*   Updated: 2025/07/08 18:14:39 by yuocak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,8 @@ typedef enum e_token_type
 	TOKEN_REDIRECT_OUT,
 	TOKEN_APPEND,
 	TOKEN_HEREDOC,
-	TOKEN_QUOTED_WORD
+	TOKEN_QUOTED_WORD,
+	TOKEN_ENV_VAR
 }		t_token_type;
 
 typedef struct s_token
@@ -72,6 +73,20 @@ typedef struct s_exec_params
 	char	**envp;
 	char	*command_path;
 }	t_exec_params;
+
+typedef struct s_gc_node
+{
+
+	s_gc_scope			type;
+	struct s_gc_node	*next;
+};
+
+
+typedef enum s_gc_scope
+{
+	GC_CMD,
+	GC_GLOBAL
+}	t_gc_scope;
 
 /* Tokenizer functions */
 char	*parse_word_with_quotes(char *input, int *i, t_token_type *type);
