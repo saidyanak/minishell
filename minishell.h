@@ -6,7 +6,7 @@
 /*   By: yuocak <yuocak@student.42kocaeli.com.tr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/02 11:39:59 by yuocak            #+#    #+#             */
-/*   Updated: 2025/07/08 18:14:39 by yuocak           ###   ########.fr       */
+/*   Updated: 2025/07/09 15:58:13 by yuocak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,10 +60,23 @@ typedef struct s_env
 	struct s_env	*next;
 }		t_env;
 
+typedef struct s_mem_node
+{
+	void				*ptr;
+	struct s_mem_node	*next;
+}	t_mem_node;
+
+typedef struct s_gc
+{
+	t_mem_node	*permanent;
+	t_mem_node	*temporary;
+}	t_gc;
+
 typedef struct s_base
 {
 	t_token	*token;
 	t_env	*env;
+	t_gc	gc;
 	int		exit_status;
 }		t_base;
 
@@ -74,33 +87,19 @@ typedef struct s_exec_params
 	char	*command_path;
 }	t_exec_params;
 
-typedef struct s_gc_node
-{
-
-	s_gc_scope			type;
-	struct s_gc_node	*next;
-};
-
-
-typedef enum s_gc_scope
-{
-	GC_CMD,
-	GC_GLOBAL
-}	t_gc_scope;
-
 /* Tokenizer functions */
 char	*parse_word_with_quotes(char *input, int *i, t_token_type *type);
 void	tokenize_input(char *input, t_base *base);
-void	add_token(t_token **head, char *str, t_token_type type);
+void	add_token(t_token **head, char *str, t_token_type type, t_gc *gc);
 int		is_special(char c);
 
 /* Expand functions */
 void	expand_tokens(t_base *base);
 
 /* Environment functions */
-t_env	*create_new_node(char *env);
+t_env	*create_new_node(char *env, t_gc *gc);
 void	add_new_node(t_env **head, t_env *new_node);
-t_env	*init_env(char **env);
+t_env	*init_env(char **env, t_gc *gc);
 char	*get_env_value(t_base base, char *key);
 
 /* Utility functions */
@@ -136,6 +135,14 @@ int		prepare_execution(t_token *token, t_base *base, t_exec_params *params);
 /* Debug functions */
 void	print_tokens(t_token *token);
 void	debug_parse_quotes(char *input);
+
+/* Garbage collector functions */
+void	*ft_malloc_perm(t_gc *gc, size_t size);
+void	*ft_malloc_temp(t_gc *gc, size_t size);
+void	ft_free_all_temp(t_gc *gc);
+void	ft_free_all_perm(t_gc *gc);
+void	ft_free_all(t_gc *gc);
+void	gc_init(t_gc *gc);
 
 /* Built-in commands */
 int		ft_echo(t_token *current_prompt, t_base base);

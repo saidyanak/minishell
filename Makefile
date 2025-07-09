@@ -31,6 +31,7 @@ SRCS = main.c \
 	   execute_envp.c \
 	   execute_external.c \
 	   expand.c	\
+	   ft_gc.c	\
        $(BUILTINDIR)/build_in.c \
        $(BUILTINDIR)/ft_echo.c \
 	   $(BUILTINDIR)/ft_cd.c \
@@ -38,7 +39,7 @@ SRCS = main.c \
 	   $(BUILTINDIR)/ft_env.c \
 	   $(BUILTINDIR)/ft_export.c \
 	   $(BUILTINDIR)/ft_unset.c \
-	   $(BUILTINDIR)/ft_exit.c
+	   $(BUILTINDIR)/ft_exit.c 
 
 # Object files
 OBJS = $(SRCS:%.c=$(OBJDIR)/%.o)
