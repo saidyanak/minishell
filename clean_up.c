@@ -6,7 +6,7 @@
 /*   By: yuocak <yuocak@student.42kocaeli.com.tr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/24 12:18:12 by yuocak            #+#    #+#             */
-/*   Updated: 2025/06/24 12:18:20 by yuocak           ###   ########.fr       */
+/*   Updated: 2025/07/09 15:58:15 by yuocak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,15 +45,8 @@ void	cleanup_base(t_base *base)
 	if (!base)
 		return;
 	
-	if (base->token)
-	{
-		free_tokens(base->token);
-		base->token = NULL;
-	}
-	
-	if (base->env)
-	{
-		free_env(base->env);
-		base->env = NULL;
-	}
+	// Garbage collector her şeyi temizleyecek
+	// Manuel cleanup'a gerek yok
+	base->token = NULL;
+	base->env = NULL;
 }
