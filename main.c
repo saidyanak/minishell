@@ -6,7 +6,7 @@
 /*   By: yuocak <yuocak@student.42kocaeli.com.tr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/02 11:39:31 by yuocak            #+#    #+#             */
-/*   Updated: 2025/07/07 07:05:16 by yuocak           ###   ########.fr       */
+/*   Updated: 2025/07/10 18:04:20 by yuocak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,23 +40,26 @@ static void	process_input(char *input, t_base *base)
 	// Önceki token'ları temizle
 	if (base->token)
 	{
-		free_tokens(base->token);
+		ft_free_all_tmp(base->gc);
 		base->token = NULL;
 	}
 	tokenize_input(input, base);
 	// Debug için token'ları yazdır (geliştirme aşamasında)
-	// print_tokens(base->token);
+	print_tokens(base->token);
 }
 
 int	main(int argc, char **argv, char **env)
 {
 	char	*input;
 	t_base	base;
+	t_gc	gc;
 
 	(void)argc;
 	(void)argv;
+	gc_init(&gc);
 	base.token = NULL;
-	base.env = init_env(env);
+	base.gc = &gc;
+	base.env = init_env(env, base.gc);
 	base.exit_status = 0;
 	setup_signals();
 	while (1)
@@ -78,6 +81,6 @@ int	main(int argc, char **argv, char **env)
 		}
 		free(input);
 	}
-	cleanup_base(&base);
+	ft_free_all_env(base.gc);
 	return (base.exit_status);
 }

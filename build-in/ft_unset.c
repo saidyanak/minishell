@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_unset.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: syanak <syanak@student.42kocaeli.com.tr    +#+  +:+       +#+        */
+/*   By: yuocak <yuocak@student.42kocaeli.com.tr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/02 13:05:21 by syanak            #+#    #+#             */
-/*   Updated: 2025/07/02 15:52:57 by syanak           ###   ########.fr       */
+/*   Updated: 2025/07/11 12:59:57 by yuocak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,11 +42,9 @@ int	handle_unset_error(char *name)
 
 void	free_env_node(t_env *node)
 {
-	if (!node)
-		return ;
-	free(node->key);
-	free(node->value);
-	free(node);
+	// GC tarafından yönetilen memory'yi manuel free etmeye gerek yok
+	// Node sadece listeden çıkarılıp bırakılır, GC temizleyecek
+	(void)node;
 }
 
 int	remove_first_node(t_env **env, char *key)

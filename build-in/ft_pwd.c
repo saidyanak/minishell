@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_pwd.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: syanak <syanak@student.42kocaeli.com.tr    +#+  +:+       +#+        */
+/*   By: yuocak <yuocak@student.42kocaeli.com.tr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/30 11:59:25 by yuocak            #+#    #+#             */
-/*   Updated: 2025/07/01 19:36:00 by syanak           ###   ########.fr       */
+/*   Updated: 2025/07/11 12:59:57 by yuocak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,9 +44,9 @@ int ft_pwd(t_base base)
     char *cwd;
     
     cwd = getcwd(NULL, 0);
-    if (getcwd(cwd, sizeof(cwd)) != NULL)
+    if (cwd != NULL)
     {
-        write(1,cwd, ft_strlen(cwd));
+        write(1, cwd, ft_strlen(cwd));
         write(1, "\n", 1);
         free(cwd);
         base.exit_status = 0;

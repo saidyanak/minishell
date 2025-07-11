@@ -6,7 +6,7 @@
 /*   By: yuocak <yuocak@student.42kocaeli.com.tr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 07:15:00 by yuocak            #+#    #+#             */
-/*   Updated: 2025/07/07 06:56:30 by yuocak           ###   ########.fr       */
+/*   Updated: 2025/07/10 18:21:06 by yuocak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,13 +53,13 @@ static void	fill_argv_array(t_token *token, char **argv)
 	argv[i] = NULL;
 }
 
-char	**build_argv_from_tokens(t_token *token)
+char	**build_argv_from_tokens(t_token *token, t_gc *gc)
 {
 	char	**argv;
 	int		argc;
 
 	argc = count_args_in_command(token);
-	argv = (char **)malloc(sizeof(char *) * (argc + 1));
+	argv = (char **)ft_malloc_tmp(gc, sizeof(char *) * (argc + 1));
 	if (!argv)
 		return (NULL);
 	fill_argv_array(token, argv);
@@ -68,19 +68,17 @@ char	**build_argv_from_tokens(t_token *token)
 
 int	prepare_execution(t_token *token, t_base *base, t_exec_params *params)
 {
-	params->argv = build_argv_from_tokens(token);
+	params->argv = build_argv_from_tokens(token, base->gc);
 	if (!params->argv || !(params->argv)[0])
 	{
-		free_string_array(params->argv);
 		return (1);
 	}
 	params->command_path = find_command_path((params->argv)[0], base);
 	if (!params->command_path)
 	{
 		printf("minishell: %s: command not found\n", (params->argv)[0]);
-		free_string_array(params->argv);
 		return (127);
 	}
-	params->envp = env_to_envp(base->env);
+	params->envp = env_to_envp(base->env, base->gc);
 	return (0);
 }

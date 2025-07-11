@@ -6,7 +6,7 @@
 /*   By: yuocak <yuocak@student.42kocaeli.com.tr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/27 16:05:51 by yuocak            #+#    #+#             */
-/*   Updated: 2025/04/09 13:21:16 by yuocak           ###   ########.fr       */
+/*   Updated: 2025/07/11 15:55:40 by yuocak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,16 +15,25 @@
 char	*ft_substr(char const *s, unsigned int start, size_t len)
 {
 	char	*substr;
+	size_t	i;
+	size_t	s_len;
 
-	if (s == NULL)
+	if (!s)
 		return (NULL);
-	if (len == 0 || start >= ft_strlen(s))
+	s_len = ft_strlen(s);
+	if (start >= s_len)
 		return (ft_strdup(""));
-	if (len > ft_strlen(s + start))
-		len = ft_strlen(s + start);
-	substr = (char *)malloc((len + 1) * sizeof(char));
-	if (substr == NULL)
+	if (len > s_len - start)
+		len = s_len - start;
+	substr = (char *)malloc(len + 1);
+	if (!substr)
 		return (NULL);
-	ft_strlcpy(substr, (s + start), (len + 1));
+	i = 0;
+	while (i < len && s[start + i])
+	{
+		substr[i] = s[start + i];
+		i++;
+	}
+	substr[i] = '\0';
 	return (substr);
 }

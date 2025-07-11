@@ -6,7 +6,7 @@
 /*   By: yuocak <yuocak@student.42kocaeli.com.tr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/03 12:16:15 by syanak            #+#    #+#             */
-/*   Updated: 2025/07/04 12:04:55 by yuocak           ###   ########.fr       */
+/*   Updated: 2025/07/11 12:59:57 by yuocak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ char	*extract_braced_var(char *str, int *len)
 	return (NULL);
 }
 
-char	*extract_var_name(char *str, int *len)
+char	*extract_var_name(char *str, int *len, t_gc *gc)
 {
 	int	i;
 
@@ -71,7 +71,7 @@ char	*extract_var_name(char *str, int *len)
 	while (str[i] && is_valid_var_char(str[i], i == 0))
 		i++;
 	*len = i;
-	return (ft_substr(str, 0, i));
+	return (ft_substr_gc(gc, str, 0, i));
 }
 
 char	*find_env_value(t_base *base, char *key)
@@ -79,17 +79,17 @@ char	*find_env_value(t_base *base, char *key)
 	t_env	*current;
 
 	if (!key)
-		return (ft_strdup(""));
+		return (ft_strdup_gc(base->gc, ""));
 	if (ft_strcmp(key, "?") == 0)
-		return (ft_itoa(base->exit_status));
+		return (ft_strdup_gc(base->gc, ft_itoa(base->exit_status)));
 	current = base->env;
 	while (current)
 	{
 		if (ft_strcmp(current->key, key) == 0 && current->exported)
-			return (ft_strdup(current->value));
+			return (ft_strdup_gc(base->gc, current->value));
 		current = current->next;
 	}
-	return (ft_strdup(""));
+	return (ft_strdup_gc(base->gc, ""));
 }
 
 int	handle_dollar_sign(char *content, char **result, int i, t_base *base)
@@ -99,14 +99,13 @@ int	handle_dollar_sign(char *content, char **result, int i, t_base *base)
 	char	*temp;
 	int		var_len;
 
-	var_name = extract_var_name(content + i + 1, &var_len);
+	var_name = extract_var_name(content + i + 1, &var_len, base->gc);
 	if (var_name && var_len > 0)
 	{
 		var_value = find_env_value(base, var_name);
-		temp = ft_strjoin(*result, var_value);
-		free(*result);
-		free(var_name);
-		free(var_value);
+		char *joined = ft_strjoin(*result, var_value);
+		temp = ft_strdup_gc(base->gc, joined);
+		free(joined);
 		*result = temp;
 		return (i + var_len + 1);
 	}
@@ -140,7 +139,7 @@ char	*process_expansion(char *content, t_base *base)
 	char	*result;
 	int		i;
 
-	result = ft_strdup("");
+	result = ft_strdup_gc(base->gc, "");
 	i = 0;
 	while (content[i])
 	{
@@ -166,7 +165,6 @@ void	expand_token_content(t_token *token, t_base *base)
 	if (!token || !token->content)
 		return ;
 	expanded = process_expansion(token->content, base);
-	free(token->content);
 	token->content = expanded;
 }
 
