@@ -6,7 +6,7 @@
 /*   By: yuocak <yuocak@student.42kocaeli.com.tr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/08 16:03:31 by yuocak            #+#    #+#             */
-/*   Updated: 2025/07/10 18:21:06 by yuocak           ###   ########.fr       */
+/*   Updated: 2025/07/11 19:01:37 by yuocak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,11 @@ void    free_list(t_gc_node **head)
     while (*head)
     {
         tmp = (*head)->next;
-        free((*head)->ptr);
+        if ((*head)->ptr)
+        {
+            free((*head)->ptr);
+            (*head)->ptr = NULL;
+        }
         free(*head);
         *head = tmp;
     }

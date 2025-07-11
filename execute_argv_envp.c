@@ -6,7 +6,7 @@
 /*   By: yuocak <yuocak@student.42kocaeli.com.tr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 07:15:00 by yuocak            #+#    #+#             */
-/*   Updated: 2025/07/10 18:21:06 by yuocak           ###   ########.fr       */
+/*   Updated: 2025/07/11 19:01:37 by yuocak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ int	count_args_in_command(t_token *token)
 	return (count);
 }
 
-static void	fill_argv_array(t_token *token, char **argv)
+static void	fill_argv_array(t_token *token, char **argv, t_gc *gc)
 {
 	t_token	*current;
 	int		i;
@@ -44,7 +44,7 @@ static void	fill_argv_array(t_token *token, char **argv)
 	while (current && current->type != TOKEN_PIPE)
 	{
 		if (current->type == TOKEN_WORD || current->type == TOKEN_QUOTED_WORD)
-			argv[i++] = ft_strdup(current->content);
+			argv[i++] = ft_strdup_gc(gc, current->content);
 		else if (is_redirection_token(current->type))
 			current = current->next;
 		if (current)
@@ -62,7 +62,7 @@ char	**build_argv_from_tokens(t_token *token, t_gc *gc)
 	argv = (char **)ft_malloc_tmp(gc, sizeof(char *) * (argc + 1));
 	if (!argv)
 		return (NULL);
-	fill_argv_array(token, argv);
+	fill_argv_array(token, argv, gc);
 	return (argv);
 }
 
