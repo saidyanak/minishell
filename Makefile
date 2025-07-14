@@ -27,6 +27,7 @@ SRCS = main.c \
        debug.c \
        execute.c \
 	   expand.c	\
+	   gc_utils.c \
        $(BUILTINDIR)/build_in.c \
        $(BUILTINDIR)/ft_echo.c \
 	   $(BUILTINDIR)/ft_cd.c \

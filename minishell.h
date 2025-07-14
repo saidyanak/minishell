@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: syanak <syanak@student.42kocaeli.com.tr    +#+  +:+       +#+        */
+/*   By: yuocak <yuocak@student.42kocaeli.com.tr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/02 11:39:59 by yuocak            #+#    #+#             */
-/*   Updated: 2025/07/14 11:39:54 by syanak           ###   ########.fr       */
+/*   Updated: 2025/07/14 12:12:15 by yuocak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -151,5 +151,8 @@ void					*ft_malloc_tmp(t_gc *gc, int size);
 void					ft_free_all_env(t_gc *gc);
 void					ft_free_all_tmp(t_gc *gc);
 void					ft_free_all(t_gc *gc);
+char					*ft_substr_gc(t_gc *gc, char const *s,
+							unsigned int start, size_t len);
+char					*ft_strdup_gc(t_gc *gc, const char *str);
 
 #endif

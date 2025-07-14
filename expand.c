@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: syanak <syanak@student.42kocaeli.com.tr    +#+  +:+       +#+        */
+/*   By: yuocak <yuocak@student.42kocaeli.com.tr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/03 12:16:15 by syanak            #+#    #+#             */
-/*   Updated: 2025/07/14 11:10:53 by syanak           ###   ########.fr       */
+/*   Updated: 2025/07/14 14:28:10 by yuocak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,7 +91,6 @@ static int	expand_dollar_var(char *str, int i, char **result, t_base *base)
 	int		var_len;
 
 	var_name = extract_var_name(str + i + 1, &var_len);
-	// printf("var_name: %s\n", var_name);
 	if (var_name && var_len > 0)
 	{
 		var_value = find_env_value(base, var_name);
@@ -288,8 +287,8 @@ void	delete_null_tokens(t_base *base)
 
 void	expand_tokens(t_base *base)
 {
-	t_token *current;
-	char *expanded;
+	t_token	*current;
+	char	*expanded;
 
 	if (!base || !base->token)
 		return ;
