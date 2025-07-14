@@ -6,7 +6,7 @@
 /*   By: syanak <syanak@student.42kocaeli.com.tr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/03 12:16:15 by syanak            #+#    #+#             */
-/*   Updated: 2025/07/08 18:01:16 by syanak           ###   ########.fr       */
+/*   Updated: 2025/07/14 10:40:53 by syanak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,7 +91,7 @@ static int	expand_dollar_var(char *str, int i, char **result, t_base *base)
 	int		var_len;
 
 	var_name = extract_var_name(str + i + 1, &var_len);
-	printf("var_name: %s\n", var_name);
+	// printf("var_name: %s\n", var_name);
 	if (var_name && var_len > 0)
 	{
 		var_value = find_env_value(base, var_name);
@@ -225,6 +225,67 @@ void	expand_token_content(t_token *token, t_base *base)
 	token->content = expanded;
 }
 
+void	free_single_token(t_token *token)
+{
+	if (!token)
+		return ;
+	if (token->content)
+		free(token->content);
+	free(token);
+}
+
+static t_token	*remove_first_null_token(t_token **head)
+{
+	t_token	*temp;
+
+	if (!head || !*head)
+		return (NULL);
+	if ((*head)->content == NULL || ft_strlen((*head)->content) == 0)
+	{
+		temp = *head;
+		*head = (*head)->next;
+		free_single_token(temp);
+		return (*head);
+	}
+	return (*head);
+}
+
+static void	remove_middle_null_tokens(t_token *current)
+{
+	t_token	*temp;
+
+	while (current && current->next)
+	{
+		if (current->next->content == NULL
+			|| ft_strlen(current->next->content) == 0)
+		{
+			temp = current->next;
+			current->next = temp->next;
+			free_single_token(temp);
+		}
+		else
+			current = current->next;
+	}
+}
+
+void	delete_null_tokens(t_base *base)
+{
+	t_token	*current;
+
+	if (!base || !base->token)
+		return ;
+	while (base->token && (base->token->content == NULL
+			|| ft_strlen(base->token->content) == 0))
+	{
+		base->token = remove_first_null_token(&base->token);
+	}
+	if (base->token)
+	{
+		current = base->token;
+		remove_middle_null_tokens(current);
+	}
+}
+
 void	expand_tokens(t_base *base)
 {
 	t_token *current;
@@ -247,6 +308,7 @@ void	expand_tokens(t_base *base)
 			else
 				expand_token_content(current, base);
 		}
+		delete_null_tokens(base);
 		current = current->next;
 	}
 }

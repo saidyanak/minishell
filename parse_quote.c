@@ -6,7 +6,7 @@
 /*   By: syanak <syanak@student.42kocaeli.com.tr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/04 13:14:40 by yuocak            #+#    #+#             */
-/*   Updated: 2025/07/08 18:14:25 by syanak           ###   ########.fr       */
+/*   Updated: 2025/07/14 10:44:31 by syanak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ char	*handle_quoted_word(char *input, int *i, char *result)
 		return (free(result), NULL);
 	result = add_char_to_result(result, quote);
 	(*i)++;
-	printf("result: %s\n", result);
+	// printf("result: %s\n", result);
 	return (result);
 }
 
