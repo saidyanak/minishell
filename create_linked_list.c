@@ -3,17 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   create_linked_list.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: syanak <syanak@student.42kocaeli.com.tr    +#+  +:+       +#+        */
+/*   By: yuocak <yuocak@student.42kocaeli.com.tr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/02 11:46:17 by yuocak            #+#    #+#             */
-/*   Updated: 2025/07/02 10:18:27 by syanak           ###   ########.fr       */
+/*   Updated: 2025/07/10 18:21:06 by yuocak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include <stdlib.h>
 
-t_env	*create_new_node(char *env)
+t_env	*create_new_node_gc(char *env, t_gc *gc)
 {
 	t_env	*new_node;
 	char	*equal_sign;
@@ -21,28 +21,34 @@ t_env	*create_new_node(char *env)
 
 	if (!env)
 		return (NULL);
-	new_node = malloc(sizeof(t_env));
+	new_node = ft_malloc_env(gc, sizeof(t_env));
 	if (!new_node)
 		return (NULL);
 	equal_sign = ft_strchr(env, '=');
 	if (!equal_sign)
 	{
-		new_node->key = ft_strdup(env);
-		new_node->value = ft_strdup("");
+		new_node->key = ft_malloc_env(gc, ft_strlen(env) + 1);
+		if (new_node->key)
+			ft_strlcpy(new_node->key, env, ft_strlen(env) + 1);
+		new_node->value = ft_malloc_env(gc, 1);
+		if (new_node->value)
+			new_node->value[0] = '\0';
 	}
 	else
 	{
 		key_len = equal_sign - env;
-		new_node->key = ft_strndup(env, key_len);
-		new_node->value = ft_strdup(equal_sign + 1);
+		new_node->key = ft_malloc_env(gc, key_len + 1);
+		if (new_node->key)
+		{
+			ft_strlcpy(new_node->key, env, key_len + 1);
+			new_node->key[key_len] = '\0';
+		}
+		new_node->value = ft_malloc_env(gc, ft_strlen(equal_sign + 1) + 1);
+		if (new_node->value)
+			ft_strlcpy(new_node->value, equal_sign + 1, ft_strlen(equal_sign + 1) + 1);
 	}
 	if (!new_node->key || !new_node->value)
-	{
-		free(new_node->key);
-		free(new_node->value);
-		free(new_node);
 		return (NULL);
-	}
 	new_node->exported = 1;
 	new_node->next = NULL;
 	return (new_node);
@@ -74,7 +80,7 @@ void	env_null_check(t_env *env_lst)
 	}
 }
 
-t_env	*init_env(char **env)
+t_env	*init_env(char **env, t_gc *gc)
 {
 	int		i;
 	t_env	*env_list;
@@ -86,12 +92,12 @@ t_env	*init_env(char **env)
 	i = 0;
 	while (env[i])
 	{
-		node = create_new_node(env[i]);
+		node = create_new_node_gc(env[i], gc);
 		if (node)
 			add_new_node(&env_list, node);
 		else
 		{
-			free_env(env_list);
+			ft_free_all_env(gc);
 			printf("minishell: error initializing environment\n");
 			exit(1);
 		}
@@ -100,3 +106,8 @@ t_env	*init_env(char **env)
 	env_null_check(env_list);
 	return (env_list);
 }
+
+// Artık free_env fonksiyonu kullanılmıyor, GC ile yönetiliyor.
+// clean_up.c dosyasına artık ihtiyaç yok, GC ile temizlik yapılacak.
+// Program sonunda env'leri temizlemek için:
+// ft_free_all_env(&gc);

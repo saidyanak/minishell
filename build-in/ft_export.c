@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_export.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: syanak <syanak@student.42kocaeli.com.tr    +#+  +:+       +#+        */
+/*   By: yuocak <yuocak@student.42kocaeli.com.tr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/01 18:24:14 by syanak            #+#    #+#             */
-/*   Updated: 2025/07/02 12:35:02 by syanak           ###   ########.fr       */
+/*   Updated: 2025/07/10 18:21:06 by yuocak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,7 +115,7 @@ void	add_env_var(t_token *token, t_base *base)
 		return ;
 	}
 	env_str = create_env_string(key, value);
-	new_node = create_new_node(env_str);
+	new_node = create_new_node_gc(env_str, base->gc);
 	if (new_node)
 	{
 		new_node->exported = has_equal_sign(token->content) ? 1 : 0;

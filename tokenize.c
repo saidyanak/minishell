@@ -6,7 +6,7 @@
 /*   By: syanak <syanak@student.42kocaeli.com.tr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/02 12:30:21 by yuocak            #+#    #+#             */
-/*   Updated: 2025/07/08 16:05:55 by syanak           ###   ########.fr       */
+/*   Updated: 2025/07/14 11:37:45 by syanak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,7 @@ static void	handle_word_or_error(char *input, int *i, t_token **head)
 	if (!word)
 	{
 		printf("minishell: syntax error: unclosed quote\n");
-		free_tokens(*head);
+		// free_tokens(*head);
 		*head = NULL;
 		return ;
 	}
