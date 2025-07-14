@@ -6,12 +6,27 @@
 /*   By: syanak <syanak@student.42kocaeli.com.tr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/24 12:18:25 by yuocak            #+#    #+#             */
-/*   Updated: 2025/07/07 02:38:29 by syanak           ###   ########.fr       */
+/*   Updated: 2025/07/14 11:11:28 by syanak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include <stdio.h>
+
+static const char	*get_quote_type_name(t_quote_type q_type)
+{
+	switch (q_type)
+	{
+	case DOUBLE_QUOTE:
+		return ("DOUBLE_QUOTE");
+	case SINGLE_QUOTE:
+		return ("SINGLE_QUOTE");
+	case NONE_QUOTE:
+		return ("NONE_QUOTE");
+	default:
+		return ("UNKNOWN_QUOTE");
+	}
+}
 
 static const char	*get_token_type_name(t_token_type type)
 {
@@ -86,4 +101,42 @@ void	print_env(t_env *env)
 		env = env->next;
 	}
 	printf("===================\n\n");
+}
+
+void	debug_parse_quotes(char *input)
+{
+	int				i;
+	t_token_type	type;
+	char			*result;
+
+	if (!input)
+		return ;
+	printf("DEBUG: Parsing '%s'\n", input);
+	i = 0;
+	result = parse_word_with_quotes(input, &i, &type, NULL);
+	if (result)
+	{
+		printf("Result: '%s', Type: %s, Position: %d\n", result,
+			get_token_type_name(type), i);
+		free(result);
+	}
+	else
+	{
+		printf("Parse failed at position %d\n", i);
+	}
+}
+
+void	debug_token_with_quotes(t_token *token)
+{
+	if (!token)
+	{
+		printf("No token provided for quote debug.\n");
+		return ;
+	}
+
+	printf("\n=== TOKEN QUOTE DEBUG ===\n");
+	printf("Content: '%s'\n", token->content);
+	printf("Token Type: %s\n", get_token_type_name(token->type));
+	printf("Quote Type: %s\n", get_quote_type_name(token->q_type));
+	printf("=========================\n\n");
 }

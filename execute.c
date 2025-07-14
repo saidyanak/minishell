@@ -6,7 +6,7 @@
 /*   By: syanak <syanak@student.42kocaeli.com.tr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/24 15:07:31 by yuocak            #+#    #+#             */
-/*   Updated: 2025/07/03 15:45:05 by syanak           ###   ########.fr       */
+/*   Updated: 2025/07/14 11:39:03 by syanak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ static void	free_argv(char **argv)
 	free(argv);
 }
 
-static char	*find_command_path(char *command, t_base *base)
+char	*find_command_path(char *command, t_base *base)
 {
 	char	*path_env;
 	char	**paths;
@@ -123,7 +123,7 @@ static char	**tokens_to_argv(t_token *token)
 }
 
 // Environment'ı execve için char** formatına çevir
-static char	**env_to_envp(t_env *env)
+char	**env_to_envp(t_env *env)
 {
 	t_env	*current;
 	char	**envp;
@@ -179,7 +179,7 @@ static void	free_envp(char **envp)
 }
 
 // External command execution (fork + execve)
-static int	execute_external_command(t_token *token, t_base *base)
+int	execute_external_command(t_token *token, t_base *base)
 {
 	char	*command_path;
 	char	**argv;
