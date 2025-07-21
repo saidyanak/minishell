@@ -6,7 +6,7 @@
 /*   By: yuocak <yuocak@student.42kocaeli.com.tr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/17 15:15:03 by yuocak            #+#    #+#             */
-/*   Updated: 2025/07/17 15:15:06 by yuocak           ###   ########.fr       */
+/*   Updated: 2025/07/21 20:28:29 by yuocak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ void	add_env_var(t_token *token, t_base *base)
 		return ;
 	}
 	env_str = create_env_string(key, value);
-	new_node = create_new_node_gc(env_str, base->gc);
+	new_node = create_new_node(env_str);
 	if (new_node)
 	{
 		if (has_equal_sign(token->content))

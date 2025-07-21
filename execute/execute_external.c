@@ -6,7 +6,7 @@
 /*   By: yuocak <yuocak@student.42kocaeli.com.tr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 07:45:00 by yuocak            #+#    #+#             */
-/*   Updated: 2025/07/19 12:01:42 by yuocak           ###   ########.fr       */
+/*   Updated: 2025/07/21 20:22:16 by yuocak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,9 +19,12 @@
 
 static void	cleanup_execution(t_exec_params *params)
 {
-	(void)params;
-	// command_path might not be GC-allocated if it's a direct path
-	// argv and envp are GC-allocated, don't free manually
+	if (params->command_path)
+		free(params->command_path);
+	if (params->argv)
+		free_string_array(params->argv);
+	if (params->envp)
+		free_string_array(params->envp);
 }
 
 static void	child_process(t_exec_params *params)

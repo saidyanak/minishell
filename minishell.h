@@ -6,7 +6,7 @@
 /*   By: yuocak <yuocak@student.42kocaeli.com.tr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/02 11:39:59 by yuocak            #+#    #+#             */
-/*   Updated: 2025/07/21 19:34:30 by yuocak           ###   ########.fr       */
+/*   Updated: 2025/07/21 20:22:16 by yuocak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,18 +24,6 @@
 # include <sys/types.h>
 # include <sys/wait.h>
 # include <unistd.h>
-
-typedef struct s_gc_node
-{
-	void				*ptr;
-	struct s_gc_node	*next;
-}						t_gc_node;
-
-typedef struct s_gc
-{
-	t_gc_node			*env_list;
-	t_gc_node			*tmp_list;
-}						t_gc;
 
 typedef enum e_quote_type
 {
@@ -76,7 +64,6 @@ typedef struct s_base
 {
 	t_token				*token;
 	t_env				*env;
-	t_gc				*gc;
 	int					exit_status;
 }						t_base;
 
@@ -99,9 +86,9 @@ int						is_special(char c);
 void					expand_tokens(t_base *base);
 
 /* Environment functions */
-t_env					*create_new_node_gc(char *env, t_gc *gc);
+t_env					*create_new_node(char *env);
 void					add_new_node(t_env **head, t_env *new_node);
-t_env					*init_env(char **env, t_gc *gc);
+t_env					*init_env(char **env);
 char					*get_env_value(t_base base, char *key);
 
 /* Utility functions */
@@ -115,11 +102,10 @@ int						single_execute_command(t_token *token, t_base *base);
 void					multiple_execute_command(t_token *token, t_base *base);
 int						is_single_execute(t_token *token);
 int						is_redirection_token(t_token_type type);
-void					free_string_array(char **array);
 char					*find_command_path(char *command, t_base *base);
 char					*build_full_path(char *dir, char *command);
-char					**build_argv_from_tokens(t_token *token, t_gc *gc);
-char					**env_to_envp(t_env *env, t_gc *gc);
+char					**build_argv_from_tokens(t_token *token);
+char					**env_to_envp(t_env *env);
 int						check_build_in(char *input);
 int						prepare_execution(t_token *token, t_base *base,
 							t_exec_params *params);
@@ -129,7 +115,7 @@ void					print_tokens(t_token *token);
 void					debug_parse_quotes(char *input);
 void					debug_token_with_quotes(t_token *token);
 
-/* Built-in commands */
+void					set_env_value(t_env **env, char *key, char *value);
 int						ft_echo(t_token *current_prompt, t_base base);
 t_base					*ft_cd(t_token *current_prompt, t_base *base);
 int						ft_pwd(t_base base);
@@ -160,16 +146,10 @@ void					sort_and_print_env(t_env *env);
 int						process_export_args(t_token *token, t_base *base);
 void					print_export(t_base *base);
 
-/* Garbage Collector functions */
-void					gc_init(t_gc *gc);
-void					*ft_malloc_env(t_gc *gc, int size);
-void					*ft_malloc_tmp(t_gc *gc, int size);
-void					ft_free_all_env(t_gc *gc);
-void					ft_free_all_tmp(t_gc *gc);
-void					ft_free_all(t_gc *gc);
-char					*ft_strdup_gc(t_gc *gc, const char *str);
-char					*ft_strjoin_gc(t_gc *gc, char const *s1, char const *s2);
-char					*ft_substr_gc(t_gc *gc, char const *s, unsigned int start,
-							size_t len);
+/* Cleanup functions */
+void					free_tokens(t_token *tokens);
+void					free_env_list(t_env *env);
+void					free_string_array(char **array);
+void					cleanup_all(t_base *base);
 
 #endif

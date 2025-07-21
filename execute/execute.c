@@ -6,7 +6,7 @@
 /*   By: yuocak <yuocak@student.42kocaeli.com.tr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/24 15:07:31 by yuocak            #+#    #+#             */
-/*   Updated: 2025/07/21 19:08:01 by yuocak           ###   ########.fr       */
+/*   Updated: 2025/07/21 20:22:16 by yuocak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ static void	free_argv(char **argv)
 	free(argv);
 }
 
-static char	*search_in_paths(char **paths, char *command, t_gc *gc)
+static char	*search_in_paths(char **paths, char *command)
 {
 	char	*full_path;
 	char	*temp;
@@ -58,13 +58,15 @@ static char	*search_in_paths(char **paths, char *command, t_gc *gc)
 	i = 0;
 	while (paths[i])
 	{
-		temp = ft_strjoin_gc(gc, paths[i], "/");
-		full_path = ft_strjoin_gc(gc, temp, command);
+		temp = ft_strjoin(paths[i], "/");
+		full_path = ft_strjoin(temp, command);
+		free(temp);
 		if (access(full_path, X_OK) == 0)
 		{
 			free_argv(paths);
 			return (full_path);
 		}
+		free(full_path);
 		i++;
 	}
 	free_argv(paths);
@@ -77,14 +79,14 @@ char	*find_command_path(char *command, t_base *base)
 	char	**paths;
 
 	if (access(command, F_OK) == 0)
-		return (ft_strdup_gc(base->gc, command));
+		return (ft_strdup(command));
 	path_env = get_env_value(*base, "PATH");
 	if (!path_env)
 		return (NULL);
 	paths = ft_split(path_env, ':');
 	if (!paths)
 		return (NULL);
-	return (search_in_paths(paths, command, base->gc));
+	return (search_in_paths(paths, command));
 }
 
 void	execute_command(t_base *base)

@@ -23,11 +23,9 @@ SRCS = main.c \
        tokenize.c \
        parse_quote.c \
        create_linked_list.c \
-       ft_gc_alloc.c \
-       ft_gc_free.c \
+       cleanup.c \
        debug.c \
 	   expand.c	\
-	   gc_utils.c \
        $(EXECUTEDIR)/execute.c \
        $(EXECUTEDIR)/execute_external.c \
        $(EXECUTEDIR)/execute_envp.c \

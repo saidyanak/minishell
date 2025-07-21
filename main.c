@@ -6,7 +6,7 @@
 /*   By: yuocak <yuocak@student.42kocaeli.com.tr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/02 11:39:31 by yuocak            #+#    #+#             */
-/*   Updated: 2025/07/15 16:44:37 by yuocak           ###   ########.fr       */
+/*   Updated: 2025/07/21 20:22:16 by yuocak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ static void	process_input(char *input, t_base *base)
 	// Önceki token'ları temizle
 	if (base->token)
 	{
-		ft_free_all_tmp(base->gc);
+		free_tokens(base->token);
 		base->token = NULL;
 	}
 	tokenize_input(input, base);
@@ -52,14 +52,11 @@ int	main(int argc, char **argv, char **env)
 {
 	char	*input;
 	t_base	base;
-	t_gc	gc;
 
 	(void)argc;
 	(void)argv;
-	gc_init(&gc);
 	base.token = NULL;
-	base.gc = &gc;
-	base.env = init_env(env, base.gc);
+	base.env = init_env(env);
 	base.exit_status = 0;
 	setup_signals();
 	while (1)
@@ -77,10 +74,14 @@ int	main(int argc, char **argv, char **env)
 			{
 				expand_tokens(&base);
 				execute_command(&base);
+				// Her komut sonrası token'ları temizle
+				free_tokens(base.token);
+				base.token = NULL;
 			}
 		}
 		free(input);
 	}
-	ft_free_all_env(base.gc);
+	// Program sonunda tüm memory'yi temizle
+	cleanup_all(&base);
 	return (base.exit_status);
 }

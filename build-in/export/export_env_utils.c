@@ -6,7 +6,7 @@
 /*   By: yuocak <yuocak@student.42kocaeli.com.tr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/17 15:14:49 by yuocak            #+#    #+#             */
-/*   Updated: 2025/07/17 15:14:51 by yuocak           ###   ########.fr       */
+/*   Updated: 2025/07/21 20:28:29 by yuocak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,19 +39,6 @@ char	*create_env_string(char *key, char *value)
 	env_str = ft_strjoin(temp, value);
 	free(temp);
 	return (env_str);
-}
-
-int	count_env_vars(t_env *env)
-{
-	int	count;
-
-	count = 0;
-	while (env)
-	{
-		count++;
-		env = env->next;
-	}
-	return (count);
 }
 
 t_env	**create_env_array(t_env *env, int count)
