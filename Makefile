@@ -12,6 +12,7 @@ SRCDIR = src
 OBJDIR = obj
 LIBFTDIR = libft
 BUILTINDIR = build-in
+EXECUTEDIR = execute
 
 # Libft
 LIBFT = $(LIBFTDIR)/libft.a
@@ -25,15 +26,23 @@ SRCS = main.c \
        ft_gc_alloc.c \
        ft_gc_free.c \
        debug.c \
-       execute.c \
 	   expand.c	\
 	   gc_utils.c \
+       $(EXECUTEDIR)/execute.c \
+       $(EXECUTEDIR)/execute_external.c \
+       $(EXECUTEDIR)/execute_envp.c \
+       $(EXECUTEDIR)/execute_argv_envp.c \
        $(BUILTINDIR)/build_in.c \
        $(BUILTINDIR)/ft_echo.c \
 	   $(BUILTINDIR)/ft_cd.c \
 	   $(BUILTINDIR)/ft_pwd.c \
 	   $(BUILTINDIR)/ft_env.c \
 	   $(BUILTINDIR)/ft_export.c \
+	   $(BUILTINDIR)/export/export_parsing.c \
+	   $(BUILTINDIR)/export/export_env_utils.c \
+	   $(BUILTINDIR)/export/export_operations.c \
+	   $(BUILTINDIR)/export/export_display.c \
+	   $(BUILTINDIR)/export/export_main.c \
 	   $(BUILTINDIR)/ft_unset.c \
 	   $(BUILTINDIR)/ft_exit.c
 

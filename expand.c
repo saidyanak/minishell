@@ -6,7 +6,7 @@
 /*   By: yuocak <yuocak@student.42kocaeli.com.tr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/03 12:16:15 by syanak            #+#    #+#             */
-/*   Updated: 2025/07/14 14:28:10 by yuocak           ###   ########.fr       */
+/*   Updated: 2025/07/17 12:22:28 by yuocak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ char	*find_env_value(t_base *base, char *key)
 			return (ft_strdup(current->value));
 		current = current->next;
 	}
-	return (ft_strdup(""));
+	return (NULL);
 }
 
 static char	*join_and_free(char *s1, char *s2)
@@ -239,7 +239,7 @@ static t_token	*remove_first_null_token(t_token **head)
 
 	if (!head || !*head)
 		return (NULL);
-	if ((*head)->content == NULL || ft_strlen((*head)->content) == 0)
+	if ((*head)->content == NULL)
 	{
 		temp = *head;
 		*head = (*head)->next;
@@ -255,8 +255,7 @@ static void	remove_middle_null_tokens(t_token *current)
 
 	while (current && current->next)
 	{
-		if (current->next->content == NULL
-			|| ft_strlen(current->next->content) == 0)
+		if (current->next->content == NULL)
 		{
 			temp = current->next;
 			current->next = temp->next;

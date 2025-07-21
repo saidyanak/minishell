@@ -6,7 +6,7 @@
 /*   By: yuocak <yuocak@student.42kocaeli.com.tr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/02 11:46:17 by yuocak            #+#    #+#             */
-/*   Updated: 2025/07/10 18:21:06 by yuocak           ###   ########.fr       */
+/*   Updated: 2025/07/17 15:21:33 by yuocak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,7 @@ t_env	*init_env(char **env, t_gc *gc)
 	t_env	*env_list;
 	t_env	*node;
 
-	if (!env)
+	if (!env) //kontrol edilmesi gerekiyor çünkü env null olabilmesi için ihtimal kalmıyor olursa zaten hata bastırılıyor
 		exit(1);
 	env_list = NULL;
 	i = 0;

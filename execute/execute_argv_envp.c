@@ -6,12 +6,11 @@
 /*   By: yuocak <yuocak@student.42kocaeli.com.tr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 07:15:00 by yuocak            #+#    #+#             */
-/*   Updated: 2025/07/11 19:01:37 by yuocak           ###   ########.fr       */
+/*   Updated: 2025/07/19 11:52:28 by yuocak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
-#include "libft/libft.h"
+#include "../minishell.h"
 #include <stdlib.h>
 #include <stdio.h>
 
