@@ -6,7 +6,7 @@
 /*   By: syanak <syanak@student.42kocaeli.com.tr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/02 11:39:59 by yuocak            #+#    #+#             */
-/*   Updated: 2025/07/22 09:18:35 by syanak           ###   ########.fr       */
+/*   Updated: 2025/07/22 10:13:50 by syanak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,6 +84,12 @@ int					is_special(char c);
 
 /* Expand functions */
 void				expand_tokens(t_base *base);
+void				word_splitting(t_base *base);
+void				handle_export_assignments(t_base *base);
+void				process_export_and_expand(t_base *base);
+char				*process_mixed_quotes(char *str, t_base *base);
+int					has_dollar_sign(char *str);
+int					has_tilde_sign(char *str);
 
 /* Environment functions */
 t_env				*create_new_node(char *env);

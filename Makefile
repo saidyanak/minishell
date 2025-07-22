@@ -26,6 +26,8 @@ SRCS = main.c \
        cleanup.c \
        debug.c \
 	   expand.c	\
+	   word_splitting.c \
+	   export_handler.c \
 	   $(EXECUTEDIR)/heredoc_handler.c \
 	   $(EXECUTEDIR)/syntax_checker.c \
 	   $(EXECUTEDIR)/simple_heredoc.c \

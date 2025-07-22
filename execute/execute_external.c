@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute_external.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yuocak <yuocak@student.42kocaeli.com.tr>   +#+  +:+       +#+        */
+/*   By: syanak <syanak@student.42kocaeli.com.tr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 07:45:00 by yuocak            #+#    #+#             */
-/*   Updated: 2025/07/21 20:22:16 by yuocak           ###   ########.fr       */
+/*   Updated: 2025/07/22 09:39:17 by syanak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 

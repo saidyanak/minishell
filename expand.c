@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yuocak <yuocak@student.42kocaeli.com.tr>   +#+  +:+       +#+        */
+/*   By: syanak <syanak@student.42kocaeli.com.tr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/03 12:16:15 by syanak            #+#    #+#             */
-/*   Updated: 2025/07/17 12:22:28 by yuocak           ###   ########.fr       */
+/*   Updated: 2025/07/22 10:17:04 by syanak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,9 @@
 
 int	has_tilde_sign(char *str)
 {
-	if (str[0] == '~' && str[1] == 0)
+	if (!str)
+		return (0);
+	if (str[0] == '~' && (str[1] == 0 || str[1] == '/'))
 		return (1);
 	return (0);
 }
@@ -23,6 +25,8 @@ int	has_dollar_sign(char *str)
 {
 	int	i;
 
+	if (!str)
+		return (0);
 	i = 0;
 	while (str[i])
 	{
@@ -47,6 +51,11 @@ char	*extract_var_name(char *str, int *len)
 	*len = 0;
 	if (!str || !str[0])
 		return (NULL);
+	if (str[0] == '?')
+	{
+		*len = 1;
+		return (ft_strdup("?"));
+	}
 	if (!is_valid_var_char(str[0], 1))
 		return (NULL);
 	i = 0;
@@ -71,13 +80,19 @@ char	*find_env_value(t_base *base, char *key)
 			return (ft_strdup(current->value));
 		current = current->next;
 	}
-	return (NULL);
+	return (ft_strdup(""));
 }
 
 static char	*join_and_free(char *s1, char *s2)
 {
 	char	*result;
 
+	if (!s1 && !s2)
+		return (ft_strdup(""));
+	if (!s1)
+		return (s2);
+	if (!s2)
+		return (s1);
 	result = ft_strjoin(s1, s2);
 	free(s1);
 	free(s2);
@@ -148,11 +163,11 @@ static int	process_single_quote_section(char *str, int i, char **result)
 	start = i;
 	while (str[i] && str[i] != '\'')
 		i++;
+	if (str[i] != '\'')
+		return (-1);
 	content = ft_substr(str, start, i - start);
 	*result = join_and_free(*result, content);
-	if (str[i] == '\'')
-		i++;
-	return (i);
+	return (i + 1);
 }
 
 static int	process_double_quote_section(char *str, int i, char **result,
@@ -166,13 +181,13 @@ static int	process_double_quote_section(char *str, int i, char **result,
 	start = i;
 	while (str[i] && str[i] != '"')
 		i++;
+	if (str[i] != '"')
+		return (-1);
 	content = ft_substr(str, start, i - start);
 	expanded = expand_variables(content, base);
 	*result = join_and_free(*result, expanded);
 	free(content);
-	if (str[i] == '"')
-		i++;
-	return (i);
+	return (i + 1);
 }
 
 static int	process_unquoted_section(char *str, int i, char **result,
@@ -204,9 +219,17 @@ char	*process_mixed_quotes(char *str, t_base *base)
 	while (str[i])
 	{
 		if (str[i] == '\'')
+		{
 			i = process_single_quote_section(str, i, &result);
+			if (i == -1)
+				return (NULL);
+		}
 		else if (str[i] == '"')
+		{
 			i = process_double_quote_section(str, i, &result, base);
+			if (i == -1)
+				return (NULL);
+		}
 		else
 			i = process_unquoted_section(str, i, &result, base);
 	}
@@ -220,8 +243,11 @@ void	expand_token_content(t_token *token, t_base *base)
 	if (!token || !token->content)
 		return ;
 	expanded = process_mixed_quotes(token->content, base);
-	free(token->content);
-	token->content = expanded;
+	if (expanded)
+	{
+		free(token->content);
+		token->content = expanded;
+	}
 }
 
 void	free_single_token(t_token *token)
@@ -239,7 +265,7 @@ static t_token	*remove_first_null_token(t_token **head)
 
 	if (!head || !*head)
 		return (NULL);
-	if ((*head)->content == NULL)
+	if ((*head)->content == NULL || ft_strlen((*head)->content) == 0)
 	{
 		temp = *head;
 		*head = (*head)->next;
@@ -255,7 +281,8 @@ static void	remove_middle_null_tokens(t_token *current)
 
 	while (current && current->next)
 	{
-		if (current->next->content == NULL)
+		if (current->next->content == NULL
+			|| ft_strlen(current->next->content) == 0)
 		{
 			temp = current->next;
 			current->next = temp->next;
@@ -286,8 +313,8 @@ void	delete_null_tokens(t_base *base)
 
 void	expand_tokens(t_base *base)
 {
-	t_token	*current;
-	char	*expanded;
+	t_token *current;
+	char *expanded;
 
 	if (!base || !base->token)
 		return ;
@@ -306,7 +333,8 @@ void	expand_tokens(t_base *base)
 			else
 				expand_token_content(current, base);
 		}
-		delete_null_tokens(base);
 		current = current->next;
 	}
+	word_splitting(base);
+	delete_null_tokens(base);
 }

@@ -6,7 +6,7 @@
 /*   By: syanak <syanak@student.42kocaeli.com.tr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/24 15:07:31 by yuocak            #+#    #+#             */
-/*   Updated: 2025/07/22 09:02:37 by syanak           ###   ########.fr       */
+/*   Updated: 2025/07/22 09:52:53 by syanak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,14 +80,32 @@ char	*find_command_path(char *command, t_base *base)
 	char	*path_env;
 	char	**paths;
 
-	if (access(command, F_OK) == 0)
-		return (ft_strdup(command));
+	// printf("DEBUG: Looking for command: '%s'\n", command);
+	// Sadece absolute path'ler için local check yap
+	if (command[0] == '/' || (command[0] == '.' && command[1] == '/'))
+	{
+		if (access(command, F_OK) == 0)
+		{
+			//		printf("DEBUG: Found as absolute/relative path\n");
+			return (ft_strdup(command));
+		}
+	}
+	// printf("DEBUG: Searching in PATH...\n");
 	path_env = get_env_value(*base, "PATH");
+	// printf("DEBUG: PATH value: '%s'\n", path_env ? path_env : "NULL");
 	if (!path_env)
+	{
+		printf("DEBUG: PATH is NULL - returning NULL\n");
 		return (NULL);
+	}
+	// printf("DEBUG: PATH found, splitting...\n");
 	paths = ft_split(path_env, ':');
 	if (!paths)
+	{
+		//	printf("DEBUG: ft_split failed!\n");
 		return (NULL);
+	}
+	// printf("DEBUG: Searching in paths...\n");
 	return (search_in_paths(paths, command));
 }
 
