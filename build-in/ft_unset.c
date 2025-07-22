@@ -6,11 +6,11 @@
 /*   By: yuocak <yuocak@student.42kocaeli.com.tr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/02 13:05:21 by syanak            #+#    #+#             */
-/*   Updated: 2025/07/11 12:59:57 by yuocak           ###   ########.fr       */
+/*   Updated: 2025/07/17 15:14:21 by yuocak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../minishell.h"
 #include <stdio.h>
 
 int	is_valid_unset_name(char *name)

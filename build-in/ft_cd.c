@@ -6,7 +6,7 @@
 /*   By: yuocak <yuocak@student.42kocaeli.com.tr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/01 17:00:00 by yuocak            #+#    #+#             */
-/*   Updated: 2025/07/11 12:59:57 by yuocak           ###   ########.fr       */
+/*   Updated: 2025/07/21 20:28:29 by yuocak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ static char	*get_value(t_env *env, char *key)
 }
 
 // Environment'a değer set et
-void	set_env_value(t_env **env, char *key, char *value, t_gc *gc)
+void	set_env_value(t_env **env, char *key, char *value)
 {
 	t_env	*current;
 	t_env	*new_node;
@@ -36,23 +36,32 @@ void	set_env_value(t_env **env, char *key, char *value, t_gc *gc)
 	{
 		if (ft_strcmp(current->key, key) == 0)
 		{
-			// Value'yu güncelle - old value GC tarafından yönetiliyor
-			current->value = ft_malloc_env(gc, ft_strlen(value) + 1);
+			if (current->value)
+				free(current->value);
+			current->value = malloc(ft_strlen(value) + 1);
 			if (current->value)
 				ft_strlcpy(current->value, value, ft_strlen(value) + 1);
 			return ;
 		}
 		current = current->next;
 	}
-	new_node = ft_malloc_env(gc, sizeof(t_env));
+	new_node = malloc(sizeof(t_env));
 	if (!new_node)
 		return ;
-	new_node->key = ft_malloc_env(gc, ft_strlen(key) + 1);
-	new_node->value = ft_malloc_env(gc, ft_strlen(value) + 1);
+	new_node->key = malloc(ft_strlen(key) + 1);
+	new_node->value = malloc(ft_strlen(value) + 1);
 	if (!new_node->key || !new_node->value)
+	{
+		if (new_node->key)
+			free(new_node->key);
+		if (new_node->value)
+			free(new_node->value);
+		free(new_node);
 		return ;
+	}
 	ft_strlcpy(new_node->key, key, ft_strlen(key) + 1);
 	ft_strlcpy(new_node->value, value, ft_strlen(value) + 1);
+	new_node->exported = 0;
 	new_node->next = *env;
 	*env = new_node;
 }
@@ -116,17 +125,17 @@ static int	check_dir_access(char *path)
 }
 
 // envdeki PWD ve OLDPWD güncelle
-static void	update_pwd_vars(t_env **env, char *old_dir, t_base *base)
+static void	update_pwd_vars(t_env **env, char *old_dir)
 {
 	char	new_dir[PATH_MAX];
 
-	set_env_value(env, "OLDPWD", old_dir, base->gc);
+	set_env_value(env, "OLDPWD", old_dir);
 	if (getcwd(new_dir, PATH_MAX))
-		set_env_value(env, "PWD", new_dir, base->gc);
+		set_env_value(env, "PWD", new_dir);
 }
 
 // Dizin değiştir chdir ile
-static int	change_to_dir(char *path, t_env **env, t_base *base)
+static int	change_to_dir(char *path, t_env **env)
 {
 	char	current_dir[PATH_MAX];
 
@@ -140,7 +149,7 @@ static int	change_to_dir(char *path, t_env **env, t_base *base)
 		perror("minishell: cd");
 		return (1);
 	}
-	update_pwd_vars(env, current_dir, base);
+	update_pwd_vars(env, current_dir);
 	return (0);
 }
 
@@ -167,7 +176,7 @@ t_base	*ft_cd(t_token *token, t_base *base)
 		base->exit_status = 1;
 		return (base);
 	}
-	base->exit_status = change_to_dir(target, &(base->env), base);
+	base->exit_status = change_to_dir(target, &(base->env));
 	return (base);
 }
 /*

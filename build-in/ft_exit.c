@@ -6,7 +6,7 @@
 /*   By: yuocak <yuocak@student.42kocaeli.com.tr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/03 00:00:00 by yuocak            #+#    #+#             */
-/*   Updated: 2025/07/10 18:00:52 by yuocak           ###   ########.fr       */
+/*   Updated: 2025/07/21 20:28:29 by yuocak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ static void	check_numeric_argument(t_token *arg, t_base *base)
 	if (!is_numeric(arg->content))
 	{
 		printf("minishell: exit: %s: numeric argument required\n", arg->content);
-		ft_free_all_env(base->gc);
+		cleanup_all(base);
 		exit(2);
 	}
 }
@@ -87,13 +87,13 @@ void	ft_exit(t_token *current_prompt, t_base *base)
 	arg = current_prompt->next;
 	if (!arg)
 	{
-		ft_free_all_env(base->gc);
+		cleanup_all(base);
 		exit(base->exit_status);
 	}
 	if (!check_argument_count(arg, base))
 		return ;
 	check_numeric_argument(arg, base);
 	exit_code = normalize_exit_code(ft_atoi(arg->content));
-	ft_free_all_env(base->gc);
+	cleanup_all(base);
 	exit(exit_code);
 }

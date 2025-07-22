@@ -3,17 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   execute_argv_envp.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yuocak <yuocak@student.42kocaeli.com.tr>   +#+  +:+       +#+        */
+/*   By: syanak <syanak@student.42kocaeli.com.tr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 07:15:00 by yuocak            #+#    #+#             */
-/*   Updated: 2025/07/11 19:01:37 by yuocak           ###   ########.fr       */
+/*   Updated: 2025/07/22 09:39:19 by syanak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
-#include "libft/libft.h"
-#include <stdlib.h>
+#include "../minishell.h"
 #include <stdio.h>
+#include <stdlib.h>
 
 int	count_args_in_command(t_token *token)
 {
@@ -34,7 +33,7 @@ int	count_args_in_command(t_token *token)
 	return (count);
 }
 
-static void	fill_argv_array(t_token *token, char **argv, t_gc *gc)
+static void	fill_argv_array(t_token *token, char **argv)
 {
 	t_token	*current;
 	int		i;
@@ -44,7 +43,7 @@ static void	fill_argv_array(t_token *token, char **argv, t_gc *gc)
 	while (current && current->type != TOKEN_PIPE)
 	{
 		if (current->type == TOKEN_WORD || current->type == TOKEN_QUOTED_WORD)
-			argv[i++] = ft_strdup_gc(gc, current->content);
+			argv[i++] = ft_strdup(current->content);
 		else if (is_redirection_token(current->type))
 			current = current->next;
 		if (current)
@@ -53,22 +52,22 @@ static void	fill_argv_array(t_token *token, char **argv, t_gc *gc)
 	argv[i] = NULL;
 }
 
-char	**build_argv_from_tokens(t_token *token, t_gc *gc)
+char	**build_argv_from_tokens(t_token *token)
 {
 	char	**argv;
 	int		argc;
 
 	argc = count_args_in_command(token);
-	argv = (char **)ft_malloc_tmp(gc, sizeof(char *) * (argc + 1));
+	argv = malloc(sizeof(char *) * (argc + 1));
 	if (!argv)
 		return (NULL);
-	fill_argv_array(token, argv, gc);
+	fill_argv_array(token, argv);
 	return (argv);
 }
 
 int	prepare_execution(t_token *token, t_base *base, t_exec_params *params)
 {
-	params->argv = build_argv_from_tokens(token, base->gc);
+	params->argv = build_argv_from_tokens(token);
 	if (!params->argv || !(params->argv)[0])
 	{
 		return (1);
@@ -79,6 +78,6 @@ int	prepare_execution(t_token *token, t_base *base, t_exec_params *params)
 		printf("minishell: %s: command not found\n", (params->argv)[0]);
 		return (127);
 	}
-	params->envp = env_to_envp(base->env, base->gc);
+	params->envp = env_to_envp(base->env);
 	return (0);
 }

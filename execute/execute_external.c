@@ -3,15 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   execute_external.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yuocak <yuocak@student.42kocaeli.com.tr>   +#+  +:+       +#+        */
+/*   By: syanak <syanak@student.42kocaeli.com.tr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 07:45:00 by yuocak            #+#    #+#             */
-/*   Updated: 2025/07/11 19:01:37 by yuocak           ###   ########.fr       */
+/*   Updated: 2025/07/22 09:39:17 by syanak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
-#include "libft/libft.h"
+#include "../minishell.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <sys/types.h>
@@ -20,10 +19,12 @@
 
 static void	cleanup_execution(t_exec_params *params)
 {
-	free(params->command_path);
-	// argv and envp are GC-allocated, don't free manually
-	// free_string_array(params->argv);
-	// free_string_array(params->envp);
+	if (params->command_path)
+		free(params->command_path);
+	if (params->argv)
+		free_string_array(params->argv);
+	if (params->envp)
+		free_string_array(params->envp);
 }
 
 static void	child_process(t_exec_params *params)
