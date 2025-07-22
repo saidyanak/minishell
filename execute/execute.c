@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yuocak <yuocak@student.42kocaeli.com.tr>   +#+  +:+       +#+        */
+/*   By: syanak <syanak@student.42kocaeli.com.tr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/24 15:07:31 by yuocak            #+#    #+#             */
-/*   Updated: 2025/07/21 20:22:16 by yuocak           ###   ########.fr       */
+/*   Updated: 2025/07/22 09:02:37 by syanak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,23 +17,25 @@
 #include <sys/wait.h>
 #include <unistd.h>
 
-// Forward declarations
-static void	free_argv(char **argv);
-
 int	is_redirection_token(t_token_type type)
 {
 	return (type == TOKEN_REDIRECT_IN || type == TOKEN_REDIRECT_OUT
 		|| type == TOKEN_APPEND || type == TOKEN_HEREDOC);
 }
+
 int	check_build_in(char *input)
 {
-	return (ft_strcmp(input, "cd") == 0 || ft_strcmp(input, "echo") == 0
-		|| ft_strcmp(input, "env") == 0 || ft_strcmp(input, "pwd") == 0
-		|| ft_strcmp(input, "unset") == 0 || ft_strcmp(input, "exit") == 0
-		|| ft_strcmp(input, "export") == 0 || ft_strcmp(input, "list") == 0);
+	if (ft_strcmp(input, "cd") == 0 || ft_strcmp(input, "echo") == 0)
+		return (1);
+	if (ft_strcmp(input, "env") == 0 || ft_strcmp(input, "pwd") == 0)
+		return (1);
+	if (ft_strcmp(input, "unset") == 0 || ft_strcmp(input, "exit") == 0)
+		return (1);
+	if (ft_strcmp(input, "export") == 0 || ft_strcmp(input, "list") == 0)
+		return (1);
+	return (0);
 }
 
-// argv array'ini temizle
 static void	free_argv(char **argv)
 {
 	int	i;
@@ -89,20 +91,40 @@ char	*find_command_path(char *command, t_base *base)
 	return (search_in_paths(paths, command));
 }
 
-void	execute_command(t_base *base)
+int	single_execute_command(t_token *token, t_base *base)
 {
-	t_token	*current_promt;
-
-	current_promt = base->token;
-	if (base->token->type == TOKEN_WORD
-		|| base->token->type == TOKEN_QUOTED_WORD)
+	if (!token)
+		return (1);
+	if (token->type == TOKEN_WORD || token->type == TOKEN_QUOTED_WORD)
 	{
-		if (check_build_in(current_promt->content))
-			ft_build_in(current_promt, base);
+		if (check_build_in(token->content))
+		{
+			ft_build_in(token, base);
+			return (base->exit_status);
+		}
 		else
 		{
-			execute_external_command(current_promt, base);
+			return (execute_external_command(token, base));
 		}
 	}
+	return (0);
 }
 
+void	execute_command(t_base *base)
+{
+	if (!base->token)
+		return ;
+	if (!check_syntax_errors(base->token))
+	{
+		base->exit_status = 2;
+		return ;
+	}
+	if (has_special_tokens(base->token))
+	{
+		multiple_execute_command(base->token, base);
+	}
+	else
+	{
+		base->exit_status = single_execute_command(base->token, base);
+	}
+}

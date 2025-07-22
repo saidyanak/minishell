@@ -26,10 +26,15 @@ SRCS = main.c \
        cleanup.c \
        debug.c \
 	   expand.c	\
+	   $(EXECUTEDIR)/heredoc_handler.c \
+	   $(EXECUTEDIR)/syntax_checker.c \
+	   $(EXECUTEDIR)/simple_heredoc.c \
        $(EXECUTEDIR)/execute.c \
        $(EXECUTEDIR)/execute_external.c \
        $(EXECUTEDIR)/execute_envp.c \
        $(EXECUTEDIR)/execute_argv_envp.c \
+	   $(EXECUTEDIR)/execute_multiple.c \
+	   $(EXECUTEDIR)/execute_utils.c \
        $(BUILTINDIR)/build_in.c \
        $(BUILTINDIR)/ft_echo.c \
 	   $(BUILTINDIR)/ft_cd.c \

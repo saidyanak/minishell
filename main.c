@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yuocak <yuocak@student.42kocaeli.com.tr>   +#+  +:+       +#+        */
+/*   By: syanak <syanak@student.42kocaeli.com.tr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/02 11:39:31 by yuocak            #+#    #+#             */
-/*   Updated: 2025/07/21 20:22:16 by yuocak           ###   ########.fr       */
+/*   Updated: 2025/07/22 09:10:38 by syanak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ static void	process_input(char *input, t_base *base)
 	}
 	tokenize_input(input, base);
 	// Debug için token'ları yazdır (geliştirme aşamasında)
-	//print_tokens(base->token);
+	// print_tokens(base->token);
 }
 
 int	main(int argc, char **argv, char **env)
@@ -69,10 +69,13 @@ int	main(int argc, char **argv, char **env)
 		}
 		if (*input) // Sadece boş olmayan input'ları işle
 		{
+			// print_tokens(base.token);
 			process_input(input, &base);
+			// print_tokens(base.token);
 			if (base.token)
 			{
 				expand_tokens(&base);
+				// print_tokens(base.token);
 				execute_command(&base);
 				// Her komut sonrası token'ları temizle
 				free_tokens(base.token);
@@ -82,6 +85,7 @@ int	main(int argc, char **argv, char **env)
 		free(input);
 	}
 	// Program sonunda tüm memory'yi temizle
+	cleanup_heredoc_files();
 	cleanup_all(&base);
 	return (base.exit_status);
 }
