@@ -36,7 +36,10 @@ SRCS = main.c \
        $(EXECUTEDIR)/execute_envp.c \
        $(EXECUTEDIR)/execute_argv_envp.c \
 	   $(EXECUTEDIR)/execute_multiple.c \
+	   $(EXECUTEDIR)/execute_multiple_utils.c \
+	   $(EXECUTEDIR)/execute_multiple_utils2.c \
 	   $(EXECUTEDIR)/execute_utils.c \
+	   $(EXECUTEDIR)/handle_redirect.c \
        $(BUILTINDIR)/build_in.c \
        $(BUILTINDIR)/ft_echo.c \
 	   $(BUILTINDIR)/ft_cd.c \

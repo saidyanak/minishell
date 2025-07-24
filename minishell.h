@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: syanak <syanak@student.42kocaeli.com.tr    +#+  +:+       +#+        */
+/*   By: yuocak <yuocak@student.42kocaeli.com.tr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/02 11:39:59 by yuocak            #+#    #+#             */
-/*   Updated: 2025/07/22 10:13:50 by syanak           ###   ########.fr       */
+/*   Updated: 2025/07/24 18:02:44 by yuocak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,6 +74,16 @@ typedef struct s_exec_params
 	char			*command_path;
 }					t_exec_params;
 
+typedef struct s_exec_data
+{
+	int				cmd_count;
+	int				pipe_count;
+	int				**pipes;
+	t_token			**commands;
+	pid_t			*pids;
+	t_base			*base;
+}					t_exec_data;
+
 /* Tokenizer functions */
 char				*parse_word_with_quotes(char *input, int *i,
 						t_token_type *type, t_quote_type *q_type);
@@ -103,14 +113,19 @@ int					ft_isspace(char c);
 /* Core execution functions */
 void				execute_command(t_base *base);
 int					single_execute_command(t_token *token, t_base *base);
-void				multiple_execute_command(t_token *token, t_base *base);
+int					execute_multiple_command(t_token *token, t_base *base);
 int					execute_external_command(t_token *token, t_base *base);
+
+/* Multiple command execution utility functions */
+int					count_commands(t_token *token);
+int					**create_pipes(int pipe_count);
+t_token				**split_commands(t_token *token, int cmd_count);
+void				cleanup_pipes(int **pipes, int pipe_count);
 
 /* Execution utility functions */
 int					is_redirection_token(t_token_type type);
 int					is_special_token(t_token_type type);
 int					has_special_tokens(t_token *token);
-int					has_pipe(t_token *token);
 char				*find_command_path(char *command, t_base *base);
 int					check_build_in(char *input);
 int					prepare_execution(t_token *token, t_base *base,
@@ -118,9 +133,6 @@ int					prepare_execution(t_token *token, t_base *base,
 
 /* Token segment functions */
 t_token				*copy_prompt_segment(t_token *start, t_token *end);
-int					execute_copy_prompt(t_token *prompt_segment, t_base *base);
-t_token				*find_original_segment(t_token *token, int segment_index);
-void				free_segments(t_token **segments, int count);
 
 /* Argument and environment preparation */
 char				**build_argv_from_tokens(t_token *token);
@@ -174,6 +186,7 @@ char				*handle_heredoc(char *delimiter);
 int					setup_heredoc_input(char *delimiter);
 int					setup_simple_heredoc(char *delimiter);
 void				cleanup_heredoc_files(void);
+void    handle_redirections(t_token *cmd);
 
 /* Cleanup functions */
 void				free_tokens(t_token *tokens);
