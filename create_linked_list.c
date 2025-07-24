@@ -6,7 +6,7 @@
 /*   By: yuocak <yuocak@student.42kocaeli.com.tr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/02 11:46:17 by yuocak            #+#    #+#             */
-/*   Updated: 2025/07/21 20:32:04 by yuocak           ###   ########.fr       */
+/*   Updated: 2025/07/24 13:25:38 by yuocak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,7 +114,3 @@ t_env	*init_env(char **env)
 	return (env_list);
 }
 
-// Artık free_env fonksiyonu kullanılmıyor, GC ile yönetiliyor.
-// clean_up.c dosyasına artık ihtiyaç yok, GC ile temizlik yapılacak.
-// Program sonunda env'leri temizlemek için:
-// ft_free_all_env(&gc);

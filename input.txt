@@ -1,0 +1,12 @@
+foo
+asd
+sad
+dasf
+
+ads
+input.txt
+output.txt
+cat
+end
+
+minishell$ 

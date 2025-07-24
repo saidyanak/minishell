@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: syanak <syanak@student.42kocaeli.com.tr    +#+  +:+       +#+        */
+/*   By: yuocak <yuocak@student.42kocaeli.com.tr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/24 15:07:31 by yuocak            #+#    #+#             */
-/*   Updated: 2025/07/22 09:52:53 by syanak           ###   ########.fr       */
+/*   Updated: 2025/07/24 15:13:51 by yuocak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -139,7 +139,7 @@ void	execute_command(t_base *base)
 	}
 	if (has_special_tokens(base->token))
 	{
-		multiple_execute_command(base->token, base);
+		base->exit_status = execute_multiple_command(base->token, base);
 	}
 	else
 	{
