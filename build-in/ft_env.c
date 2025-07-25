@@ -6,13 +6,12 @@
 /*   By: yuocak <yuocak@student.42kocaeli.com.tr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/01 14:45:26 by yuocak            #+#    #+#             */
-/*   Updated: 2025/07/15 16:49:28 by yuocak           ###   ########.fr       */
+/*   Updated: 2025/07/25 17:12:24 by yuocak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft/libft.h"
 #include "minishell.h"
-#include <stdio.h>
 
 int	ft_env(t_base *base)
 {
@@ -25,8 +24,8 @@ int	ft_env(t_base *base)
 		return (base->exit_status);
 	}
 	head = base->env;
-	if (base->token->next)
-		return ((base->exit_status = 0));
+	if (base->token->next && base->token->next->type == TOKEN_WORD)
+		return ((base->exit_status = 127));
 	while (head != NULL)
 	{
 		if (head->key && head->value && head->exported)
@@ -37,7 +36,6 @@ int	ft_env(t_base *base)
 			write(1, "\n", 1);
 		}
 		head = head->next;
-
 	}
 	base->exit_status = 0;
 	return (base->exit_status);
