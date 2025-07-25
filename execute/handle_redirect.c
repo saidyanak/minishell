@@ -6,7 +6,7 @@
 /*   By: yuocak <yuocak@student.42kocaeli.com.tr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/24 17:26:39 by yuocak            #+#    #+#             */
-/*   Updated: 2025/07/24 18:02:16 by yuocak           ###   ########.fr       */
+/*   Updated: 2025/07/25 12:05:34 by yuocak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 #include <fcntl.h>
 
 
-void    redirect_in(t_token *current, int fd)
+void    redirect_out(t_token *current, int fd)
 {
 			fd = open(current->next->content, O_WRONLY | O_CREAT | O_TRUNC, 0644);
 			if (fd == -1)
@@ -26,7 +26,7 @@ void    redirect_in(t_token *current, int fd)
 			}
 }
 
-void    redirect_out(t_token *current, int fd)
+void    redirect_in(t_token *current, int fd)
 {
     		fd = open(current->next->content, O_RDONLY);
 			if (fd == -1)
