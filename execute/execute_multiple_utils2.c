@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute_multiple_utils2.c                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yuocak <yuocak@student.42kocaeli.com.tr>   +#+  +:+       +#+        */
+/*   By: yuocak <yuocak@student.42kocaeli.com.tr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/24 13:00:00 by yuocak            #+#    #+#             */
-/*   Updated: 2025/07/24 13:14:33 by yuocak           ###   ########.fr       */
+/*   Updated: 2025/07/26 16:04:55 by yuocak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@ t_token	**split_commands(t_token *token, int cmd_count)
 {
 	t_token	**commands;
 	t_token	*current;
+	t_token	*temp;
 	int		cmd_index;
 
 	commands = malloc(sizeof(t_token *) * (cmd_count + 1));
@@ -30,9 +31,15 @@ t_token	**split_commands(t_token *token, int cmd_count)
 	{
 		if (current->type == TOKEN_PIPE)
 		{
+			// Pipe token'ından önceki command'ı sonlandır (next = NULL yaparak)
+			// Bu sayede her command sadece kendi token'larını görür
+			temp = current->next;
+			current->next = NULL;
 			cmd_index++;
-			if (cmd_index < cmd_count && current->next)
-				commands[cmd_index] = current->next;
+			if (cmd_index < cmd_count && temp)
+				commands[cmd_index] = temp;
+			current = temp;
+			continue;
 		}
 		current = current->next;
 	}

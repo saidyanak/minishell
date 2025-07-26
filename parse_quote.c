@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_quote.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yuocak <yuocak@student.42kocaeli.com.tr>   +#+  +:+       +#+        */
+/*   By: yuocak <yuocak@student.42kocaeli.com.tr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/04 13:14:40 by yuocak            #+#    #+#             */
-/*   Updated: 2025/07/22 16:31:01 by yuocak           ###   ########.fr       */
+/*   Updated: 2025/07/26 15:32:56 by yuocak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,12 +29,10 @@ static char	*add_char_to_result(char *result, char c)
 char	*handle_quoted_word(char *input, int *i, char *result)
 {
 	char	quote;
-	int		start;
-
+	
 	quote = input[*i];
 	result = add_char_to_result(result, quote);
 	(*i)++;
-	start = *i;
 	while (input[*i] && input[*i] != quote)
 	{
 		result = add_char_to_result(result, input[*i]);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute_multiple.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yuocak <yuocak@student.42kocaeli.com.tr>   +#+  +:+       +#+        */
+/*   By: yuocak <yuocak@student.42kocaeli.com.tr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/22 10:00:00 by yuocak            #+#    #+#             */
-/*   Updated: 2025/07/25 18:21:54 by yuocak           ###   ########.fr       */
+/*   Updated: 2025/07/26 16:03:40 by yuocak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,10 +21,12 @@ static int	execute_child_process(t_token *cmd, t_exec_data *data,
 	pid = fork();
 	if (pid == 0)
 	{
-		if (cmd_index > 0)
+		// Pipe setup - sadece redirection yoksa
+		if (cmd_index > 0 && !has_input_redirection(cmd))
 			dup2(data->pipes[cmd_index - 1][0], STDIN_FILENO);
-		if (cmd_index < data->cmd_count - 1)
+		if (cmd_index < data->cmd_count - 1 && !has_output_redirection(cmd))
 			dup2(data->pipes[cmd_index][1], STDOUT_FILENO);
+		// Redirections'ları handle et
 		handle_redirections(cmd);
 		cleanup_pipes(data->pipes, data->pipe_count);
 		data->base->exit_status = single_execute_command(cmd, data->base);
@@ -77,6 +79,14 @@ static int	launch_child_processes(t_exec_data *data)
 				waitpid(data->pids[i], NULL, 0);
 			return (0);
 		}
+		i++;
+	}
+	// Parent process'te pipe'ları kapat
+	i = 0;
+	while (i < data->pipe_count)
+	{
+		close(data->pipes[i][0]);
+		close(data->pipes[i][1]);
 		i++;
 	}
 	return (1);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yuocak <yuocak@student.42kocaeli.com.tr>   +#+  +:+       +#+        */
+/*   By: yuocak <yuocak@student.42kocaeli.com.tr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/22 10:30:00 by yuocak            #+#    #+#             */
-/*   Updated: 2025/07/24 13:32:08 by yuocak           ###   ########.fr       */
+/*   Updated: 2025/07/26 15:50:07 by yuocak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,29 @@ int	has_special_tokens(t_token *token)
 		if (is_special_token(current->type))
 			return (1);
 		current = current->next;
+	}
+	return (0);
+}
+
+int	has_input_redirection(t_token *cmd)
+{
+	while (cmd)
+	{
+		if (cmd->type == TOKEN_REDIRECT_IN || cmd->type == TOKEN_HEREDOC)
+			return (1);
+		cmd = cmd->next;
+	}
+	return (0);
+}
+
+int	has_output_redirection(t_token *cmd)
+{
+	while (cmd)
+	{
+		
+		if (cmd->type == TOKEN_REDIRECT_OUT || cmd->type == TOKEN_APPEND)
+			return (1);
+		cmd = cmd->next;
 	}
 	return (0);
 }
