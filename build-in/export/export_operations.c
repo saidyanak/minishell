@@ -6,7 +6,7 @@
 /*   By: yuocak <yuocak@student.42kocaeli.com.tr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/17 15:15:03 by yuocak            #+#    #+#             */
-/*   Updated: 2025/07/21 20:28:29 by yuocak           ###   ########.fr       */
+/*   Updated: 2025/07/27 12:08:32 by yuocak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,8 @@ void	update_env_var(t_env *env_var, t_token *token)
 	if (has_equal_sign(token->content))
 	{
 		value = parse_value(token);
-		free(env_var->value);
+		if (env_var->value)
+			free(env_var->value);
 		if (value)
 			env_var->value = value;
 		else

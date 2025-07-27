@@ -6,7 +6,7 @@
 /*   By: yuocak <yuocak@student.42kocaeli.com.tr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/26 15:18:32 by yuocak            #+#    #+#             */
-/*   Updated: 2025/07/03 15:15:20 by yuocak           ###   ########.fr       */
+/*   Updated: 2025/07/27 12:11:43 by yuocak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,15 +76,14 @@ static void	print_arguments(t_token *current)
 
 int ft_echo(t_token *current_prompt, t_base base)
 {
-	(void)base;
 	t_token *current;
 	int newline;
 
+	(void)base;
 	current = current_prompt->next;
 	newline = process_n_flags(&current);
 	print_arguments(current);
 	if (newline)
 		write(1, "\n", 1);
-	base.exit_status = 0;
 	return(0);
 }

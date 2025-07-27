@@ -45,7 +45,6 @@ SRCS = main.c \
 	   $(BUILTINDIR)/ft_cd.c \
 	   $(BUILTINDIR)/ft_pwd.c \
 	   $(BUILTINDIR)/ft_env.c \
-	   $(BUILTINDIR)/ft_export.c \
 	   $(BUILTINDIR)/export/export_parsing.c \
 	   $(BUILTINDIR)/export/export_env_utils.c \
 	   $(BUILTINDIR)/export/export_operations.c \

@@ -6,7 +6,7 @@
 /*   By: yuocak <yuocak@student.42kocaeli.com.tr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/24 15:07:31 by yuocak            #+#    #+#             */
-/*   Updated: 2025/07/24 15:13:51 by yuocak           ###   ########.fr       */
+/*   Updated: 2025/07/27 15:45:00 by yuocak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ int	check_build_in(char *input)
 	return (0);
 }
 
-static void	free_argv(char **argv)
+void	free_argv(char **argv)
 {
 	int	i;
 

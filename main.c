@@ -6,7 +6,7 @@
 /*   By: yuocak <yuocak@student.42kocaeli.com.tr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/02 11:39:31 by yuocak            #+#    #+#             */
-/*   Updated: 2025/07/22 15:54:45 by yuocak           ###   ########.fr       */
+/*   Updated: 2025/07/27 13:46:12 by yuocak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,5 +87,6 @@ int	main(int argc, char **argv, char **env)
 	// Program sonunda tüm memory'yi temizle
 	cleanup_heredoc_files();
 	cleanup_all(&base);
+	clear_history(); // Readline history'yi temizle
 	return (base.exit_status);
 }

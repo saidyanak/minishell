@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yuocak <yuocak@student.42kocaeli.com.tr    +#+  +:+       +#+        */
+/*   By: yuocak <yuocak@student.42kocaeli.com.tr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/02 11:39:59 by yuocak            #+#    #+#             */
-/*   Updated: 2025/07/26 15:49:51 by yuocak           ###   ########.fr       */
+/*   Updated: 2025/07/27 13:06:53 by yuocak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -140,6 +140,7 @@ t_token				*copy_prompt_segment(t_token *start, t_token *end);
 char				**build_argv_from_tokens(t_token *token);
 char				**env_to_envp(t_env *env);
 int					count_env_vars(t_env *env);
+void	free_argv(char **argv);
 
 /* Built-in functions */
 void				ft_build_in(t_token *current_prompt, t_base *base);

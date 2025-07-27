@@ -6,7 +6,7 @@
 /*   By: yuocak <yuocak@student.42kocaeli.com.tr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/01 17:00:00 by yuocak            #+#    #+#             */
-/*   Updated: 2025/07/21 20:28:29 by yuocak           ###   ########.fr       */
+/*   Updated: 2025/07/27 12:08:32 by yuocak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,17 +30,20 @@ void	set_env_value(t_env **env, char *key, char *value)
 {
 	t_env	*current;
 	t_env	*new_node;
+	char	*new_value;
 
 	current = *env;
 	while (current)
 	{
 		if (ft_strcmp(current->key, key) == 0)
 		{
+			new_value = malloc(ft_strlen(value) + 1);
+			if (!new_value)
+				return ;
+			ft_strlcpy(new_value, value, ft_strlen(value) + 1);
 			if (current->value)
 				free(current->value);
-			current->value = malloc(ft_strlen(value) + 1);
-			if (current->value)
-				ft_strlcpy(current->value, value, ft_strlen(value) + 1);
+			current->value = new_value;
 			return ;
 		}
 		current = current->next;

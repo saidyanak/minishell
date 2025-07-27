@@ -6,7 +6,7 @@
 /*   By: yuocak <yuocak@student.42kocaeli.com.tr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/02 13:05:21 by syanak            #+#    #+#             */
-/*   Updated: 2025/07/17 15:14:21 by yuocak           ###   ########.fr       */
+/*   Updated: 2025/07/27 12:08:32 by yuocak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,9 +42,13 @@ int	handle_unset_error(char *name)
 
 void	free_env_node(t_env *node)
 {
-	// GC tarafından yönetilen memory'yi manuel free etmeye gerek yok
-	// Node sadece listeden çıkarılıp bırakılır, GC temizleyecek
-	(void)node;
+	if (!node)
+		return ;
+	if (node->key)
+		free(node->key);
+	if (node->value)
+		free(node->value);
+	free(node);
 }
 
 int	remove_first_node(t_env **env, char *key)

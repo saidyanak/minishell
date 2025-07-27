@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute_multiple.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yuocak <yuocak@student.42kocaeli.com.tr    +#+  +:+       +#+        */
+/*   By: yuocak <yuocak@student.42kocaeli.com.tr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/22 10:00:00 by yuocak            #+#    #+#             */
-/*   Updated: 2025/07/26 16:03:40 by yuocak           ###   ########.fr       */
+/*   Updated: 2025/07/27 17:51:12 by yuocak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,8 @@ static int	execute_child_process(t_token *cmd, t_exec_data *data,
 		handle_redirections(cmd);
 		cleanup_pipes(data->pipes, data->pipe_count);
 		data->base->exit_status = single_execute_command(cmd, data->base);
+		free_env_list(data->base->env);
+		free_tokens(data->base->token);
 		exit(data->base->exit_status);
 	}
 	else if (pid < 0)
@@ -110,6 +112,21 @@ static int	wait_for_children(t_exec_data *data)
 		i++;
 	}
 	return (last_exit_status);
+}
+
+void	free_commands(t_token **commands)
+{
+	int i;
+
+	if (!commands)
+		return ;
+	i = 0;
+	while (commands[i])
+	{
+		free(commands[i]);
+		i++;
+	}
+	free(commands);
 }
 
 int	execute_multiple_command(t_token *token, t_base *base)

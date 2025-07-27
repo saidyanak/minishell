@@ -6,7 +6,7 @@
 /*   By: yuocak <yuocak@student.42kocaeli.com.tr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/24 13:00:00 by yuocak            #+#    #+#             */
-/*   Updated: 2025/07/24 15:22:42 by yuocak           ###   ########.fr       */
+/*   Updated: 2025/07/27 17:12:46 by yuocak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,13 +18,13 @@ int	count_commands(t_token *token)
 {
 	int		count;
 	t_token	*current;
-
+	
 	count = 1;
 	current = token;
 	while (current)
 	{
 		if (current->type == TOKEN_PIPE)
-			count++;
+		count++;
 		current = current->next;
 	}
 	return (count);
