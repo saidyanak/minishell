@@ -6,7 +6,7 @@
 /*   By: syanak <syanak@student.42kocaeli.com.tr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/22 10:00:00 by yuocak            #+#    #+#             */
-/*   Updated: 2025/07/22 09:41:59 by syanak           ###   ########.fr       */
+/*   Updated: 2025/07/22 12:23:20 by syanak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -310,7 +310,7 @@ static void	cleanup_memory(int **pipes, pid_t *pids, t_token **segments,
 	free_segments(segments, counts[1]);
 }
 
-void	multiple_execute_command(t_token *token, t_base *base)
+void			multiple_execute_command(t_token *token, t_base *base)
 {
 	t_token **segments;
 	int segment_count;
