@@ -6,7 +6,7 @@
 /*   By: yuocak <yuocak@student.42kocaeli.com.tr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/22 10:00:00 by yuocak            #+#    #+#             */
-/*   Updated: 2025/07/27 17:51:12 by yuocak           ###   ########.fr       */
+/*   Updated: 2025/07/28 11:49:23 by yuocak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,7 @@ static int	init_execution_resources(t_token *token, t_exec_data *data,
 	data->commands = split_commands(token, data->cmd_count);
 	if (!data->commands)
 	{
+		free_commands(data->commands);
 		cleanup_pipes(data->pipes, data->pipe_count);
 		return (0);
 	}
@@ -112,21 +113,6 @@ static int	wait_for_children(t_exec_data *data)
 		i++;
 	}
 	return (last_exit_status);
-}
-
-void	free_commands(t_token **commands)
-{
-	int i;
-
-	if (!commands)
-		return ;
-	i = 0;
-	while (commands[i])
-	{
-		free(commands[i]);
-		i++;
-	}
-	free(commands);
 }
 
 int	execute_multiple_command(t_token *token, t_base *base)

@@ -6,7 +6,7 @@
 /*   By: yuocak <yuocak@student.42kocaeli.com.tr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/21 12:00:00 by yuocak            #+#    #+#             */
-/*   Updated: 2025/07/21 20:22:16 by yuocak           ###   ########.fr       */
+/*   Updated: 2025/07/28 11:46:53 by yuocak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,4 +73,19 @@ void	cleanup_all(t_base *base)
 		free_env_list(base->env);
 		base->env = NULL;
 	}
+}
+
+void	free_commands(t_token **commands)
+{
+	int	i;
+
+	i = 0;
+	if (!commands)
+		return ;
+	while (commands[i])
+	{
+		free(commands[i]);
+		i++;
+	}
+	free(commands);
 }

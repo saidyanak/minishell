@@ -6,7 +6,7 @@
 /*   By: yuocak <yuocak@student.42kocaeli.com.tr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/02 11:39:31 by yuocak            #+#    #+#             */
-/*   Updated: 2025/07/27 13:46:12 by yuocak           ###   ########.fr       */
+/*   Updated: 2025/07/28 17:50:31 by yuocak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,6 @@ static void	process_input(char *input, t_base *base)
 		base->token = NULL;
 	}
 	tokenize_input(input, base);
-	// Debug için token'ları yazdır (geliştirme aşamasında)
 	// print_tokens(base->token);
 }
 
@@ -61,7 +60,7 @@ int	main(int argc, char **argv, char **env)
 	setup_signals();
 	while (1)
 	{
-		input = readline("minishell$ ");
+		input = readline("gameofshell$ ");
 		if (!input) // Ctrl+D
 		{
 			printf("exit\n");

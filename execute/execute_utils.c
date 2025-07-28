@@ -3,16 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   execute_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yuocak <yuocak@student.42kocaeli.com.tr    +#+  +:+       +#+        */
+/*   By: yuocak <yuocak@student.42kocaeli.com.tr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/22 10:30:00 by yuocak            #+#    #+#             */
-/*   Updated: 2025/07/26 15:50:07 by yuocak           ###   ########.fr       */
+/*   Updated: 2025/07/28 17:56:44 by yuocak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
-#include <stdio.h>
-#include <stdlib.h>
 
 int	is_special_token(t_token_type type)
 {

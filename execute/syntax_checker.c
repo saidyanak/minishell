@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   syntax_checker.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: syanak <syanak@student.42kocaeli.com.tr    +#+  +:+       +#+        */
+/*   By: yuocak <yuocak@student.42kocaeli.com.tr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/22 14:00:00 by yuocak            #+#    #+#             */
-/*   Updated: 2025/07/22 09:39:14 by syanak           ###   ########.fr       */
+/*   Updated: 2025/07/28 12:19:05 by yuocak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,13 +45,16 @@ static int	check_pipe_syntax(t_token *token)
 				print_syntax_error("|");
 				return (0);
 			}
-			// Pipe'dan sonra komut olmalı
-			if (!current->next || is_operator_token(current->next->type))
+			// Pipe'dan sonra herhangi bir token olmalı
+			if (!current->next)
 			{
-				if (current->next)
-					print_syntax_error(current->next->content);
-				else
-					print_syntax_error("newline");
+				print_syntax_error("newline");
+				return (0);
+			}
+			// Pipe'dan hemen sonra başka pipe olamaz
+			if (current->next->type == TOKEN_PIPE)
+			{
+				print_syntax_error(current->next->content);
 				return (0);
 			}
 			// Art arda pipe olamaz
@@ -83,8 +86,8 @@ static int	check_redirection_syntax(t_token *token)
 				print_syntax_error("newline");
 				return (0);
 			}
-			// Redirection'dan sonra operator olamaz
-			if (is_operator_token(current->next->type))
+			// Redirection'dan hemen sonra başka redirection olamaz
+			if (is_redirection_token(current->next->type))
 			{
 				print_syntax_error(current->next->content);
 				return (0);
@@ -144,8 +147,9 @@ static int	check_consecutive_operators(t_token *token)
 		if (is_operator_token(current->type) && prev
 			&& is_operator_token(prev->type))
 		{
-			// Pipe dışında art arda operator kontrolü
-			if (current->type != TOKEN_PIPE || prev->type != TOKEN_PIPE)
+			// Sadece art arda aynı tip operator'lar hata
+			// Örnek: >> veya || gibi (ama > | > geçerli)
+			if (current->type == prev->type)
 			{
 				print_syntax_error(current->content);
 				return (0);

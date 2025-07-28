@@ -6,7 +6,7 @@
 /*   By: yuocak <yuocak@student.42kocaeli.com.tr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/02 11:39:59 by yuocak            #+#    #+#             */
-/*   Updated: 2025/07/27 13:06:53 by yuocak           ###   ########.fr       */
+/*   Updated: 2025/07/28 11:48:25 by yuocak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -189,12 +189,13 @@ char				*handle_heredoc(char *delimiter);
 int					setup_heredoc_input(char *delimiter);
 int					setup_simple_heredoc(char *delimiter);
 void				cleanup_heredoc_files(void);
-void    handle_redirections(t_token *cmd);
+void    			handle_redirections(t_token *cmd);
 
 /* Cleanup functions */
 void				free_tokens(t_token *tokens);
 void				free_env_list(t_env *env);
 void				free_string_array(char **array);
 void				cleanup_all(t_base *base);
+void				free_commands(t_token **commands);
 
 #endif

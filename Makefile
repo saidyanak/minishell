@@ -101,7 +101,7 @@ debug: re
 
 valgrind: $(NAME)
 	@echo "$(BLUE)Running valgrind...$(NC)"
-	valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes ./$(NAME)
+	valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes --suppressions=readline.supp ./$(NAME)
 
 test: $(NAME)
 	@echo "$(BLUE)Running basic tests...$(NC)"
