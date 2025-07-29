@@ -6,7 +6,7 @@
 /*   By: yuocak <yuocak@student.42kocaeli.com.tr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/22 10:00:00 by yuocak            #+#    #+#             */
-/*   Updated: 2025/07/28 11:49:23 by yuocak           ###   ########.fr       */
+/*   Updated: 2025/07/29 12:48:54 by yuocak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@ static int	execute_child_process(t_token *cmd, t_exec_data *data,
 	pid_t	pid;
 	pid = fork();
 	if (pid == 0)
+	
 	{
 		// Pipe setup - sadece redirection yoksa
 		if (cmd_index > 0 && !has_input_redirection(cmd))
@@ -29,7 +30,9 @@ static int	execute_child_process(t_token *cmd, t_exec_data *data,
 		// Redirections'ları handle et
 		handle_redirections(cmd);
 		cleanup_pipes(data->pipes, data->pipe_count);
-		data->base->exit_status = single_execute_command(cmd, data->base);
+		// Bu komut için token'ı set et
+		data->base->token = cmd;
+		data->base->exit_status = single_execute_command(data->base);
 		free_env_list(data->base->env);
 		free_tokens(data->base->token);
 		exit(data->base->exit_status);
@@ -42,16 +45,16 @@ static int	execute_child_process(t_token *cmd, t_exec_data *data,
 	return (pid);
 }
 
-static int	init_execution_resources(t_token *token, t_exec_data *data,
+static int	init_execution_resources(t_exec_data *data,
 		t_base *base)
 {
-	data->cmd_count = count_commands(token);
+	data->cmd_count = count_commands(base->token);
 	data->pipe_count = data->cmd_count - 1;
 	data->base = base;
 	data->pipes = create_pipes(data->pipe_count);
 	if (data->pipe_count > 0 && !data->pipes)
 		return (0);
-	data->commands = split_commands(token, data->cmd_count);
+	data->commands = split_commands(base->token, data->cmd_count);
 	if (!data->commands)
 	{
 		free_commands(data->commands);
@@ -115,12 +118,12 @@ static int	wait_for_children(t_exec_data *data)
 	return (last_exit_status);
 }
 
-int	execute_multiple_command(t_token *token, t_base *base)
+int	execute_multiple_command(t_base *base)
 {
 	t_exec_data	data;
 	int			exit_status;
 
-	if (!init_execution_resources(token, &data, base))
+	if (!init_execution_resources(&data, base))
 		return (1);
 	if (!launch_child_processes(&data))
 	{

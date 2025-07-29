@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc_handler.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: syanak <syanak@student.42kocaeli.com.tr    +#+  +:+       +#+        */
+/*   By: yuocak <yuocak@student.42kocaeli.com.tr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/22 15:00:00 by yuocak            #+#    #+#             */
-/*   Updated: 2025/07/22 09:39:12 by syanak           ###   ########.fr       */
+/*   Updated: 2025/07/29 17:10:33 by yuocak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,9 +55,4 @@ int	setup_heredoc_input(char *delimiter)
 		return (0);
 	}
 	return (-1);
-}
-
-void	cleanup_heredoc_files(void)
-{
-	// Pipe kullandığımız için geçici dosya temizleme gerekmiyor
 }

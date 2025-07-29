@@ -6,7 +6,7 @@
 /*   By: yuocak <yuocak@student.42kocaeli.com.tr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/02 11:39:59 by yuocak            #+#    #+#             */
-/*   Updated: 2025/07/28 11:48:25 by yuocak           ###   ########.fr       */
+/*   Updated: 2025/07/29 11:34:30 by yuocak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,9 +112,9 @@ int					ft_isspace(char c);
 
 /* Core execution functions */
 void				execute_command(t_base *base);
-int					single_execute_command(t_token *token, t_base *base);
-int					execute_multiple_command(t_token *token, t_base *base);
-int					execute_external_command(t_token *token, t_base *base);
+int					single_execute_command(t_base *base);
+int					execute_multiple_command(t_base *base);
+int					execute_external_command(t_base *base);
 
 /* Multiple command execution utility functions */
 int					count_commands(t_token *token);

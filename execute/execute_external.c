@@ -6,7 +6,7 @@
 /*   By: yuocak <yuocak@student.42kocaeli.com.tr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 07:45:00 by yuocak            #+#    #+#             */
-/*   Updated: 2025/07/22 15:33:09 by yuocak           ###   ########.fr       */
+/*   Updated: 2025/07/29 17:36:00 by yuocak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,10 @@ static void	cleanup_execution(t_exec_params *params)
 
 static void	child_process(t_exec_params *params)
 {
+	
+	//if (is_sh_file(params))
+	
+
 	execve(params->command_path, params->argv, params->envp);
 	perror("minishell");
 	exit(126);
@@ -40,16 +44,16 @@ static int	parent_process(pid_t pid, t_exec_params *params)
 	cleanup_execution(params);
 	if (WIFEXITED(status))
 		return (WEXITSTATUS(status));
-	return (1);
+	return (0);
 }
 
-int	execute_external_command(t_token *token, t_base *base)
+int	execute_external_command(t_base *base)
 {
 	pid_t			pid;
 	t_exec_params	params;
 	int				prep_result;
 
-	prep_result = prepare_execution(token, base, &params);
+	prep_result = prepare_execution(base->token, base, &params);
 	if (prep_result != 0)
 		return (prep_result);
 	pid = fork();

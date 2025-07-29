@@ -6,7 +6,7 @@
 /*   By: yuocak <yuocak@student.42kocaeli.com.tr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/02 11:39:31 by yuocak            #+#    #+#             */
-/*   Updated: 2025/07/28 17:50:31 by yuocak           ###   ########.fr       */
+/*   Updated: 2025/07/29 17:35:22 by yuocak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,8 +52,11 @@ int	main(int argc, char **argv, char **env)
 	char	*input;
 	t_base	base;
 
-	(void)argc;
 	(void)argv;
+	if (argc > 1)
+	{
+		exit(1);
+	}
 	base.token = NULL;
 	base.env = init_env(env);
 	base.exit_status = 0;
@@ -84,7 +87,6 @@ int	main(int argc, char **argv, char **env)
 		free(input);
 	}
 	// Program sonunda tüm memory'yi temizle
-	cleanup_heredoc_files();
 	cleanup_all(&base);
 	clear_history(); // Readline history'yi temizle
 	return (base.exit_status);

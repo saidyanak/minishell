@@ -6,7 +6,7 @@
 /*   By: yuocak <yuocak@student.42kocaeli.com.tr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/24 15:07:31 by yuocak            #+#    #+#             */
-/*   Updated: 2025/07/27 15:45:00 by yuocak           ###   ########.fr       */
+/*   Updated: 2025/07/29 11:35:32 by yuocak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,20 +109,20 @@ char	*find_command_path(char *command, t_base *base)
 	return (search_in_paths(paths, command));
 }
 
-int	single_execute_command(t_token *token, t_base *base)
+int	single_execute_command(t_base *base)
 {
-	if (!token)
+	if (!base->token)
 		return (1);
-	if (token->type == TOKEN_WORD || token->type == TOKEN_QUOTED_WORD)
+	if (base->token->type == TOKEN_WORD || base->token->type == TOKEN_QUOTED_WORD)
 	{
-		if (check_build_in(token->content))
+		if (check_build_in(base->token->content))
 		{
-			ft_build_in(token, base);
+			ft_build_in(base->token, base);
 			return (base->exit_status);
 		}
 		else
 		{
-			return (execute_external_command(token, base));
+			return (execute_external_command(base));
 		}
 	}
 	return (0);
@@ -139,10 +139,10 @@ void	execute_command(t_base *base)
 	}
 	if (has_special_tokens(base->token))
 	{
-		base->exit_status = execute_multiple_command(base->token, base);
+		base->exit_status = execute_multiple_command(base);
 	}
 	else
 	{
-		base->exit_status = single_execute_command(base->token, base);
+		base->exit_status = single_execute_command(base);
 	}
 }
