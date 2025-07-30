@@ -1,4 +1,11 @@
-/* ************************************************************************** */
+/* ********************	pid = fork();
+	if (pid == 0)
+	{
+		if (cmd_index > 0 && !has_input_redirection(cmd))
+			dup2(data->pipes[cmd_index - 1][0], STDIN_FILENO);
+		if (cmd_index < data->cmd_count - 1 && !has_output_redirection(cmd))
+			dup2(data->pipes[cmd_index][1], STDOUT_FILENO);
+		// ...existing code...************************************* */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   execute_multiple.c                                 :+:      :+:    :+:   */
@@ -6,35 +13,35 @@
 /*   By: yuocak <yuocak@student.42kocaeli.com.tr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/22 10:00:00 by yuocak            #+#    #+#             */
-/*   Updated: 2025/07/29 12:48:54 by yuocak           ###   ########.fr       */
+/*   Updated: 2025/07/30 16:15:20 by yuocak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
+#include <stdio.h>
 #include <sys/wait.h>
 #include <unistd.h>
 
 static int	execute_child_process(t_token *cmd, t_exec_data *data,
 		int cmd_index)
 {
+	t_token	*tmp;
 	pid_t	pid;
+
 	pid = fork();
 	if (pid == 0)
-	
 	{
-		// Pipe setup - sadece redirection yoksa
 		if (cmd_index > 0 && !has_input_redirection(cmd))
 			dup2(data->pipes[cmd_index - 1][0], STDIN_FILENO);
 		if (cmd_index < data->cmd_count - 1 && !has_output_redirection(cmd))
 			dup2(data->pipes[cmd_index][1], STDOUT_FILENO);
-		// Redirections'ları handle et
 		handle_redirections(cmd);
 		cleanup_pipes(data->pipes, data->pipe_count);
-		// Bu komut için token'ı set et
+		tmp = data->base->token;
 		data->base->token = cmd;
 		data->base->exit_status = single_execute_command(data->base);
-		free_env_list(data->base->env);
-		free_tokens(data->base->token);
+		free_child_arg(data);
+		free_tokens(tmp);
 		exit(data->base->exit_status);
 	}
 	else if (pid < 0)
@@ -65,7 +72,7 @@ static int	init_execution_resources(t_exec_data *data,
 	if (!data->pids)
 	{
 		cleanup_pipes(data->pipes, data->pipe_count);
-		free(data->commands);
+		free_commands(data->commands);
 		return (0);
 	}
 	return (1);
@@ -118,23 +125,40 @@ static int	wait_for_children(t_exec_data *data)
 	return (last_exit_status);
 }
 
+void	init_exec_data(t_exec_data *data)
+{
+	data->pipes = NULL;
+	data->commands = NULL;
+	data->pids = NULL;
+	data->cmd_count = 0;
+	data->pipe_count = 0;
+}
+
 int	execute_multiple_command(t_base *base)
 {
 	t_exec_data	data;
 	int			exit_status;
 
+	init_exec_data(&data);
 	if (!init_execution_resources(&data, base))
 		return (1);
 	if (!launch_child_processes(&data))
 	{
 		cleanup_pipes(data.pipes, data.pipe_count);
-		free(data.commands);
-		free(data.pids);
+		free_commands(data.commands);
+		if (data.pids)
+			free(data.pids);
 		return (1);
 	}
 	cleanup_pipes(data.pipes, data.pipe_count);
+	data.pipes = NULL;
 	exit_status = wait_for_children(&data);
-	free(data.commands);
-	free(data.pids);
+	free_commands(data.commands);
+	data.commands = NULL;
+	if (data.pids)
+	{
+		free(data.pids);
+		data.pids = NULL;
+	}
 	return (exit_status);
 }

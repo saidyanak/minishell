@@ -13,6 +13,7 @@ OBJDIR = obj
 LIBFTDIR = libft
 BUILTINDIR = build-in
 EXECUTEDIR = execute
+PARSERDIR = parser
 
 # Libft
 LIBFT = $(LIBFTDIR)/libft.a
@@ -20,13 +21,17 @@ LIBFT_FLAGS = -L$(LIBFTDIR) -lft
 
 # Source files
 SRCS = main.c \
-       tokenize.c \
-       parse_quote.c \
        create_linked_list.c \
        cleanup.c \
        debug.c \
 	   expand.c	\
 	   word_splitting.c \
+	   $(PARSERDIR)/tokenizer.c \
+	   $(PARSERDIR)/word_parser.c \
+	   $(PARSERDIR)/quote_parser.c \
+	   $(PARSERDIR)/quote_utils.c \
+	   $(PARSERDIR)/operator_handler.c \
+	   $(PARSERDIR)/token_utils.c \
 	   $(EXECUTEDIR)/heredoc_handler.c \
 	   $(EXECUTEDIR)/syntax_checker.c \
 	   $(EXECUTEDIR)/simple_heredoc.c \
@@ -99,8 +104,12 @@ debug: CFLAGS += -DDEBUG -fsanitize=address
 debug: re
 
 valgrind: $(NAME)
-	@echo "$(BLUE)Running valgrind...$(NC)"
-	valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes --suppressions=readline.supp ./$(NAME)
+	@echo "$(BLUE)Running valgrind with readline suppressions...$(NC)"
+	valgrind --tool=memcheck --leak-check=full --show-leak-kinds=all --suppressions=readline.supp --track-origins=yes ./$(NAME)
+
+valgrind-pipe: $(NAME)
+	@echo "$(BLUE)Testing pipe command with valgrind...$(NC)"
+	echo "pwd | echo hello" | valgrind --tool=memcheck --leak-check=full --show-leak-kinds=all --suppressions=readline.supp --track-origins=yes ./$(NAME)
 
 test: $(NAME)
 	@echo "$(BLUE)Running basic tests...$(NC)"
@@ -120,9 +129,10 @@ help:
 	@echo "  $(GREEN)fclean$(NC)   - Remove object files and executable"
 	@echo "  $(GREEN)re$(NC)       - Rebuild the project"
 	@echo "  $(GREEN)debug$(NC)    - Build with debug flags and address sanitizer"
-	@echo "  $(GREEN)valgrind$(NC) - Run with valgrind"
+	@echo "  $(GREEN)valgrind$(NC) - Run with valgrind and readline suppressions"
+	@echo "  $(GREEN)valgrind-pipe$(NC) - Test pipe command with valgrind"
 	@echo "  $(GREEN)test$(NC)     - Run basic tests"
 	@echo "  $(GREEN)norm$(NC)     - Check norminette"
 	@echo "  $(GREEN)help$(NC)     - Show this help"
 
-.PHONY: all clean fclean re debug valgrind test norm help
+.PHONY: all clean fclean re debug valgrind valgrind-pipe test norm help

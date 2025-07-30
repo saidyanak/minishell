@@ -6,18 +6,49 @@
 /*   By: yuocak <yuocak@student.42kocaeli.com.tr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/02 11:46:17 by yuocak            #+#    #+#             */
-/*   Updated: 2025/07/24 13:25:38 by yuocak           ###   ########.fr       */
+/*   Updated: 2025/07/30 11:21:25 by yuocak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include <stdlib.h>
 
+static int	allocate_key_value(t_env *node, char *env, char *equal_sign)
+{
+	int	key_len;
+
+	if (!equal_sign)
+	{
+		node->key = ft_strdup(env);
+		node->value = ft_strdup("");
+	}
+	else
+	{
+		key_len = equal_sign - env;
+		node->key = malloc(key_len + 1);
+		if (node->key)
+		{
+			ft_strlcpy(node->key, env, key_len + 1);
+			node->key[key_len] = '\0';
+		}
+		node->value = ft_strdup(equal_sign + 1);
+	}
+	return (node->key && node->value);
+}
+
+static void	cleanup_node(t_env *node)
+{
+	if (node->key)
+		free(node->key);
+	if (node->value)
+		free(node->value);
+	free(node);
+}
+
 t_env	*create_new_node(char *env)
 {
 	t_env	*new_node;
 	char	*equal_sign;
-	int		key_len;
 
 	if (!env)
 		return (NULL);
@@ -25,35 +56,9 @@ t_env	*create_new_node(char *env)
 	if (!new_node)
 		return (NULL);
 	equal_sign = ft_strchr(env, '=');
-	if (!equal_sign)
+	if (!allocate_key_value(new_node, env, equal_sign))
 	{
-		new_node->key = malloc(ft_strlen(env) + 1);
-		if (new_node->key)
-			ft_strlcpy(new_node->key, env, ft_strlen(env) + 1);
-		new_node->value = malloc(1);
-		if (new_node->value)
-			new_node->value[0] = '\0';
-	}
-	else
-	{
-		key_len = equal_sign - env;
-		new_node->key = malloc(key_len + 1);
-		if (new_node->key)
-		{
-			ft_strlcpy(new_node->key, env, key_len + 1);
-			new_node->key[key_len] = '\0';
-		}
-		new_node->value = malloc(ft_strlen(equal_sign + 1) + 1);
-		if (new_node->value)
-			ft_strlcpy(new_node->value, equal_sign + 1, ft_strlen(equal_sign + 1) + 1);
-	}
-	if (!new_node->key || !new_node->value)
-	{
-		if (new_node->key)
-			free(new_node->key);
-		if (new_node->value)
-			free(new_node->value);
-		free(new_node);
+		cleanup_node(new_node);
 		return (NULL);
 	}
 	new_node->exported = 1;

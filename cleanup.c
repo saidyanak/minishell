@@ -6,7 +6,7 @@
 /*   By: yuocak <yuocak@student.42kocaeli.com.tr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/21 12:00:00 by yuocak            #+#    #+#             */
-/*   Updated: 2025/07/28 11:46:53 by yuocak           ###   ########.fr       */
+/*   Updated: 2025/07/30 16:15:06 by yuocak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,13 @@ void	free_string_array(char **array)
 	free(array);
 }
 
+void	free_commands(t_token **commands)
+{
+	if (!commands)
+		return ;
+	free(commands);
+}
+
 void	cleanup_all(t_base *base)
 {
 	if (base->token)
@@ -75,17 +82,9 @@ void	cleanup_all(t_base *base)
 	}
 }
 
-void	free_commands(t_token **commands)
+void free_child_arg(t_exec_data *data)
 {
-	int	i;
-
-	i = 0;
-	if (!commands)
-		return ;
-	while (commands[i])
-	{
-		free(commands[i]);
-		i++;
-	}
-	free(commands);
+	free_env_list(data->base->env);
+	free_commands(data->commands);
+	free(data->pids);
 }

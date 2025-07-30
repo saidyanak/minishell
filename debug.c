@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   debug.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: syanak <syanak@student.42kocaeli.com.tr    +#+  +:+       +#+        */
+/*   By: yuocak <yuocak@student.42kocaeli.com.tr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/24 12:18:25 by yuocak            #+#    #+#             */
-/*   Updated: 2025/07/14 11:11:28 by syanak           ###   ########.fr       */
+/*   Updated: 2025/07/30 12:05:51 by yuocak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -139,4 +139,16 @@ void	debug_token_with_quotes(t_token *token)
 	printf("Token Type: %s\n", get_token_type_name(token->type));
 	printf("Quote Type: %s\n", get_quote_type_name(token->q_type));
 	printf("=========================\n\n");
+}
+
+void	debug_exit_status(t_base *base, const char *location, const char *reason)
+{
+	static int	last_status = 0;
+	
+	if (base->exit_status != last_status)
+	{
+		printf("[DEBUG] Exit status changed: %d -> %d at %s (%s)\n",
+			last_status, base->exit_status, location, reason);
+		last_status = base->exit_status;
+	}
 }

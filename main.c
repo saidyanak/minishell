@@ -6,7 +6,7 @@
 /*   By: yuocak <yuocak@student.42kocaeli.com.tr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/02 11:39:31 by yuocak            #+#    #+#             */
-/*   Updated: 2025/07/29 17:35:22 by yuocak           ###   ########.fr       */
+/*   Updated: 2025/07/30 16:23:12 by yuocak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,20 +47,10 @@ static void	process_input(char *input, t_base *base)
 	// print_tokens(base->token);
 }
 
-int	main(int argc, char **argv, char **env)
+static void	run_shell_loop(t_base *base)
 {
 	char	*input;
-	t_base	base;
 
-	(void)argv;
-	if (argc > 1)
-	{
-		exit(1);
-	}
-	base.token = NULL;
-	base.env = init_env(env);
-	base.exit_status = 0;
-	setup_signals();
 	while (1)
 	{
 		input = readline("gameofshell$ ");
@@ -69,25 +59,37 @@ int	main(int argc, char **argv, char **env)
 			printf("exit\n");
 			break ;
 		}
-		if (*input) // Sadece boş olmayan input'ları işle
+		if (*input)
 		{
-			//print_tokens(base.token);
-			process_input(input, &base);
-			//print_tokens(base.token);
-			if (base.token)
-			{
-				expand_tokens(&base);
-				//print_tokens(base.token);
-				execute_command(&base);
-				// Her komut sonrası token'ları temizle
-				free_tokens(base.token);
-				base.token = NULL;
+			process_input(input, base);
+			if (base->token)
+			{			
+				expand_tokens(base);
+				execute_command(base);
+				free_tokens(base->token);
+				base->token = NULL;
 			}
 		}
 		free(input);
 	}
-	// Program sonunda tüm memory'yi temizle
+}
+
+int	main(int argc, char **argv, char **env)
+{
+	t_base	base;
+
+	(void)argv;
+	if (argc > 1)
+	{
+		printf("One more argument error\n");
+		exit(1);
+	}
+	base.token = NULL;
+	base.exit_status = 0;
+	base.env = init_env(env);
+	setup_signals();
+	run_shell_loop(&base);
 	cleanup_all(&base);
-	clear_history(); // Readline history'yi temizle
+	clear_history();
 	return (base.exit_status);
 }

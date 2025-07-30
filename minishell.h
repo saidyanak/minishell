@@ -6,7 +6,7 @@
 /*   By: yuocak <yuocak@student.42kocaeli.com.tr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/02 11:39:59 by yuocak            #+#    #+#             */
-/*   Updated: 2025/07/29 11:34:30 by yuocak           ###   ########.fr       */
+/*   Updated: 2025/07/30 16:17:12 by yuocak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,12 @@ typedef struct s_env
 	struct s_env	*next;
 }					t_env;
 
+typedef struct s_parse_data
+{
+	int				quoted;
+	t_quote_type	detected;
+}					t_parse_data;
+
 typedef struct s_base
 {
 	t_token			*token;
@@ -91,6 +97,16 @@ void				tokenize_input(char *input, t_base *base);
 void				add_token(t_token **head, char *str, t_token_type type,
 						t_quote_type q_type);
 int					is_special(char c);
+
+/* Parser functions */
+void				handle_word_or_error(char *input, int *i, t_token **head);
+void				handle_operator(char *input, int *i, t_token **head);
+char				*handle_quoted_word(char *input, int *i, char *result);
+char				*handle_unquoted_word(char *input, int *i, char *result);
+t_quote_type		detect_first_quote_type(char *input, int start, int end);
+int					is_fully_quoted(char *str, char quote_char);
+t_quote_type		get_quote_type(char *str);
+char				*ft_strjoin_free(char *s1, char *s2);
 
 /* Expand functions */
 void				expand_tokens(t_base *base);
@@ -180,6 +196,7 @@ void				print_export(t_base *base);
 void				print_tokens(t_token *token);
 void				debug_parse_quotes(char *input);
 void				debug_token_with_quotes(t_token *token);
+void				debug_exit_status(t_base *base, const char *location, const char *reason);
 
 /* Syntax checking functions */
 int					check_syntax_errors(t_token *token);
@@ -197,5 +214,6 @@ void				free_env_list(t_env *env);
 void				free_string_array(char **array);
 void				cleanup_all(t_base *base);
 void				free_commands(t_token **commands);
+void				free_child_arg(t_exec_data *data);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: yuocak <yuocak@student.42kocaeli.com.tr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/24 13:00:00 by yuocak            #+#    #+#             */
-/*   Updated: 2025/07/27 17:17:46 by yuocak           ###   ########.fr       */
+/*   Updated: 2025/07/30 17:11:25 by yuocak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,6 @@ t_token	**split_commands(t_token *token, int cmd_count)
 {
 	t_token	**commands;
 	t_token	*current;
-	t_token	*temp;
 	int		cmd_index;
 
 	commands = malloc(sizeof(t_token *) * (cmd_count + 1));
@@ -27,18 +26,15 @@ t_token	**split_commands(t_token *token, int cmd_count)
 	current = token;
 	cmd_index = 0;
 	commands[cmd_index++] = current;
-	while (current)
+	while (current && cmd_index < cmd_count)
 	{
 		if (current->type == TOKEN_PIPE)
 		{
-			temp = current->next;
-			current->next = NULL;
-			if (cmd_index < cmd_count)
-				commands[cmd_index++] = temp;
-			current = temp;
+			// Token chain'i koparmıyoruz, sadece başlangıç pointer'larını kaydediyoruz
+			if (current->next)
+				commands[cmd_index++] = current->next;
 		}
-		else
-			current = current->next;
+		current = current->next;
 	}
 	commands[cmd_index] = NULL;
 	return (commands);
@@ -62,4 +58,27 @@ void	cleanup_pipes(int **pipes, int pipe_count)
 		i++;
 	}
 	free(pipes);
+}
+
+// Token chain'i restore etmek için koparmadan önce backup al
+void	restore_token_chain(t_token **commands, int cmd_count)
+{
+	int		i;
+	t_token	*current;
+
+	i = 0;
+	while (i < cmd_count - 1)
+	{
+		current = commands[i];
+		// Her komutun sonuna kadar git
+		while (current && current->next == NULL)
+			current = current->next;
+		// Bir sonraki komuttan önce pipe olmalı, restore et
+		if (current && i + 1 < cmd_count)
+		{
+			// Pipe token'ı bul ve bağlantıyı restore et
+			// Bu kısım daha karmaşık, alternatif çözüm daha iyi olabilir
+		}
+		i++;
+	}
 }
