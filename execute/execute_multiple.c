@@ -27,7 +27,17 @@ static int	execute_child_process(t_token *cmd, t_exec_data *data,
 {
 	t_token	*tmp;
 	pid_t	pid;
-
+	for (int i = 0; i < data->cmd_count; i++)
+{
+    printf("Command %d: ", i);
+    t_token *current = data->commands[i];
+    while (current)
+    {
+        printf("%s ", current->content);
+        current = current->next;
+    }
+    printf("\n");
+}
 	pid = fork();
 	if (pid == 0)
 	{

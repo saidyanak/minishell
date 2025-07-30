@@ -6,7 +6,7 @@
 /*   By: yuocak <yuocak@student.42kocaeli.com.tr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/22 10:30:00 by yuocak            #+#    #+#             */
-/*   Updated: 2025/07/30 16:37:32 by yuocak           ###   ########.fr       */
+/*   Updated: 2025/07/30 17:43:43 by yuocak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ int	has_special_tokens(t_token *token)
 
 int	has_input_redirection(t_token *cmd)
 {
-	while (cmd && cmd->type != TOKEN_PIPE)
+	while (cmd)
 	{
 		if (cmd->type == TOKEN_REDIRECT_IN || cmd->type == TOKEN_HEREDOC)
 			return (1);
@@ -45,7 +45,7 @@ int	has_input_redirection(t_token *cmd)
 
 int	has_output_redirection(t_token *cmd)
 {
-	while (cmd && cmd->type != TOKEN_PIPE)
+	while (cmd)
 	{
 		if (cmd->type == TOKEN_REDIRECT_OUT || cmd->type == TOKEN_APPEND)
 			return (1);

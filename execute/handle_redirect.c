@@ -6,7 +6,7 @@
 /*   By: yuocak <yuocak@student.42kocaeli.com.tr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/24 17:26:39 by yuocak            #+#    #+#             */
-/*   Updated: 2025/07/30 15:23:15 by yuocak           ###   ########.fr       */
+/*   Updated: 2025/07/30 17:40:21 by yuocak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 
 void    redirect_out(t_token *current, int fd)
 {
+		printf("%s\n", current->next->content);
 			fd = open(current->next->content, O_WRONLY | O_CREAT | O_TRUNC, 0644);
 			if (fd == -1)
 				perror("open >");
