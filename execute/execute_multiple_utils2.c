@@ -6,7 +6,7 @@
 /*   By: yuocak <yuocak@student.42kocaeli.com.tr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/24 13:00:00 by yuocak            #+#    #+#             */
-/*   Updated: 2025/07/31 11:58:32 by yuocak           ###   ########.fr       */
+/*   Updated: 2025/07/31 17:42:52 by yuocak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,25 +65,3 @@ void	cleanup_pipes(int **pipes, int pipe_count)
 	free(pipes);
 }
 
-// Token chain'i restore etmek için koparmadan önce backup al
-void	restore_token_chain(t_token **commands, int cmd_count)
-{
-	int		i;
-	t_token	*current;
-
-	i = 0;
-	while (i < cmd_count - 1)
-	{
-		current = commands[i];
-		// Her komutun sonuna kadar git
-		while (current && current->next == NULL)
-			current = current->next;
-		// Bir sonraki komuttan önce pipe olmalı, restore et
-		if (current && i + 1 < cmd_count)
-		{
-			// Pipe token'ı bul ve bağlantıyı restore et
-			// Bu kısım daha karmaşık, alternatif çözüm daha iyi olabilir
-		}
-		i++;
-	}
-}

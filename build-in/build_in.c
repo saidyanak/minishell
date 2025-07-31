@@ -6,27 +6,11 @@
 /*   By: yuocak <yuocak@student.42kocaeli.com.tr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/04 13:08:48 by yuocak            #+#    #+#             */
-/*   Updated: 2025/07/30 12:06:46 by yuocak           ###   ########.fr       */
+/*   Updated: 2025/07/31 19:40:10 by yuocak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-void	ft_list(t_token *token, t_base *base)
-{
-	t_env	*head;
-
-	head = base->env;
-	print_tokens(token);
-	printf("---------ENV-----------\n");
-	while (head)
-	{
-		printf("key:%s, value:%s, exported:%d\n", head->key, head->value,
-			head->exported);
-		head = head->next;
-	}
-}
-
 // echo export unset exit cd pwd
 void	ft_build_in(t_token *current_prompt, t_base *base)
 {
@@ -42,8 +26,6 @@ void	ft_build_in(t_token *current_prompt, t_base *base)
 		ft_export(current_prompt, base);
 	else if (ft_strcmp(current_prompt->content, "unset") == 0)
 		ft_unset(current_prompt, base);
-	else if (ft_strcmp(current_prompt->content, "list") == 0)
-		ft_list(current_prompt, base);
 	else if (ft_strcmp(current_prompt->content, "exit") == 0)
 		ft_exit(current_prompt, base);
 	debug_exit_status(base, "build_in.c:ft_build_in", current_prompt->content);

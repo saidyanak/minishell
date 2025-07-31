@@ -139,38 +139,46 @@ void	init_exec_data(t_exec_data *data)
 	data->cmd_count = 0;
 	data->pipe_count = 0;
 }
+void	free_tokens_safe(t_exec_data *data)
+{
+	int	i;
+
+	i = -1;
+	if (!data || !data->commands)
+		return ;
+	while (data->commands[++i])
+		free_tokens(data->commands[i]); // her bir komutun tokenlarını sil
+	free_commands(data->commands);      // t_token** dizisini sil
+	data->commands = NULL;              // double free önlemek için
+}
+void	free_pids(t_exec_data *data)
+{
+	if (data->pids)
+	{
+		free(data->pids);
+		data->pids = NULL;
+	}
+}
 
 int	execute_multiple_command(t_base *base)
 {
 	t_exec_data	data;
 	int			exit_status;
-	int			i;
 
-	i = -1;
 	init_exec_data(&data);
 	if (!init_execution_resources(&data, base))
 		return (1);
 	if (!launch_child_processes(&data))
 	{
 		cleanup_pipes(data.pipes, data.pipe_count);
-		while (data.commands[++i])
-			free_tokens(data.commands[i]);
-		free_commands(data.commands);
-		if (data.pids)
-			free(data.pids);
+		free_tokens_safe(&data);
+		free_pids(&data);
 		return (1);
 	}
 	cleanup_pipes(data.pipes, data.pipe_count);
 	data.pipes = NULL;
 	exit_status = wait_for_children(&data);
-	while (data.commands[++i])
-		free_tokens(data.commands[i]);
-	free_commands(data.commands);
-	data.commands = NULL;
-	if (data.pids)
-	{
-		free(data.pids);
-		data.pids = NULL;
-	}
+	free_tokens_safe(&data);
+	free_pids(&data);
 	return (exit_status);
 }
