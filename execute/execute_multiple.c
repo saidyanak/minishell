@@ -1,19 +1,12 @@
-/* ********************	pid = fork();
-	if (pid == 0)
-	{
-		if (cmd_index > 0 && !has_input_redirection(cmd))
-			dup2(data->pipes[cmd_index - 1][0], STDIN_FILENO);
-		if (cmd_index < data->cmd_count - 1 && !has_output_redirection(cmd))
-			dup2(data->pipes[cmd_index][1], STDOUT_FILENO);
-		// ...existing code...************************************* */
+/* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   execute_multiple.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yuocak <yuocak@student.42kocaeli.com.tr>   +#+  +:+       +#+        */
+/*   By: yuocak <yuocak@student.42kocaeli.com.tr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/07/22 10:00:00 by yuocak            #+#    #+#             */
-/*   Updated: 2025/07/30 16:15:20 by yuocak           ###   ########.fr       */
+/*   Created: 2025/07/31 23:46:17 by yuocak            #+#    #+#             */
+/*   Updated: 2025/08/01 00:43:03 by yuocak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,17 +19,6 @@ static int	execute_child_process(t_token *cmd, t_exec_data *data,
 		int cmd_index)
 {
 	pid_t	pid;
-	for (int i = 0; i < data->cmd_count; i++)
-{
-    printf("Command %d: ", i);
-    t_token *current = data->commands[i];
-    while (current)
-    {
-        printf("%s ", current->content);
-        current = current->next;
-    }
-    printf("\n");
-}
 	pid = fork();
 	if (pid == 0)
 	{

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yuocak <yuocak@student.42kocaeli.com.tr>   +#+  +:+       +#+        */
+/*   By: yuocak <yuocak@student.42kocaeli.com.tr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/02 11:39:59 by yuocak            #+#    #+#             */
-/*   Updated: 2025/07/30 16:17:12 by yuocak           ###   ########.fr       */
+/*   Updated: 2025/08/01 00:41:30 by yuocak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,6 +89,15 @@ typedef struct s_exec_data
 	pid_t			*pids;
 	t_base			*base;
 }					t_exec_data;
+
+typedef struct s_shell_signal
+{
+	int				shell_level;
+	int				in_heredoc;
+	int				in_child;
+	int				last_exit_status;
+}					t_shell_signal;
+
 
 /* Tokenizer functions */
 char				*parse_word_with_quotes(char *input, int *i,
