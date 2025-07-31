@@ -6,7 +6,7 @@
 /*   By: yuocak <yuocak@student.42kocaeli.com.tr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/02 11:39:31 by yuocak            #+#    #+#             */
-/*   Updated: 2025/07/30 16:23:12 by yuocak           ###   ########.fr       */
+/*   Updated: 2025/07/31 16:37:13 by yuocak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,8 +34,6 @@ static void	setup_signals(void)
 
 static void	process_input(char *input, t_base *base)
 {
-	if (!input || !*input)
-		return ;
 	add_history(input);
 	// Önceki token'ları temizle
 	if (base->token)
@@ -54,7 +52,7 @@ static void	run_shell_loop(t_base *base)
 	while (1)
 	{
 		input = readline("gameofshell$ ");
-		if (!input) // Ctrl+D
+		if (!input)
 		{
 			printf("exit\n");
 			break ;
@@ -81,7 +79,6 @@ int	main(int argc, char **argv, char **env)
 	(void)argv;
 	if (argc > 1)
 	{
-		printf("One more argument error\n");
 		exit(1);
 	}
 	base.token = NULL;

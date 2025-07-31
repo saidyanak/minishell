@@ -6,7 +6,7 @@
 /*   By: yuocak <yuocak@student.42kocaeli.com.tr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/24 15:07:31 by yuocak            #+#    #+#             */
-/*   Updated: 2025/07/30 13:58:55 by yuocak           ###   ########.fr       */
+/*   Updated: 2025/07/31 15:54:34 by yuocak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,7 @@ char	*find_command_path(char *command, t_base *base)
 	{
 		if (access(command, F_OK) == 0)
 		{
-			//		printf("DEBUG: Found as absolute/relative path\n");
+			//printf("DEBUG: Found as absolute/relative path\n");
 			return (ft_strdup(command));
 		}
 	}
@@ -140,6 +140,9 @@ void	execute_command(t_base *base)
 	if (has_special_tokens(base->token))
 	{
 		base->exit_status = execute_multiple_command(base);
+		// Pipeline komutlarında token'lar execute_multiple_command içinde temizleniyor
+		// Double free'yi önlemek için token'ı NULL yapıyoruz
+		base->token = NULL;
 	}
 	else
 	{

@@ -6,7 +6,7 @@
 /*   By: yuocak <yuocak@student.42kocaeli.com.tr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/02 11:46:17 by yuocak            #+#    #+#             */
-/*   Updated: 2025/07/30 11:21:25 by yuocak           ###   ########.fr       */
+/*   Updated: 2025/07/31 16:33:43 by yuocak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,9 @@ static int	allocate_key_value(t_env *node, char *env, char *equal_sign)
 		}
 		node->value = ft_strdup(equal_sign + 1);
 	}
-	return (node->key && node->value);
+	if (!(node->key && node->value))
+		return (0);
+	return (1);
 }
 
 static void	cleanup_node(t_env *node)
@@ -115,7 +117,7 @@ t_env	*init_env(char **env)
 		}
 		i++;
 	}
-	env_null_check(env_list);
+	env_null_check(env_list);//tekrar dönülecek çünkü env'nin null gelme drumu bashte farklı çalışıyor
 	return (env_list);
 }
 

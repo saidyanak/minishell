@@ -25,7 +25,6 @@
 static int	execute_child_process(t_token *cmd, t_exec_data *data,
 		int cmd_index)
 {
-	t_token	*tmp;
 	pid_t	pid;
 	for (int i = 0; i < data->cmd_count; i++)
 {
@@ -47,11 +46,9 @@ static int	execute_child_process(t_token *cmd, t_exec_data *data,
 			dup2(data->pipes[cmd_index][1], STDOUT_FILENO);
 		handle_redirections(cmd);
 		cleanup_pipes(data->pipes, data->pipe_count);
-		tmp = data->base->token;
 		data->base->token = cmd;
 		data->base->exit_status = single_execute_command(data->base);
 		free_child_arg(data);
-		free_tokens(tmp);
 		exit(data->base->exit_status);
 	}
 	else if (pid < 0)
@@ -74,7 +71,6 @@ static int	init_execution_resources(t_exec_data *data,
 	data->commands = split_commands(base->token, data->cmd_count);
 	if (!data->commands)
 	{
-		free_commands(data->commands);
 		cleanup_pipes(data->pipes, data->pipe_count);
 		return (0);
 	}
@@ -148,13 +144,17 @@ int	execute_multiple_command(t_base *base)
 {
 	t_exec_data	data;
 	int			exit_status;
+	int			i;
 
+	i = -1;
 	init_exec_data(&data);
 	if (!init_execution_resources(&data, base))
 		return (1);
 	if (!launch_child_processes(&data))
 	{
 		cleanup_pipes(data.pipes, data.pipe_count);
+		while (data.commands[++i])
+			free_tokens(data.commands[i]);
 		free_commands(data.commands);
 		if (data.pids)
 			free(data.pids);
@@ -163,6 +163,8 @@ int	execute_multiple_command(t_base *base)
 	cleanup_pipes(data.pipes, data.pipe_count);
 	data.pipes = NULL;
 	exit_status = wait_for_children(&data);
+	while (data.commands[++i])
+		free_tokens(data.commands[i]);
 	free_commands(data.commands);
 	data.commands = NULL;
 	if (data.pids)
