@@ -31,6 +31,7 @@ SRCS = main.c \
        debug.c \
 	   expand.c	\
 	   word_splitting.c \
+	   $(SIGNALDIR)/singal_handler_utils.c \
 	   $(SIGNALDIR)/signal_handler.c \
 	   $(PARSERDIR)/tokenizer.c \
 	   $(PARSERDIR)/word_parser.c \

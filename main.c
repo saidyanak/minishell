@@ -6,7 +6,7 @@
 /*   By: yuocak <yuocak@student.42kocaeli.com.tr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/02 11:39:31 by yuocak            #+#    #+#             */
-/*   Updated: 2025/08/02 13:45:35 by yuocak           ###   ########.fr       */
+/*   Updated: 2025/08/02 14:39:50 by yuocak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,6 +73,7 @@ int	main(int argc, char **argv, char **env)
 	base.token = NULL;
 	base.exit_status = 0;
 	base.env = init_env(env);
+	update_shlvl(&base);
 	setup_interactive_signals();
 	run_shell_loop(&base);
 	restore_signals();

@@ -6,7 +6,7 @@
 /*   By: yuocak <yuocak@student.42kocaeli.com.tr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/02 11:46:17 by yuocak            #+#    #+#             */
-/*   Updated: 2025/08/02 12:27:44 by yuocak           ###   ########.fr       */
+/*   Updated: 2025/08/02 14:41:27 by yuocak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,5 +119,19 @@ t_env	*init_env(char **env)
 	}
 	env_null_check(env_list);//tekrar dönülecek çünkü env'nin null gelme drumu bashte farklı çalışıyor
 	return (env_list);
+}
+
+void	update_shlvl(t_base *base)
+{
+	char	*shlvl_str;
+	int		shlvl;
+	char	*new_value;
+
+	shlvl_str = get_env_value(*base, "SHLVL");
+	shlvl = ft_atoi(shlvl_str);
+	shlvl++;
+	new_value = ft_itoa(shlvl);
+	set_env_value(&(base->env), "SHLVL", new_value);
+	free(new_value); 
 }
 

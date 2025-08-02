@@ -6,13 +6,13 @@
 /*   By: yuocak <yuocak@student.42kocaeli.com.tr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/31 23:46:17 by yuocak            #+#    #+#             */
-/*   Updated: 2025/08/02 13:45:31 by yuocak           ###   ########.fr       */
+/*   Updated: 2025/08/02 14:07:54 by yuocak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 #include <stdio.h>
-#include <sys/wait.h>
+#include <signal.h>
 #include <unistd.h>
 
 static int	execute_child_process(t_token *cmd, t_exec_data *data,
@@ -94,16 +94,12 @@ static int	launch_child_processes(t_exec_data *data)
 	return (1);
 }
 
-static int	wait_for_children(t_exec_data *data)
+int	wait_for_children_utils(int last_exit_status, int status, t_exec_data *data)
 {
 	int	i;
-	int	status;
-	int	last_exit_status;
 
-	setup_execution_signals();
-	last_exit_status = 0;
-	i = 0;
-	while (i < data->cmd_count)
+	i = -1;
+	while (++i < data->cmd_count)
 	{
 		waitpid(data->pids[i], &status, 0);
 		if (WIFEXITED(status))
@@ -123,8 +119,19 @@ static int	wait_for_children(t_exec_data *data)
 			else
 				last_exit_status = 128 + WTERMSIG(status);
 		}
-		i++;
 	}
+	return (last_exit_status);
+}
+
+static int	wait_for_children(t_exec_data *data)
+{
+	int	status;
+	int	last_exit_status;
+
+	setup_execution_signals();
+	status = 0;
+	last_exit_status = 0;
+	last_exit_status = wait_for_children_utils(last_exit_status, status, data);
 	setup_interactive_signals();
 	return (last_exit_status);
 }
@@ -145,9 +152,9 @@ void	free_tokens_safe(t_exec_data *data)
 	if (!data || !data->commands)
 		return ;
 	while (data->commands[++i])
-		free_tokens(data->commands[i]); // her bir komutun tokenlarını sil
-	free_commands(data->commands);      // t_token** dizisini sil
-	data->commands = NULL;              // double free önlemek için
+		free_tokens(data->commands[i]);
+	free_commands(data->commands);      
+	data->commands = NULL;        
 }
 void	free_pids(t_exec_data *data)
 {

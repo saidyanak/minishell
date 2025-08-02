@@ -6,7 +6,7 @@
 /*   By: yuocak <yuocak@student.42kocaeli.com.tr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/02 11:39:59 by yuocak            #+#    #+#             */
-/*   Updated: 2025/08/02 13:44:14 by yuocak           ###   ########.fr       */
+/*   Updated: 2025/08/02 14:45:56 by yuocak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -136,6 +136,7 @@ t_env				*create_new_node(char *env);
 void				add_new_node(t_env **head, t_env *new_node);
 t_env				*init_env(char **env);
 char				*get_env_value(t_base base, char *key);
+void				update_shlvl(t_base *base);
 
 /* Utility functions */
 int					ft_isspace(char c);
@@ -229,6 +230,7 @@ void				setup_heredoc_signals(void);
 void				setup_execution_signals(void);
 int					check_signal_status(void);
 void				restore_signals(void);
+void				sigint_handler(int sig);
 
 /* Cleanup functions */
 void				free_tokens(t_token *tokens);
