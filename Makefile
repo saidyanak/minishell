@@ -15,6 +15,7 @@ BUILTINDIR = build-in
 EXECUTEDIR = execute
 PARSERDIR = parser
 SIGNALDIR = signal
+ENVDIR = create_env
 
 # Libft
 LIBFT = $(LIBFTDIR)/libft.a
@@ -26,11 +27,12 @@ LEAK_SRC = leak_tester.c
 
 # Source files
 SRCS = main.c \
-       create_linked_list.c \
        cleanup.c \
        debug.c \
 	   expand.c	\
 	   word_splitting.c \
+	   $(ENVDIR)/create_linked_list.c \
+	   $(ENVDIR)/create_linked_list_utils.c \
 	   $(SIGNALDIR)/singal_handler_utils.c \
 	   $(SIGNALDIR)/signal_handler.c \
 	   $(PARSERDIR)/tokenizer.c \

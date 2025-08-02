@@ -6,7 +6,7 @@
 /*   By: yuocak <yuocak@student.42kocaeli.com.tr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/02 11:39:59 by yuocak            #+#    #+#             */
-/*   Updated: 2025/08/02 14:45:56 by yuocak           ###   ########.fr       */
+/*   Updated: 2025/08/02 14:55:28 by yuocak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -137,6 +137,7 @@ void				add_new_node(t_env **head, t_env *new_node);
 t_env				*init_env(char **env);
 char				*get_env_value(t_base base, char *key);
 void				update_shlvl(t_base *base);
+void				env_null_check(t_env *env_lst);
 
 /* Utility functions */
 int					ft_isspace(char c);

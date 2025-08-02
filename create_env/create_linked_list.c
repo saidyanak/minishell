@@ -6,11 +6,11 @@
 /*   By: yuocak <yuocak@student.42kocaeli.com.tr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/02 11:46:17 by yuocak            #+#    #+#             */
-/*   Updated: 2025/08/02 14:41:27 by yuocak           ###   ########.fr       */
+/*   Updated: 2025/08/02 14:56:08 by yuocak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../minishell.h"
 #include <stdlib.h>
 
 static int	allocate_key_value(t_env *node, char *env, char *equal_sign)
@@ -85,15 +85,6 @@ void	add_new_node(t_env **head, t_env *new_node)
 	}
 }
 
-void	env_null_check(t_env *env_lst)
-{
-	if (!env_lst)
-	{
-		printf("minishell: error initializing environment\n");
-		exit(1);
-	}
-}
-
 t_env	*init_env(char **env)
 {
 	int		i;
@@ -121,17 +112,4 @@ t_env	*init_env(char **env)
 	return (env_list);
 }
 
-void	update_shlvl(t_base *base)
-{
-	char	*shlvl_str;
-	int		shlvl;
-	char	*new_value;
-
-	shlvl_str = get_env_value(*base, "SHLVL");
-	shlvl = ft_atoi(shlvl_str);
-	shlvl++;
-	new_value = ft_itoa(shlvl);
-	set_env_value(&(base->env), "SHLVL", new_value);
-	free(new_value); 
-}
 
