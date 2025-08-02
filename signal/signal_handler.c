@@ -6,7 +6,7 @@
 /*   By: yuocak <yuocak@student.42kocaeli.com.tr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/01 00:01:15 by yuocak            #+#    #+#             */
-/*   Updated: 2025/08/02 14:47:53 by yuocak           ###   ########.fr       */
+/*   Updated: 2025/08/02 18:04:19 by yuocak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ void    sigint_execution_handler(int sig)
     write(STDOUT_FILENO, "\n", 1);
 }
 
-int     check_signal_status(void)
+int     check_signal_status(int exit_status)
 {
     if (g_signal == SIGINT)
     {
@@ -48,7 +48,7 @@ int     check_signal_status(void)
         g_signal = 0;
         return (131); // Ctrl+\ exit status
     }
-    return (0);
+    return (exit_status);
 }
 
 void    restore_signals(void)

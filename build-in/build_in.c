@@ -6,7 +6,7 @@
 /*   By: yuocak <yuocak@student.42kocaeli.com.tr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/04 13:08:48 by yuocak            #+#    #+#             */
-/*   Updated: 2025/07/31 19:40:10 by yuocak           ###   ########.fr       */
+/*   Updated: 2025/08/02 14:59:09 by yuocak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,5 +28,4 @@ void	ft_build_in(t_token *current_prompt, t_base *base)
 		ft_unset(current_prompt, base);
 	else if (ft_strcmp(current_prompt->content, "exit") == 0)
 		ft_exit(current_prompt, base);
-	debug_exit_status(base, "build_in.c:ft_build_in", current_prompt->content);
 }

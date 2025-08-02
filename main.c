@@ -6,7 +6,7 @@
 /*   By: yuocak <yuocak@student.42kocaeli.com.tr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/02 11:39:31 by yuocak            #+#    #+#             */
-/*   Updated: 2025/08/02 14:39:50 by yuocak           ###   ########.fr       */
+/*   Updated: 2025/08/02 18:03:44 by yuocak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ static void	run_shell_loop(t_base *base)
 	while (1)
 	{
 		input = readline("gameofshell$ ");
-		
+		base->exit_status = check_signal_status(base->exit_status);
 		if (!input) // Ctrl+D
 		{
 			printf("exit\n");

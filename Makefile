@@ -28,7 +28,6 @@ LEAK_SRC = leak_tester.c
 # Source files
 SRCS = main.c \
        cleanup.c \
-       debug.c \
 	   expand.c	\
 	   word_splitting.c \
 	   $(ENVDIR)/create_linked_list.c \

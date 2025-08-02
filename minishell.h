@@ -6,7 +6,7 @@
 /*   By: yuocak <yuocak@student.42kocaeli.com.tr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/02 11:39:59 by yuocak            #+#    #+#             */
-/*   Updated: 2025/08/02 14:55:28 by yuocak           ###   ########.fr       */
+/*   Updated: 2025/08/02 18:04:26 by yuocak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -208,12 +208,6 @@ void				sort_and_print_env(t_env *env);
 int					process_export_args(t_token *token, t_base *base);
 void				print_export(t_base *base);
 
-/* Debug functions */
-void				print_tokens(t_token *token);
-void				debug_parse_quotes(char *input);
-void				debug_token_with_quotes(t_token *token);
-void				debug_exit_status(t_base *base, const char *location, const char *reason);
-
 /* Syntax checking functions */
 int					check_syntax_errors(t_token *token);
 
@@ -229,7 +223,7 @@ void				setup_interactive_signals(void);
 void				setup_child_signals(void);
 void				setup_heredoc_signals(void);
 void				setup_execution_signals(void);
-int					check_signal_status(void);
+int					check_signal_status(int exit_status);
 void				restore_signals(void);
 void				sigint_handler(int sig);
 
