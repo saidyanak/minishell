@@ -14,6 +14,7 @@ LIBFTDIR = libft
 BUILTINDIR = build-in
 EXECUTEDIR = execute
 PARSERDIR = parser
+SIGNALDIR = signal
 
 # Libft
 LIBFT = $(LIBFTDIR)/libft.a
@@ -30,6 +31,7 @@ SRCS = main.c \
        debug.c \
 	   expand.c	\
 	   word_splitting.c \
+	   $(SIGNALDIR)/signal_handler.c \
 	   $(PARSERDIR)/tokenizer.c \
 	   $(PARSERDIR)/word_parser.c \
 	   $(PARSERDIR)/quote_parser.c \

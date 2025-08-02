@@ -6,7 +6,7 @@
 /*   By: yuocak <yuocak@student.42kocaeli.com.tr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/22 15:00:00 by yuocak            #+#    #+#             */
-/*   Updated: 2025/07/29 17:10:33 by yuocak           ###   ########.fr       */
+/*   Updated: 2025/08/02 13:26:46 by yuocak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@ int	setup_heredoc_input(char *delimiter)
 	pid = fork();
 	if (pid == 0)
 	{
+		setup_heredoc_signals();
 		close(pipefd[0]);
 		while (1)
 		{

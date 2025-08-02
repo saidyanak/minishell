@@ -6,7 +6,7 @@
 /*   By: yuocak <yuocak@student.42kocaeli.com.tr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 07:45:00 by yuocak            #+#    #+#             */
-/*   Updated: 2025/07/31 18:26:04 by yuocak           ###   ########.fr       */
+/*   Updated: 2025/08/02 13:45:33 by yuocak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@ static void	cleanup_execution(t_exec_params *params)
 
 static void	child_process(t_exec_params *params)
 {
+	setup_child_signals();
 	execve(params->command_path, params->argv, params->envp);
 	perror("minishell");
 	exit(126);
@@ -36,10 +37,25 @@ static int	parent_process(pid_t pid, t_exec_params *params)
 {
 	int	status;
 
+	setup_execution_signals();
 	waitpid(pid, &status, 0);
+	setup_interactive_signals();
 	cleanup_execution(params);
 	if (WIFEXITED(status))
 		return (WEXITSTATUS(status));
+	if (WIFSIGNALED(status))
+	{
+		if (WTERMSIG(status) == SIGINT)
+		{
+			write(STDOUT_FILENO, "\n", 1);
+			return (130);
+		}
+		if (WTERMSIG(status) == SIGQUIT)
+		{
+			write(STDERR_FILENO, "Quit (core dumped)\n", 19);
+			return (131);
+		}
+	}
 	return (0);
 }
 

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yuocak <yuocak@student.42kocaeli.com.tr    +#+  +:+       +#+        */
+/*   By: yuocak <yuocak@student.42kocaeli.com.tr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/02 11:39:59 by yuocak            #+#    #+#             */
-/*   Updated: 2025/08/01 00:41:30 by yuocak           ###   ########.fr       */
+/*   Updated: 2025/08/02 13:44:14 by yuocak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,11 @@
 # include <sys/types.h>
 # include <sys/wait.h>
 # include <unistd.h>
+
+
+#define	SIG_NONE	0;
+#define SIG_INT		1;
+#define SIG_QUIT	2;
 
 typedef enum e_quote_type
 {
@@ -216,6 +221,14 @@ int					setup_heredoc_input(char *delimiter);
 int					setup_simple_heredoc(char *delimiter);
 void				cleanup_heredoc_files(void);
 void    			handle_redirections(t_token *cmd);
+
+/* Signal handling functions */
+void				setup_interactive_signals(void);
+void				setup_child_signals(void);
+void				setup_heredoc_signals(void);
+void				setup_execution_signals(void);
+int					check_signal_status(void);
+void				restore_signals(void);
 
 /* Cleanup functions */
 void				free_tokens(t_token *tokens);

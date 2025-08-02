@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute_multiple.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yuocak <yuocak@student.42kocaeli.com.tr    +#+  +:+       +#+        */
+/*   By: yuocak <yuocak@student.42kocaeli.com.tr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/31 23:46:17 by yuocak            #+#    #+#             */
-/*   Updated: 2025/08/01 00:43:03 by yuocak           ###   ########.fr       */
+/*   Updated: 2025/08/02 13:45:31 by yuocak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@ static int	execute_child_process(t_token *cmd, t_exec_data *data,
 	pid = fork();
 	if (pid == 0)
 	{
+		setup_child_signals();
 		if (cmd_index > 0 && !has_input_redirection(cmd))
 			dup2(data->pipes[cmd_index - 1][0], STDIN_FILENO);
 		if (cmd_index < data->cmd_count - 1 && !has_output_redirection(cmd))
@@ -99,6 +100,7 @@ static int	wait_for_children(t_exec_data *data)
 	int	status;
 	int	last_exit_status;
 
+	setup_execution_signals();
 	last_exit_status = 0;
 	i = 0;
 	while (i < data->cmd_count)
@@ -107,9 +109,23 @@ static int	wait_for_children(t_exec_data *data)
 		if (WIFEXITED(status))
 			last_exit_status = WEXITSTATUS(status);
 		else if (WIFSIGNALED(status))
-			last_exit_status = 128 + WTERMSIG(status);
+		{
+			if (WTERMSIG(status) == SIGINT)
+			{
+				write(STDOUT_FILENO, "\n", 1);
+				last_exit_status = 130;
+			}
+			else if (WTERMSIG(status) == SIGQUIT)
+			{
+				write(STDERR_FILENO, "Quit (core dumped)\n", 19);
+				last_exit_status = 131;
+			}
+			else
+				last_exit_status = 128 + WTERMSIG(status);
+		}
 		i++;
 	}
+	setup_interactive_signals();
 	return (last_exit_status);
 }
 
