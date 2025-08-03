@@ -18,13 +18,13 @@ int	count_commands(t_token *token)
 {
 	int		count;
 	t_token	*current;
-	
+
 	count = 1;
 	current = token;
 	while (current)
 	{
 		if (current->type == TOKEN_PIPE)
-		count++;
+			count++;
 		current = current->next;
 	}
 	return (count);

@@ -3,35 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   ft_exit.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yuocak <yuocak@student.42kocaeli.com.tr>   +#+  +:+       +#+        */
+/*   By: yuocak <yuocak@student.42kocaeli.com.tr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/03 00:00:00 by yuocak            #+#    #+#             */
-/*   Updated: 2025/07/21 20:28:29 by yuocak           ###   ########.fr       */
+/*   Updated: 2025/08/03 14:34:29 by yuocak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../minishell.h"
+#include "../../minishell.h"
 
-// String'in tamamen numeric olup olmadığını kontrol et
-static int	is_numeric(char *str)
-{
-	int	i;
-
-	i = 0;
-	if (str[i] == '-' || str[i] == '+')
-		i++;
-	if (str[i] == '\0')
-		return (0);
-	while (str[i])
-	{
-		if (!ft_isdigit(str[i]))
-			return (0);
-		i++;
-	}
-	return (1);
-}
-
-// Token sayısını say
 static int	count_tokens(t_token *token)
 {
 	int	count;
@@ -45,7 +25,6 @@ static int	count_tokens(t_token *token)
 	return (count);
 }
 
-// Exit code'u normalize et (0-255 arası)
 static int	normalize_exit_code(int exit_code)
 {
 	exit_code = exit_code % 256;
@@ -54,7 +33,6 @@ static int	normalize_exit_code(int exit_code)
 	return (exit_code);
 }
 
-// Argüman sayısını kontrol et
 static int	check_argument_count(t_token *arg, t_base *base)
 {
 	if (count_tokens(arg) > 1)
@@ -66,18 +44,17 @@ static int	check_argument_count(t_token *arg, t_base *base)
 	return (1);
 }
 
-// Argümanın numeric olup olmadığını kontrol et
 static void	check_numeric_argument(t_token *arg, t_base *base)
 {
 	if (!is_numeric(arg->content))
 	{
-		printf("minishell: exit: %s: numeric argument required\n", arg->content);
+		printf("minishell: exit: %s: numeric argument required\n",
+			arg->content);
 		cleanup_all(base);
 		exit(2);
 	}
 }
 
-// Exit fonksiyonu
 void	ft_exit(t_token *current_prompt, t_base *base)
 {
 	int		exit_code;

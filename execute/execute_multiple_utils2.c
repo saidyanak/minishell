@@ -35,7 +35,7 @@ t_token	**split_commands(t_token *token, int cmd_count)
 			current->next = NULL;
 			commands[++cmd_index] = temp;
 			current = temp;
-			continue;
+			continue ;
 		}
 		current = current->next;
 	}
@@ -62,4 +62,3 @@ void	cleanup_pipes(int **pipes, int pipe_count)
 	}
 	free(pipes);
 }
-

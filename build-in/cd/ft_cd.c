@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_cd.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yuocak <yuocak@student.42kocaeli.com.tr>   +#+  +:+       +#+        */
+/*   By: yuocak <yuocak@student.42kocaeli.com.tr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/01 17:00:00 by yuocak            #+#    #+#             */
-/*   Updated: 2025/07/27 12:08:32 by yuocak           ###   ########.fr       */
+/*   Updated: 2025/08/03 13:47:35 by yuocak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -182,11 +182,3 @@ t_base	*ft_cd(t_token *token, t_base *base)
 	base->exit_status = change_to_dir(target, &(base->env));
 	return (base);
 }
-/*
-bunları yaparken oldpwd yi yani eski konumu tutmamız lazım ki
--paremetresi girilirse eski konuma gidilsin
-bu eski konum meselesi tabiki bir "" içerisinde yada '' içerisinde gelirse onu bir dosya olarak algılayacağız.
-kısacası işimiz kolay bunları getcwd access chdir gibi unistd.h kütüphanesinin içerisindeki fonksyonlarla yapıcaz
-burası ekstra access fonksyonu gönderilen flag e göre yetki sorgulaması yazma sorgulaması yada "dir" ise yine yetki sorgusu
-yapabiliyoruz bu sayede farklı hata durumları verebiliriz.
-printf("%s\n", get_value(base->env, "PWD")); */

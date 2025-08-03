@@ -3,19 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   simple_heredoc.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: syanak <syanak@student.42kocaeli.com.tr    +#+  +:+       +#+        */
+/*   By: yuocak <yuocak@student.42kocaeli.com.tr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/22 15:00:00 by yuocak            #+#    #+#             */
-/*   Updated: 2025/07/22 09:39:14 by syanak           ###   ########.fr       */
+/*   Updated: 2025/08/03 13:08:05 by yuocak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 #include <fcntl.h>
-#include <readline/readline.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <unistd.h>
 
 // Basit heredoc - pipe kullanarak
 int	simple_heredoc(char *delimiter)

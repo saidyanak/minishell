@@ -3,15 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   build_in.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yuocak <yuocak@student.42kocaeli.com.tr>   +#+  +:+       +#+        */
+/*   By: yuocak <yuocak@student.42kocaeli.com.tr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/04 13:08:48 by yuocak            #+#    #+#             */
-/*   Updated: 2025/08/02 14:59:09 by yuocak           ###   ########.fr       */
+/*   Updated: 2025/08/03 14:34:52 by yuocak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-// echo export unset exit cd pwd
+
 void	ft_build_in(t_token *current_prompt, t_base *base)
 {
 	if (ft_strcmp(current_prompt->content, "echo") == 0)

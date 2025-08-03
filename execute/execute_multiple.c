@@ -3,22 +3,23 @@
 /*                                                        :::      ::::::::   */
 /*   execute_multiple.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yuocak <yuocak@student.42kocaeli.com.tr>   +#+  +:+       +#+        */
+/*   By: yuocak <yuocak@student.42kocaeli.com.tr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/31 23:46:17 by yuocak            #+#    #+#             */
-/*   Updated: 2025/08/02 14:07:54 by yuocak           ###   ########.fr       */
+/*   Updated: 2025/08/03 13:34:38 by yuocak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
-#include <stdio.h>
 #include <signal.h>
+#include <stdio.h>
 #include <unistd.h>
 
 static int	execute_child_process(t_token *cmd, t_exec_data *data,
 		int cmd_index)
 {
 	pid_t	pid;
+
 	pid = fork();
 	if (pid == 0)
 	{
@@ -43,7 +44,7 @@ static int	execute_child_process(t_token *cmd, t_exec_data *data,
 }
 
 static int	init_execution_resources(t_exec_data *data,
-		t_base *base)
+									t_base *base)
 {
 	data->cmd_count = count_commands(base->token);
 	data->pipe_count = data->cmd_count - 1;
@@ -83,7 +84,6 @@ static int	launch_child_processes(t_exec_data *data)
 		}
 		i++;
 	}
-	// Parent process'te pipe'ları kapat
 	i = 0;
 	while (i < data->pipe_count)
 	{
@@ -92,35 +92,6 @@ static int	launch_child_processes(t_exec_data *data)
 		i++;
 	}
 	return (1);
-}
-
-int	wait_for_children_utils(int last_exit_status, int status, t_exec_data *data)
-{
-	int	i;
-
-	i = -1;
-	while (++i < data->cmd_count)
-	{
-		waitpid(data->pids[i], &status, 0);
-		if (WIFEXITED(status))
-			last_exit_status = WEXITSTATUS(status);
-		else if (WIFSIGNALED(status))
-		{
-			if (WTERMSIG(status) == SIGINT)
-			{
-				write(STDOUT_FILENO, "\n", 1);
-				last_exit_status = 130;
-			}
-			else if (WTERMSIG(status) == SIGQUIT)
-			{
-				write(STDERR_FILENO, "Quit (core dumped)\n", 19);
-				last_exit_status = 131;
-			}
-			else
-				last_exit_status = 128 + WTERMSIG(status);
-		}
-	}
-	return (last_exit_status);
 }
 
 static int	wait_for_children(t_exec_data *data)
@@ -134,35 +105,6 @@ static int	wait_for_children(t_exec_data *data)
 	last_exit_status = wait_for_children_utils(last_exit_status, status, data);
 	setup_interactive_signals();
 	return (last_exit_status);
-}
-
-void	init_exec_data(t_exec_data *data)
-{
-	data->pipes = NULL;
-	data->commands = NULL;
-	data->pids = NULL;
-	data->cmd_count = 0;
-	data->pipe_count = 0;
-}
-void	free_tokens_safe(t_exec_data *data)
-{
-	int	i;
-
-	i = -1;
-	if (!data || !data->commands)
-		return ;
-	while (data->commands[++i])
-		free_tokens(data->commands[i]);
-	free_commands(data->commands);      
-	data->commands = NULL;        
-}
-void	free_pids(t_exec_data *data)
-{
-	if (data->pids)
-	{
-		free(data->pids);
-		data->pids = NULL;
-	}
 }
 
 int	execute_multiple_command(t_base *base)

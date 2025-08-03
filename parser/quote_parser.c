@@ -3,16 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   quote_parser.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yuocak <yuocak@student.42kocaeli.com.tr>   +#+  +:+       +#+        */
+/*   By: yuocak <yuocak@student.42kocaeli.com.tr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/30 12:00:00 by yuocak            #+#    #+#             */
-/*   Updated: 2025/07/31 16:49:04 by yuocak           ###   ########.fr       */
+/*   Updated: 2025/08/03 13:11:09 by yuocak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
-#include <stdio.h>
-#include <stdlib.h>
 
 static char	*add_char_to_result(char *result, char c)
 {

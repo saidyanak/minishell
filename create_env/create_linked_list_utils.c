@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   create_linked_list_utils.c                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yuocak <yuocak@student.42kocaeli.com.tr>   +#+  +:+       +#+        */
+/*   By: yuocak <yuocak@student.42kocaeli.com.tr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/02 14:52:07 by yuocak            #+#    #+#             */
-/*   Updated: 2025/08/02 14:53:14 by yuocak           ###   ########.fr       */
+/*   Updated: 2025/08/03 13:43:58 by yuocak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,5 +32,5 @@ void	update_shlvl(t_base *base)
 	shlvl++;
 	new_value = ft_itoa(shlvl);
 	set_env_value(&(base->env), "SHLVL", new_value);
-	free(new_value); 
+	free(new_value);
 }

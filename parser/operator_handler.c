@@ -3,16 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   operator_handler.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yuocak <yuocak@student.42kocaeli.com.tr>   +#+  +:+       +#+        */
+/*   By: yuocak <yuocak@student.42kocaeli.com.tr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/30 12:00:00 by yuocak            #+#    #+#             */
-/*   Updated: 2025/07/30 11:45:17 by yuocak           ###   ########.fr       */
+/*   Updated: 2025/08/03 13:10:13 by yuocak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
-#include <stdio.h>
-#include <stdlib.h>
 
 void	handle_operator(char *input, int *i, t_token **head)
 {

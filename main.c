@@ -3,33 +3,26 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yuocak <yuocak@student.42kocaeli.com.tr>   +#+  +:+       +#+        */
+/*   By: yuocak <yuocak@student.42kocaeli.com.tr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/02 11:39:31 by yuocak            #+#    #+#             */
-/*   Updated: 2025/08/02 18:03:44 by yuocak           ###   ########.fr       */
+/*   Updated: 2025/08/03 13:07:50 by yuocak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-#include <readline/history.h>
-#include <readline/readline.h>
-#include <signal.h>
-#include <stdio.h>
-#include <stdlib.h>
 
 static void	process_input(char *input, t_base *base)
 {
 	if (!input || !*input)
 		return ;
 	add_history(input);
-	// Önceki token'ları temizle
 	if (base->token)
 	{
 		free_tokens(base->token);
 		base->token = NULL;
 	}
 	tokenize_input(input, base);
-	// print_tokens(base->token);
 }
 
 static void	run_shell_loop(t_base *base)
@@ -40,7 +33,7 @@ static void	run_shell_loop(t_base *base)
 	{
 		input = readline("gameofshell$ ");
 		base->exit_status = check_signal_status(base->exit_status);
-		if (!input) // Ctrl+D
+		if (!input)
 		{
 			printf("exit\n");
 			break ;

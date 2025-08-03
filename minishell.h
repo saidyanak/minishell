@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yuocak <yuocak@student.42kocaeli.com.tr>   +#+  +:+       +#+        */
+/*   By: yuocak <yuocak@student.42kocaeli.com.tr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/02 11:39:59 by yuocak            #+#    #+#             */
-/*   Updated: 2025/08/02 18:04:26 by yuocak           ###   ########.fr       */
+/*   Updated: 2025/08/03 14:31:13 by yuocak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,10 +25,9 @@
 # include <sys/wait.h>
 # include <unistd.h>
 
-
-#define	SIG_NONE	0;
-#define SIG_INT		1;
-#define SIG_QUIT	2;
+# define SIG_NONE 0;
+# define SIG_INT 1;
+# define SIG_QUIT 2;
 
 typedef enum e_quote_type
 {
@@ -103,7 +102,6 @@ typedef struct s_shell_signal
 	int				last_exit_status;
 }					t_shell_signal;
 
-
 /* Tokenizer functions */
 char				*parse_word_with_quotes(char *input, int *i,
 						t_token_type *type, t_quote_type *q_type);
@@ -156,6 +154,13 @@ void				cleanup_pipes(int **pipes, int pipe_count);
 int					has_output_redirection(t_token *cmd);
 int					has_input_redirection(t_token *cmd);
 
+/* Multiple command execution helper functions */
+void				init_exec_data(t_exec_data *data);
+void				free_tokens_safe(t_exec_data *data);
+void				free_pids(t_exec_data *data);
+int					wait_for_children_utils(int last_exit_status, int status,
+						t_exec_data *data);
+
 /* Execution utility functions */
 int					is_redirection_token(t_token_type type);
 int					is_special_token(t_token_type type);
@@ -172,7 +177,7 @@ t_token				*copy_prompt_segment(t_token *start, t_token *end);
 char				**build_argv_from_tokens(t_token *token);
 char				**env_to_envp(t_env *env);
 int					count_env_vars(t_env *env);
-void	free_argv(char **argv);
+void				free_argv(char **argv);
 
 /* Built-in functions */
 void				ft_build_in(t_token *current_prompt, t_base *base);
@@ -183,6 +188,7 @@ t_base				*ft_export(t_token *token, t_base *base);
 int					ft_env(t_base *base);
 t_base				*ft_unset(t_token *token, t_base *base);
 void				ft_exit(t_token *current_prompt, t_base *base);
+int					is_numeric(char *str);
 
 /* Environment manipulation */
 void				set_env_value(t_env **env, char *key, char *value);
@@ -209,14 +215,20 @@ int					process_export_args(t_token *token, t_base *base);
 void				print_export(t_base *base);
 
 /* Syntax checking functions */
+/* Syntax checking functions */
 int					check_syntax_errors(t_token *token);
+int					check_pipe_syntax(t_token *token);
+int					check_redirection_syntax(t_token *token);
+int					check_heredoc_syntax(t_token *token);
+void				print_syntax_error(char *token);
+int					is_operator_token(t_token_type type);
 
 /* Heredoc functions */
 char				*handle_heredoc(char *delimiter);
 int					setup_heredoc_input(char *delimiter);
 int					setup_simple_heredoc(char *delimiter);
 void				cleanup_heredoc_files(void);
-void    			handle_redirections(t_token *cmd);
+void				handle_redirections(t_token *cmd);
 
 /* Signal handling functions */
 void				setup_interactive_signals(void);

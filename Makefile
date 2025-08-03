@@ -16,6 +16,7 @@ EXECUTEDIR = execute
 PARSERDIR = parser
 SIGNALDIR = signal
 ENVDIR = create_env
+CLEANDIR = cleanup
 
 # Libft
 LIBFT = $(LIBFTDIR)/libft.a
@@ -27,9 +28,9 @@ LEAK_SRC = leak_tester.c
 
 # Source files
 SRCS = main.c \
-       cleanup.c \
 	   expand.c	\
 	   word_splitting.c \
+       $(CLEANDIR)/cleanup.c \
 	   $(ENVDIR)/create_linked_list.c \
 	   $(ENVDIR)/create_linked_list_utils.c \
 	   $(SIGNALDIR)/singal_handler_utils.c \
@@ -41,30 +42,35 @@ SRCS = main.c \
 	   $(PARSERDIR)/operator_handler.c \
 	   $(PARSERDIR)/token_utils.c \
 	   $(EXECUTEDIR)/heredoc_handler.c \
-	   $(EXECUTEDIR)/syntax_checker.c \
+	   $(EXECUTEDIR)/syntax_checker_main.c \
+	   $(EXECUTEDIR)/syntax_checker_pipe.c \
+	   $(EXECUTEDIR)/syntax_checker_redir.c \
 	   $(EXECUTEDIR)/simple_heredoc.c \
        $(EXECUTEDIR)/execute.c \
+       $(EXECUTEDIR)/execute_command_utils.c \
+       $(EXECUTEDIR)/execute_path_finder.c \
        $(EXECUTEDIR)/execute_external.c \
        $(EXECUTEDIR)/execute_envp.c \
        $(EXECUTEDIR)/execute_argv_envp.c \
 	   $(EXECUTEDIR)/execute_multiple.c \
+	   $(EXECUTEDIR)/execute_multiple_helpers.c \
 	   $(EXECUTEDIR)/execute_multiple_utils.c \
 	   $(EXECUTEDIR)/execute_multiple_utils2.c \
 	   $(EXECUTEDIR)/execute_utils.c \
 	   $(EXECUTEDIR)/handle_redirect.c \
        $(BUILTINDIR)/build_in.c \
-       $(BUILTINDIR)/ft_echo.c \
-	   $(BUILTINDIR)/ft_cd.c \
-	   $(BUILTINDIR)/ft_pwd.c \
-	   $(BUILTINDIR)/ft_env.c \
+       $(BUILTINDIR)/echo/ft_echo.c \
+	   $(BUILTINDIR)/cd/ft_cd.c \
+	   $(BUILTINDIR)/pwd/ft_pwd.c \
+	   $(BUILTINDIR)/env/ft_env.c \
 	   $(BUILTINDIR)/export/export_parsing.c \
 	   $(BUILTINDIR)/export/export_env_utils.c \
 	   $(BUILTINDIR)/export/export_operations.c \
 	   $(BUILTINDIR)/export/export_display.c \
 	   $(BUILTINDIR)/export/export_main.c \
-	   $(BUILTINDIR)/ft_unset.c \
-	   $(BUILTINDIR)/ft_exit.c
-
+	   $(BUILTINDIR)/unset/ft_unset.c \
+	   $(BUILTINDIR)/exit/ft_exit.c \
+	   $(BUILTINDIR)/exit/ft_exit_utils.c
 # Object files
 OBJS = $(SRCS:%.c=$(OBJDIR)/%.o)
 

@@ -3,16 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   word_parser.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yuocak <yuocak@student.42kocaeli.com.tr>   +#+  +:+       +#+        */
+/*   By: yuocak <yuocak@student.42kocaeli.com.tr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/30 12:00:00 by yuocak            #+#    #+#             */
-/*   Updated: 2025/07/31 17:09:56 by yuocak           ###   ########.fr       */
+/*   Updated: 2025/08/03 13:10:42 by yuocak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
-#include <stdio.h>
-#include <stdlib.h>
 
 static void	set_token_type(int quoted, t_quote_type detected,
 		t_token_type *type, t_quote_type *q_type)
