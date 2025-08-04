@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute_path_finder.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yuocak <yuocak@student.42kocaeli.com.tr    +#+  +:+       +#+        */
+/*   By: syanak <syanak@student.42kocaeli.com.tr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/03 13:24:13 by yuocak            #+#    #+#             */
-/*   Updated: 2025/08/03 13:29:36 by yuocak           ###   ########.fr       */
+/*   Updated: 2025/08/04 15:01:33 by syanak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ char	*find_command_path(char *command, t_base *base)
 
 	if (is_absolute_or_relative_path(command))
 		return (check_absolute_path(command));
-	path_env = get_env_value(*base, "PATH");
+	path_env = get_value(base->env, "PATH");
 	if (!path_env)
 		return (NULL);
 	paths = ft_split(path_env, ':');

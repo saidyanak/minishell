@@ -6,7 +6,7 @@
 /*   By: syanak <syanak@student.42kocaeli.com.tr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/02 11:39:31 by yuocak            #+#    #+#             */
-/*   Updated: 2025/08/04 09:31:50 by syanak           ###   ########.fr       */
+/*   Updated: 2025/08/04 12:09:55 by syanak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,8 +71,8 @@ int	main(int argc, char **argv, char **env)
 	}
 	base.token = NULL;
 	base.exit_status = 0;
-	base.heredocs = NULL;   /* YENİ */
-	base.heredoc_count = 0; /* YENİ */
+	base.heredocs = NULL;
+	base.heredoc_count = 0;
 	base.env = init_env(env);
 	update_shlvl(&base);
 	setup_interactive_signals();

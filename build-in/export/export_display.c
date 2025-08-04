@@ -3,14 +3,12 @@
 /*                                                        :::      ::::::::   */
 /*   export_display.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yuocak <yuocak@student.42kocaeli.com.tr>   +#+  +:+       +#+        */
+/*   By: syanak <syanak@student.42kocaeli.com.tr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/17 15:14:43 by yuocak            #+#    #+#             */
-/*   Updated: 2025/07/17 15:14:44 by yuocak           ###   ########.fr       */
+/*   Updated: 2025/08/04 12:12:31 by syanak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
-
 
 #include "../../minishell.h"
 

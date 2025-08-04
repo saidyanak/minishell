@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cleanup.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yuocak <yuocak@student.42kocaeli.com.tr>   +#+  +:+       +#+        */
+/*   By: syanak <syanak@student.42kocaeli.com.tr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/21 12:00:00 by yuocak            #+#    #+#             */
-/*   Updated: 2025/07/31 12:07:00 by yuocak           ###   ########.fr       */
+/*   Updated: 2025/08/04 12:11:01 by syanak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,7 @@ void	cleanup_all(t_base *base)
 	}
 }
 
-void free_child_arg(t_exec_data *data)
+void	free_child_arg(t_exec_data *data)
 {
 	int	i;
 

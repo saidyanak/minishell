@@ -6,7 +6,7 @@
 /*   By: syanak <syanak@student.42kocaeli.com.tr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/02 11:39:59 by yuocak            #+#    #+#             */
-/*   Updated: 2025/08/04 09:31:22 by syanak           ###   ########.fr       */
+/*   Updated: 2025/08/04 15:10:05 by syanak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -136,6 +136,17 @@ char				*expand_variables(char *str, t_base *base);
 char				*process_mixed_quotes(char *str, t_base *base);
 int					has_dollar_sign(char *str);
 int					has_tilde_sign(char *str);
+void				delete_null_tokens(t_base *base);
+t_token				*split_string_to_tokens(char *str);
+void				free_token_content(t_token *token);
+int					should_split_token(t_token *token);
+char				*find_env_value(t_base *base, char *key);
+char				*extract_var_name(char *str, int *len);
+int					is_ifs_char(char c);
+void				skip_ifs_chars(char *str, int *i);
+char				*extract_word(char *str, int *i);
+void				skip_ifs_chars(char *str, int *i);
+t_token				*get_last_token(t_token *tokens);
 
 /* Environment functions */
 t_env				*create_new_node(char *env);
@@ -144,9 +155,12 @@ t_env				*init_env(char **env);
 char				*get_env_value(t_base base, char *key);
 void				update_shlvl(t_base *base);
 void				env_null_check(t_env *env_lst);
+int					is_valid_var_char(char c, int first);
 
 /* Utility functions */
 int					ft_isspace(char c);
+char				*join_and_free(char *s1, char *s2);
+char				*get_value(t_env *env, char *key);
 
 /* Core execution functions */
 void				execute_command(t_base *base);
@@ -197,9 +211,12 @@ int					ft_env(t_base *base);
 t_base				*ft_unset(t_token *token, t_base *base);
 void				ft_exit(t_token *current_prompt, t_base *base);
 int					is_numeric(char *str);
+int					unset_env_var(t_env **env, char *key);
 
 /* Environment manipulation */
 void				set_env_value(t_env **env, char *key, char *value);
+char				*get_home_dir(t_env *env);
+char				*get_oldpwd_dir(t_env *env);
 
 /* Export utility functions */
 int					has_equal_sign(char *content);
@@ -220,7 +237,6 @@ void				print_export_var(t_env *env);
 void				print_sorted_export(t_env *env);
 void				sort_and_print_env(t_env *env);
 int					process_export_args(t_token *token, t_base *base);
-void				print_export(t_base *base);
 
 /* Syntax checking functions */
 /* Syntax checking functions */

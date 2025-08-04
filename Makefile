@@ -13,6 +13,8 @@ OBJDIR = obj
 LIBFTDIR = libft
 BUILTINDIR = build-in
 EXECUTEDIR = execute
+HEREDOC = execute/heredoc
+EXPANDIR = expand
 PARSERDIR = parser
 SIGNALDIR = signal
 ENVDIR = create_env
@@ -28,8 +30,13 @@ LEAK_SRC = leak_tester.c
 
 # Source files
 SRCS = main.c \
-	   expand.c	\
-	   word_splitting.c \
+	   $(EXPANDIR)/expand.c	\
+	   $(EXPANDIR)/word_splitting.c \
+	   $(EXPANDIR)/expand_quotes.c \
+	   $(EXPANDIR)/expand_utils_1.c \
+	   $(EXPANDIR)/expand_utils_2.c \
+	   $(EXPANDIR)/word_splitting_utils_1.c \
+	   $(EXPANDIR)/word_splitting_utils_2.c \
        $(CLEANDIR)/cleanup.c \
 	   $(ENVDIR)/create_linked_list.c \
 	   $(ENVDIR)/create_linked_list_utils.c \
@@ -45,9 +52,9 @@ SRCS = main.c \
 	   $(EXECUTEDIR)/syntax_checker_pipe.c \
 	   $(EXECUTEDIR)/syntax_checker_redir.c \
        $(EXECUTEDIR)/execute.c \
-	   $(EXECUTEDIR)/heredoc.c \
-	   $(EXECUTEDIR)/heredoc_restore.c \
-	   $(EXECUTEDIR)/heredoc_preprocessor.c \
+	   $(HEREDOC)/heredoc.c \
+	   $(HEREDOC)/heredoc_restore.c \
+	   $(HEREDOC)/heredoc_preprocessor.c \
        $(EXECUTEDIR)/execute_command_utils.c \
        $(EXECUTEDIR)/execute_path_finder.c \
        $(EXECUTEDIR)/execute_external.c \
@@ -62,6 +69,7 @@ SRCS = main.c \
        $(BUILTINDIR)/build_in.c \
        $(BUILTINDIR)/echo/ft_echo.c \
 	   $(BUILTINDIR)/cd/ft_cd.c \
+	   $(BUILTINDIR)/cd/cd_utils.c \
 	   $(BUILTINDIR)/pwd/ft_pwd.c \
 	   $(BUILTINDIR)/env/ft_env.c \
 	   $(BUILTINDIR)/export/export_parsing.c \
@@ -70,6 +78,7 @@ SRCS = main.c \
 	   $(BUILTINDIR)/export/export_display.c \
 	   $(BUILTINDIR)/export/export_main.c \
 	   $(BUILTINDIR)/unset/ft_unset.c \
+	   $(BUILTINDIR)/unset/unset_env.c \
 	   $(BUILTINDIR)/exit/ft_exit.c \
 	   $(BUILTINDIR)/exit/ft_exit_utils.c
 # Object files

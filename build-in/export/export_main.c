@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export_main.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yuocak <yuocak@student.42kocaeli.com.tr>   +#+  +:+       +#+        */
+/*   By: syanak <syanak@student.42kocaeli.com.tr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/17 15:14:55 by yuocak            #+#    #+#             */
-/*   Updated: 2025/07/17 15:14:58 by yuocak           ###   ########.fr       */
+/*   Updated: 2025/08/04 10:40:50 by syanak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,20 +48,6 @@ int	process_export_args(t_token *token, t_base *base)
 	return (0);
 }
 
-t_base	*ft_export(t_token *token, t_base *base)
-{
-	if (!token || !base)
-		return (base);
-	if (!token->next)
-	{
-		print_export(base);
-		base->exit_status = 0;
-		return (base);
-	}
-	base->exit_status = process_export_args(token, base);
-	return (base);
-}
-
 void	print_export(t_base *base)
 {
 	t_env	**array;
@@ -82,4 +68,18 @@ void	print_export(t_base *base)
 		i++;
 	}
 	free(array);
+}
+
+t_base	*ft_export(t_token *token, t_base *base)
+{
+	if (!token || !base)
+		return (base);
+	if (!token->next)
+	{
+		print_export(base);
+		base->exit_status = 0;
+		return (base);
+	}
+	base->exit_status = process_export_args(token, base);
+	return (base);
 }

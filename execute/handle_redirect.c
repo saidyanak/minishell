@@ -6,7 +6,7 @@
 /*   By: syanak <syanak@student.42kocaeli.com.tr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/24 17:26:39 by yuocak            #+#    #+#             */
-/*   Updated: 2025/08/04 09:01:35 by syanak           ###   ########.fr       */
+/*   Updated: 2025/08/04 12:01:50 by syanak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,8 +51,8 @@ void	redirect_in(t_token *current, int fd)
 
 void	handle_redirections(t_token *cmd, t_base *base)
 {
-	t_token *current;
-	int fd;
+	t_token	*current;
+	int		fd;
 
 	fd = 0;
 	current = cmd;

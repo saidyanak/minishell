@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute_multiple_helpers.c                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yuocak <yuocak@student.42kocaeli.com.tr    +#+  +:+       +#+        */
+/*   By: syanak <syanak@student.42kocaeli.com.tr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/03 14:30:00 by yuocak            #+#    #+#             */
-/*   Updated: 2025/08/03 13:34:54 by yuocak           ###   ########.fr       */
+/*   Updated: 2025/08/04 11:46:45 by syanak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
