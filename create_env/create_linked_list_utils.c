@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   create_linked_list_utils.c                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yuocak <yuocak@student.42kocaeli.com.tr    +#+  +:+       +#+        */
+/*   By: syanak <syanak@student.42kocaeli.com.tr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/02 14:52:07 by yuocak            #+#    #+#             */
-/*   Updated: 2025/08/03 13:43:58 by yuocak           ###   ########.fr       */
+/*   Updated: 2025/08/04 15:02:26 by syanak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ void	update_shlvl(t_base *base)
 	int		shlvl;
 	char	*new_value;
 
-	shlvl_str = get_env_value(*base, "SHLVL");
+	shlvl_str = get_value(base->env, "SHLVL");
 	shlvl = ft_atoi(shlvl_str);
 	shlvl++;
 	new_value = ft_itoa(shlvl);

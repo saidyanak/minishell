@@ -8,12 +8,12 @@
 	+#+        */
 /*                                                +#+#+#+#+#+
 	+#+           */
-/*   Created: 2025/07/31 13:00:00 by syanak            #+#    #+#             */
-/*   Updated: 2025/07/31 13:00:00 by syanak           ###   ########.fr       */
+/*   Created: 2025/08/04 12:01:01 by syanak            #+#    #+#             */
+/*   Updated: 2025/08/04 15:12:48 by syanak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../minishell.h"
+#include "../../minishell.h"
 #include <signal.h>
 
 
@@ -23,17 +23,6 @@ static int	count_heredocs(t_token *token)
 	int count;
 
 	count = 0;
-
-
-
-
-
-
-
-
-
-
-	
 	current = token;
 	while (current)
 	{

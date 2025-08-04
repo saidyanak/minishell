@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute_multiple.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yuocak <yuocak@student.42kocaeli.com.tr>   +#+  +:+       +#+        */
+/*   By: syanak <syanak@student.42kocaeli.com.tr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/31 23:46:17 by yuocak            #+#    #+#             */
-/*   Updated: 2025/08/04 12:31:27 by yuocak           ###   ########.fr       */
+/*   Updated: 2025/08/04 15:26:15 by syanak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ static int	execute_child_process(t_token *cmd, t_exec_data *data,
 		int cmd_index)
 {
 	pid_t	pid;
-	int 	ctrl;
+	int		ctrl;
 
 	pid = fork();
 	if (pid == 0)

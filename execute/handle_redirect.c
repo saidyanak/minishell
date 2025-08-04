@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   handle_redirect.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yuocak <yuocak@student.42kocaeli.com.tr>   +#+  +:+       +#+        */
+/*   By: syanak <syanak@student.42kocaeli.com.tr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/24 17:26:39 by yuocak            #+#    #+#             */
-/*   Updated: 2025/08/04 12:32:46 by yuocak           ###   ########.fr       */
+/*   Updated: 2025/08/04 15:24:49 by syanak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,13 +81,13 @@ int	handle_redirections(t_token *cmd, t_base *base)
 	while (current)
 	{
 		if (current->type == TOKEN_REDIRECT_IN)
-		{	
+		{
 			error = redirect_in(current, fd);
 			if (error == -1)
 				return (-1);
-		}	
+		}
 		else if (current->type == TOKEN_REDIRECT_OUT)
-		{		
+		{
 			error = redirect_out(current, fd);
 			if (error == -1)
 				return (-1);
@@ -101,7 +101,6 @@ int	handle_redirections(t_token *cmd, t_base *base)
 		else if (current->type == TOKEN_HEREDOC)
 		{
 			restore_heredocs_in_redirections(cmd, base);
-			// Heredoc generally doesn't fail for this fix
 		}
 		current = current->next;
 	}

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   word_parser.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yuocak <yuocak@student.42kocaeli.com.tr>   +#+  +:+       +#+        */
+/*   By: syanak <syanak@student.42kocaeli.com.tr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/07/30 12:00:00 by yuocak            #+#    #+#             */
-/*   Updated: 2025/08/04 10:28:38 by yuocak           ###   ########.fr       */
+/*   Created: 2025/08/04 15:27:44 by syanak            #+#    #+#             */
+/*   Updated: 2025/08/04 15:27:45 by syanak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,7 @@ char	*parse_word_with_quotes(char *input, int *i, t_token_type *type,
 		return (NULL);
 	if (*i == start)
 	{
+		free(result);
 		free(result);
 		return (NULL);
 	}
