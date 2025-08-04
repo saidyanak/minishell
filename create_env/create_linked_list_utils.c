@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   create_linked_list_utils.c                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yuocak <yuocak@student.42kocaeli.com.tr    +#+  +:+       +#+        */
+/*   By: yuocak <yuocak@student.42kocaeli.com.tr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/02 14:52:07 by yuocak            #+#    #+#             */
-/*   Updated: 2025/08/03 13:43:58 by yuocak           ###   ########.fr       */
+/*   Updated: 2025/08/04 15:55:04 by yuocak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,4 +33,23 @@ void	update_shlvl(t_base *base)
 	new_value = ft_itoa(shlvl);
 	set_env_value(&(base->env), "SHLVL", new_value);
 	free(new_value);
+}
+
+void	set_underscore_variable(t_base *base, t_token *token)
+{
+	t_token	*last_token;
+	char	*last_arg;
+	char	*heredoc;
+
+	heredoc = "<<";
+	if (!token || !base)
+		return ;
+	last_token = token;
+	while (last_token->next && !is_redirection_token(last_token->next->type))
+		last_token = last_token->next;
+	if (last_token->content)
+		last_arg = last_token->content;
+	else
+		last_arg = "";
+	set_env_value(&(base->env), "_", last_arg);
 }

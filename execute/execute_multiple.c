@@ -6,7 +6,7 @@
 /*   By: yuocak <yuocak@student.42kocaeli.com.tr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/31 23:46:17 by yuocak            #+#    #+#             */
-/*   Updated: 2025/08/04 12:54:41 by yuocak           ###   ########.fr       */
+/*   Updated: 2025/08/04 14:45:03 by yuocak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,6 +124,9 @@ int	execute_multiple_command(t_base *base)
 	cleanup_pipes(data.pipes, data.pipe_count);
 	data.pipes = NULL;
 	exit_status = wait_for_children(&data);
+	// Set underscore variable with the last command's tokens
+	if (data.commands && data.cmd_count > 0)
+		set_underscore_variable(base, data.commands[data.cmd_count - 1]);
 	free_tokens_safe(&data);
 	free_pids(&data);
 	return (exit_status);

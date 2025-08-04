@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yuocak <yuocak@student.42kocaeli.com.tr    +#+  +:+       +#+        */
+/*   By: yuocak <yuocak@student.42kocaeli.com.tr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/24 15:07:31 by yuocak            #+#    #+#             */
-/*   Updated: 2025/08/03 13:28:53 by yuocak           ###   ########.fr       */
+/*   Updated: 2025/08/04 14:50:46 by yuocak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,4 +50,5 @@ void	execute_command(t_base *base)
 	{
 		base->exit_status = single_execute_command(base);
 	}
+	set_underscore_variable(base, base->token);
 }

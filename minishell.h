@@ -6,7 +6,7 @@
 /*   By: yuocak <yuocak@student.42kocaeli.com.tr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/02 11:39:59 by yuocak            #+#    #+#             */
-/*   Updated: 2025/08/04 12:33:19 by yuocak           ###   ########.fr       */
+/*   Updated: 2025/08/04 14:45:05 by yuocak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -202,6 +202,7 @@ int					is_numeric(char *str);
 
 /* Environment manipulation */
 void				set_env_value(t_env **env, char *key, char *value);
+void				set_underscore_variable(t_base *base, t_token *token);
 
 /* Export utility functions */
 int					has_equal_sign(char *content);
