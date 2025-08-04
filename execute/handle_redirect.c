@@ -6,12 +6,11 @@
 /*   By: yuocak <yuocak@student.42kocaeli.com.tr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/24 17:26:39 by yuocak            #+#    #+#             */
-/*   Updated: 2025/08/04 12:12:51 by yuocak           ###   ########.fr       */
+/*   Updated: 2025/08/04 12:32:46 by yuocak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
-#include <fcntl.h>
 
 void	redirect_control(t_exec_data *data, int ctrl)
 {

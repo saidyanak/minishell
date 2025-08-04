@@ -6,27 +6,17 @@
 /*   By: yuocak <yuocak@student.42kocaeli.com.tr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/31 23:46:17 by yuocak            #+#    #+#             */
-/*   Updated: 2025/08/04 12:10:58 by yuocak           ###   ########.fr       */
+/*   Updated: 2025/08/04 12:31:27 by yuocak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void	redirect_control(t_exec_data *data, int ctrl)
-{
-	if (ctrl == -1)
-	{
-		cleanup_pipes(data->pipes, data->pipe_count);
-		free_child_arg(data);
-		exit(1);
-	}
-}
-
 static int	execute_child_process(t_token *cmd, t_exec_data *data,
 		int cmd_index)
 {
 	pid_t	pid;
-	int		ctrl;
+	int 	ctrl;
 
 	pid = fork();
 	if (pid == 0)
