@@ -41,12 +41,13 @@ SRCS = main.c \
 	   $(PARSERDIR)/quote_utils.c \
 	   $(PARSERDIR)/operator_handler.c \
 	   $(PARSERDIR)/token_utils.c \
-	   $(EXECUTEDIR)/heredoc_handler.c \
 	   $(EXECUTEDIR)/syntax_checker_main.c \
 	   $(EXECUTEDIR)/syntax_checker_pipe.c \
 	   $(EXECUTEDIR)/syntax_checker_redir.c \
-	   $(EXECUTEDIR)/simple_heredoc.c \
        $(EXECUTEDIR)/execute.c \
+	   $(EXECUTEDIR)/heredoc.c \
+	   $(EXECUTEDIR)/heredoc_restore.c \
+	   $(EXECUTEDIR)/heredoc_preprocessor.c \
        $(EXECUTEDIR)/execute_command_utils.c \
        $(EXECUTEDIR)/execute_path_finder.c \
        $(EXECUTEDIR)/execute_external.c \

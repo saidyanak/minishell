@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yuocak <yuocak@student.42kocaeli.com.tr    +#+  +:+       +#+        */
+/*   By: syanak <syanak@student.42kocaeli.com.tr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/02 11:39:59 by yuocak            #+#    #+#             */
-/*   Updated: 2025/08/03 14:31:13 by yuocak           ###   ########.fr       */
+/*   Updated: 2025/08/04 09:03:18 by syanak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,13 @@
 # define SIG_NONE 0;
 # define SIG_INT 1;
 # define SIG_QUIT 2;
+
+typedef struct s_heredoc_info
+{
+	char			*content;
+	char			*original_delimiter;
+	int				heredoc_id;
+}					t_heredoc_info;
 
 typedef enum e_quote_type
 {
@@ -75,6 +82,8 @@ typedef struct s_base
 	t_token			*token;
 	t_env			*env;
 	int				exit_status;
+	t_heredoc_info	*heredocs;
+	int				heredoc_count;
 }					t_base;
 
 typedef struct s_exec_params
@@ -123,8 +132,7 @@ char				*ft_strjoin_free(char *s1, char *s2);
 /* Expand functions */
 void				expand_tokens(t_base *base);
 void				word_splitting(t_base *base);
-void				handle_export_assignments(t_base *base);
-void				process_export_and_expand(t_base *base);
+char				*expand_variables(char *str, t_base *base);
 char				*process_mixed_quotes(char *str, t_base *base);
 int					has_dollar_sign(char *str);
 int					has_tilde_sign(char *str);
@@ -224,16 +232,16 @@ void				print_syntax_error(char *token);
 int					is_operator_token(t_token_type type);
 
 /* Heredoc functions */
-char				*handle_heredoc(char *delimiter);
-int					setup_heredoc_input(char *delimiter);
-int					setup_simple_heredoc(char *delimiter);
-void				cleanup_heredoc_files(void);
-void				handle_redirections(t_token *cmd);
+char				*handle_heredoc(char *delimiter, t_base *base);
+void				cleanup_heredocs(t_base *base);
+int					preprocess_heredocs(t_base *base);
+void				handle_redirections(t_token *cmd, t_base *base);
+void				restore_heredocs_in_redirections(t_token *cmd,
+						t_base *base);
 
 /* Signal handling functions */
 void				setup_interactive_signals(void);
 void				setup_child_signals(void);
-void				setup_heredoc_signals(void);
 void				setup_execution_signals(void);
 int					check_signal_status(int exit_status);
 void				restore_signals(void);

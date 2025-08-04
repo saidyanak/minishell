@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute_multiple.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yuocak <yuocak@student.42kocaeli.com.tr    +#+  +:+       +#+        */
+/*   By: syanak <syanak@student.42kocaeli.com.tr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/31 23:46:17 by yuocak            #+#    #+#             */
-/*   Updated: 2025/08/03 13:34:38 by yuocak           ###   ########.fr       */
+/*   Updated: 2025/08/04 09:03:51 by syanak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ static int	execute_child_process(t_token *cmd, t_exec_data *data,
 			dup2(data->pipes[cmd_index - 1][0], STDIN_FILENO);
 		if (cmd_index < data->cmd_count - 1 && !has_output_redirection(cmd))
 			dup2(data->pipes[cmd_index][1], STDOUT_FILENO);
-		handle_redirections(cmd);
+		handle_redirections(cmd, data->base);
 		cleanup_pipes(data->pipes, data->pipe_count);
 		data->base->token = cmd;
 		data->base->exit_status = single_execute_command(data->base);
@@ -43,8 +43,7 @@ static int	execute_child_process(t_token *cmd, t_exec_data *data,
 	return (pid);
 }
 
-static int	init_execution_resources(t_exec_data *data,
-									t_base *base)
+static int	init_execution_resources(t_exec_data *data, t_base *base)
 {
 	data->cmd_count = count_commands(base->token);
 	data->pipe_count = data->cmd_count - 1;
