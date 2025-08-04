@@ -23,17 +23,6 @@ static int	count_heredocs(t_token *token)
 	int count;
 
 	count = 0;
-
-
-
-
-
-
-
-
-
-
-	
 	current = token;
 	while (current)
 	{

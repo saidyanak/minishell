@@ -6,7 +6,7 @@
 /*   By: yuocak <yuocak@student.42kocaeli.com.tr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/31 23:46:17 by yuocak            #+#    #+#             */
-/*   Updated: 2025/08/04 12:31:27 by yuocak           ###   ########.fr       */
+/*   Updated: 2025/08/04 12:54:41 by yuocak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@ static int	execute_child_process(t_token *cmd, t_exec_data *data,
 		cleanup_pipes(data->pipes, data->pipe_count);
 		data->base->token = cmd;
 		data->base->exit_status = single_execute_command(data->base);
+		cleanup_heredocs(data->base);
 		free_child_arg(data);
 		exit(data->base->exit_status);
 	}
