@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute_multiple_helpers.c                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yuocak <yuocak@student.42kocaeli.com.tr    +#+  +:+       +#+        */
+/*   By: yuocak <yuocak@student.42kocaeli.com.tr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/03 14:30:00 by yuocak            #+#    #+#             */
-/*   Updated: 2025/08/03 13:34:54 by yuocak           ###   ########.fr       */
+/*   Updated: 2025/08/04 10:37:20 by yuocak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,13 +61,4 @@ void	free_tokens_safe(t_exec_data *data)
 		free_tokens(data->commands[i]);
 	free_commands(data->commands);
 	data->commands = NULL;
-}
-
-void	free_pids(t_exec_data *data)
-{
-	if (data->pids)
-	{
-		free(data->pids);
-		data->pids = NULL;
-	}
 }

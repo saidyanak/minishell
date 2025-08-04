@@ -6,14 +6,11 @@
 /*   By: yuocak <yuocak@student.42kocaeli.com.tr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 07:45:00 by yuocak            #+#    #+#             */
-/*   Updated: 2025/08/02 13:52:51 by yuocak           ###   ########.fr       */
+/*   Updated: 2025/08/04 10:36:42 by yuocak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
-#include <stdio.h>
-#include <stdlib.h>
-#include <unistd.h>
 
 static void	cleanup_execution(t_exec_params *params)
 {

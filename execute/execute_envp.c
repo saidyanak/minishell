@@ -3,15 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   execute_envp.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: syanak <syanak@student.42kocaeli.com.tr    +#+  +:+       +#+        */
+/*   By: yuocak <yuocak@student.42kocaeli.com.tr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 07:30:00 by yuocak            #+#    #+#             */
-/*   Updated: 2025/07/22 09:39:18 by syanak           ###   ########.fr       */
+/*   Updated: 2025/08/04 10:36:45 by yuocak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
-#include <stdlib.h>
 
 int	count_env_vars(t_env *env)
 {

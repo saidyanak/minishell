@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: syanak <syanak@student.42kocaeli.com.tr    +#+  +:+       +#+        */
+/*   By: yuocak <yuocak@student.42kocaeli.com.tr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/02 11:39:59 by yuocak            #+#    #+#             */
-/*   Updated: 2025/08/04 09:03:18 by syanak           ###   ########.fr       */
+/*   Updated: 2025/08/04 12:13:12 by yuocak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -161,6 +161,7 @@ t_token				**split_commands(t_token *token, int cmd_count);
 void				cleanup_pipes(int **pipes, int pipe_count);
 int					has_output_redirection(t_token *cmd);
 int					has_input_redirection(t_token *cmd);
+void				redirect_control(t_exec_data *data, int ctrl);
 
 /* Multiple command execution helper functions */
 void				init_exec_data(t_exec_data *data);
@@ -235,7 +236,7 @@ int					is_operator_token(t_token_type type);
 char				*handle_heredoc(char *delimiter, t_base *base);
 void				cleanup_heredocs(t_base *base);
 int					preprocess_heredocs(t_base *base);
-void				handle_redirections(t_token *cmd, t_base *base);
+int					handle_redirections(t_token *cmd, t_base *base);
 void				restore_heredocs_in_redirections(t_token *cmd,
 						t_base *base);
 

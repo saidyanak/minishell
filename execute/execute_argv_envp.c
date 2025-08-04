@@ -6,13 +6,11 @@
 /*   By: yuocak <yuocak@student.42kocaeli.com.tr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 07:15:00 by yuocak            #+#    #+#             */
-/*   Updated: 2025/07/28 17:53:50 by yuocak           ###   ########.fr       */
+/*   Updated: 2025/08/04 10:36:51 by yuocak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
-#include <stdio.h>
-#include <stdlib.h>
 
 int	count_args_in_command(t_token *token)
 {

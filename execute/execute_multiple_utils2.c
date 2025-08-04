@@ -6,7 +6,7 @@
 /*   By: yuocak <yuocak@student.42kocaeli.com.tr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/24 13:00:00 by yuocak            #+#    #+#             */
-/*   Updated: 2025/08/02 14:50:06 by yuocak           ###   ########.fr       */
+/*   Updated: 2025/08/04 10:36:28 by yuocak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,24 +41,4 @@ t_token	**split_commands(t_token *token, int cmd_count)
 	}
 	commands[cmd_count] = NULL;
 	return (commands);
-}
-
-void	cleanup_pipes(int **pipes, int pipe_count)
-{
-	int	i;
-
-	if (!pipes)
-		return ;
-	i = 0;
-	while (i < pipe_count)
-	{
-		if (pipes[i])
-		{
-			close(pipes[i][0]);
-			close(pipes[i][1]);
-			free(pipes[i]);
-		}
-		i++;
-	}
-	free(pipes);
 }

@@ -6,13 +6,11 @@
 /*   By: yuocak <yuocak@student.42kocaeli.com.tr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/24 13:00:00 by yuocak            #+#    #+#             */
-/*   Updated: 2025/07/29 11:29:53 by yuocak           ###   ########.fr       */
+/*   Updated: 2025/08/04 10:36:35 by yuocak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
-#include <sys/wait.h>
-#include <unistd.h>
 
 int	count_commands(t_token *token)
 {

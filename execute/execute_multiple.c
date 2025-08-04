@@ -3,22 +3,30 @@
 /*                                                        :::      ::::::::   */
 /*   execute_multiple.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: syanak <syanak@student.42kocaeli.com.tr    +#+  +:+       +#+        */
+/*   By: yuocak <yuocak@student.42kocaeli.com.tr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/31 23:46:17 by yuocak            #+#    #+#             */
-/*   Updated: 2025/08/04 09:03:51 by syanak           ###   ########.fr       */
+/*   Updated: 2025/08/04 12:10:58 by yuocak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
-#include <signal.h>
-#include <stdio.h>
-#include <unistd.h>
+
+void	redirect_control(t_exec_data *data, int ctrl)
+{
+	if (ctrl == -1)
+	{
+		cleanup_pipes(data->pipes, data->pipe_count);
+		free_child_arg(data);
+		exit(1);
+	}
+}
 
 static int	execute_child_process(t_token *cmd, t_exec_data *data,
 		int cmd_index)
 {
 	pid_t	pid;
+	int		ctrl;
 
 	pid = fork();
 	if (pid == 0)
@@ -28,7 +36,8 @@ static int	execute_child_process(t_token *cmd, t_exec_data *data,
 			dup2(data->pipes[cmd_index - 1][0], STDIN_FILENO);
 		if (cmd_index < data->cmd_count - 1 && !has_output_redirection(cmd))
 			dup2(data->pipes[cmd_index][1], STDOUT_FILENO);
-		handle_redirections(cmd, data->base);
+		ctrl = handle_redirections(cmd, data->base);
+		redirect_control(data, ctrl);
 		cleanup_pipes(data->pipes, data->pipe_count);
 		data->base->token = cmd;
 		data->base->exit_status = single_execute_command(data->base);

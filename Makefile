@@ -31,6 +31,7 @@ SRCS = main.c \
 	   expand.c	\
 	   word_splitting.c \
        $(CLEANDIR)/cleanup.c \
+       $(CLEANDIR)/cleanup_utils.c \
 	   $(ENVDIR)/create_linked_list.c \
 	   $(ENVDIR)/create_linked_list_utils.c \
 	   $(SIGNALDIR)/singal_handler_utils.c \
