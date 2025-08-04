@@ -6,7 +6,7 @@
 /*   By: syanak <syanak@student.42kocaeli.com.tr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/02 11:39:31 by yuocak            #+#    #+#             */
-/*   Updated: 2025/08/04 09:07:19 by syanak           ###   ########.fr       */
+/*   Updated: 2025/08/04 09:31:50 by syanak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,24 +17,19 @@ static void	process_input(char *input, t_base *base)
 	if (!input || !*input)
 		return ;
 	add_history(input);
-	// Önceki token'ları ve heredoc'ları temizle
 	if (base->token)
 	{
 		free_tokens(base->token);
 		base->token = NULL;
 	}
 	cleanup_heredocs(base);
-	// 1. Tokenize
 	tokenize_input(input, base);
-	// 2. Heredoc'ları expand'dan ÖNCE işle !!
 	if (!preprocess_heredocs(base))
 	{
 		printf("minishell: heredoc processing failed\n");
 		return ;
 	}
-	// expand'ı çalıştır
 	expand_tokens(base);
-	// 4. Komutları çalıştır
 	execute_command(base);
 }
 
