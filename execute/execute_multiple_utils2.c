@@ -6,19 +6,28 @@
 /*   By: yuocak <yuocak@student.42kocaeli.com.tr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/24 13:00:00 by yuocak            #+#    #+#             */
-/*   Updated: 2025/08/04 10:36:28 by yuocak           ###   ########.fr       */
+/*   Updated: 2025/08/05 13:23:17 by yuocak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
-#include <sys/wait.h>
-#include <unistd.h>
+
+static void	assign_new_command(t_token **current, t_token **commands, int *cmd_index)
+{
+	t_token	*temp;
+
+	temp = (*current)->next;
+	(*current)->next = NULL;
+	(*cmd_index)++;
+	commands[*cmd_index] = temp;
+	*current = temp;
+}
+
 
 t_token	**split_commands(t_token *token, int cmd_count)
 {
 	t_token	**commands;
 	t_token	*current;
-	t_token	*temp;
 	int		cmd_index;
 
 	commands = malloc(sizeof(t_token *) * (cmd_count + 1));
@@ -30,14 +39,9 @@ t_token	**split_commands(t_token *token, int cmd_count)
 	while (current && cmd_index < cmd_count)
 	{
 		if (current->type == TOKEN_PIPE)
-		{
-			temp = current->next;
-			current->next = NULL;
-			commands[++cmd_index] = temp;
-			current = temp;
-			continue ;
-		}
-		current = current->next;
+			assign_new_command(&current, commands, &cmd_index);
+		else
+			current = current->next;
 	}
 	commands[cmd_count] = NULL;
 	return (commands);

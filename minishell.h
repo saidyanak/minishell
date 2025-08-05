@@ -6,7 +6,7 @@
 /*   By: yuocak <yuocak@student.42kocaeli.com.tr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/02 11:39:59 by yuocak            #+#    #+#             */
-/*   Updated: 2025/08/04 17:28:29 by yuocak           ###   ########.fr       */
+/*   Updated: 2025/08/05 13:03:40 by yuocak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 # define MINISHELL_H
 
 # include "libft/libft.h"
-# include <limits.h>
 # include <readline/history.h>
 # include <readline/readline.h>
 # include <signal.h>
@@ -29,6 +28,10 @@
 # define SIG_NONE 0;
 # define SIG_INT 1;
 # define SIG_QUIT 2;
+
+# define INT_MAX 2147483647
+# define INT_MIN (-2147483648)
+# define LLONG_MAX 9223372036854775807LL
 
 typedef struct s_heredoc_info
 {
@@ -231,7 +234,7 @@ t_env				**create_env_array(t_env *env, int count);
 void				add_env_var(t_token *token, t_base *base);
 void				update_env_var(t_env *env_var, t_token *token);
 int					validate_and_error(char *key, char *content);
-void				add_or_update_env(t_token *token, t_base *base);
+int					add_or_update_env(t_token *token, t_base *base);
 int					ascii_strcmp(char *s1, char *s2);
 void				sort_env_array(t_env **array, int count);
 int					has_equal_sign_in_original(t_env *env);

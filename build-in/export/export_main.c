@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export_main.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: syanak <syanak@student.42kocaeli.com.tr    +#+  +:+       +#+        */
+/*   By: yuocak <yuocak@student.42kocaeli.com.tr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/17 15:14:55 by yuocak            #+#    #+#             */
-/*   Updated: 2025/08/04 10:40:50 by syanak           ###   ########.fr       */
+/*   Updated: 2025/08/05 13:03:38 by yuocak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,15 +37,20 @@ void	sort_and_print_env(t_env *env)
 int	process_export_args(t_token *token, t_base *base)
 {
 	t_token	*current;
+	int		exit_status;
 
 	current = token->next;
+	exit_status = 0;
 	while (current)
 	{
 		if (current->type == TOKEN_WORD || current->type == TOKEN_QUOTED_WORD)
-			add_or_update_env(current, base);
+		{
+			if (add_or_update_env(current, base) != 0)
+				exit_status = 1;
+		}
 		current = current->next;
 	}
-	return (0);
+	return (exit_status);
 }
 
 void	print_export(t_base *base)

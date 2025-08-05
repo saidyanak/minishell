@@ -6,7 +6,7 @@
 /*   By: yuocak <yuocak@student.42kocaeli.com.tr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/17 15:15:03 by yuocak            #+#    #+#             */
-/*   Updated: 2025/07/27 12:08:32 by yuocak           ###   ########.fr       */
+/*   Updated: 2025/08/05 13:03:42 by yuocak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,18 +68,18 @@ int	validate_and_error(char *key, char *content)
 	return (1);
 }
 
-void	add_or_update_env(t_token *token, t_base *base)
+int	add_or_update_env(t_token *token, t_base *base)
 {
 	char	*key;
 	t_env	*existing;
 
 	key = parse_token(token);
 	if (!key)
-		return ;
+		return (1);
 	if (!validate_and_error(key, token->content))
 	{
 		free(key);
-		return ;
+		return (1);
 	}
 	existing = find_env_var(base->env, key);
 	if (existing)
@@ -87,4 +87,5 @@ void	add_or_update_env(t_token *token, t_base *base)
 	else
 		add_env_var(token, base);
 	free(key);
+	return (0);
 }

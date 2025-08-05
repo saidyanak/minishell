@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_echo.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yuocak <yuocak@student.42kocaeli.com.tr    +#+  +:+       +#+        */
+/*   By: yuocak <yuocak@student.42kocaeli.com.tr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/26 15:18:32 by yuocak            #+#    #+#             */
-/*   Updated: 2025/08/03 14:38:48 by yuocak           ###   ########.fr       */
+/*   Updated: 2025/08/05 13:19:12 by yuocak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,14 @@ static int	process_n_flags(t_token **current)
 	return (newline);
 }
 
+static void	write_argument(t_token *token, int *first_arg)
+{
+	if (!(*first_arg))
+		write(1, " ", 1);
+	write(1, token->content, ft_strlen(token->content));
+	*first_arg = 0;
+}
+
 static void	print_arguments(t_token *current)
 {
 	int	first_arg;
@@ -54,18 +62,22 @@ static void	print_arguments(t_token *current)
 	{
 		if (current->type == TOKEN_WORD || current->type == TOKEN_QUOTED_WORD)
 		{
-			if (!first_arg)
-				write(1, " ", 1);
-			write(1, current->content, ft_strlen(current->content));
-			first_arg = 0;
+			write_argument(current, &first_arg);
+			current = current->next;
 		}
-		else if (current->type == TOKEN_PIPE
-			|| current->type == TOKEN_REDIRECT_IN
+		else if (current->type == TOKEN_PIPE)
+			break ;
+		else if (current->type == TOKEN_REDIRECT_IN
 			|| current->type == TOKEN_REDIRECT_OUT
 			|| current->type == TOKEN_APPEND
 			|| current->type == TOKEN_HEREDOC)
-			break ;
-		current = current->next;
+		{
+			current = current->next;
+			if (current)
+				current = current->next;
+		}
+		else
+			current = current->next;
 	}
 }
 

@@ -140,11 +140,11 @@ debug: re
 
 valgrind: $(NAME)
 	@echo "$(BLUE)Running valgrind with readline suppressions...$(NC)"
-	valgrind --tool=memcheck --leak-check=full --show-leak-kinds=all --suppressions=readline.supp --track-origins=yes ./$(NAME)
+	valgrind --tool=memcheck --leak-check=full --show-leak-kinds=all --suppressions=readline.supp --track-origins=yes --track-fds=yes  ./$(NAME)
 
 valgrind-pipe: $(NAME)
 	@echo "$(BLUE)Testing pipe command with valgrind...$(NC)"
-	echo "pwd | echo hello" | valgrind --tool=memcheck --leak-check=full --show-leak-kinds=all --suppressions=readline.supp --track-origins=yes ./$(NAME)
+	echo "pwd | echo hello" | valgrind --tool=memcheck --leak-check=full --show-leak-kinds=all --track-fds=yes --suppressions=readline.supp --track-origins=yes ./$(NAME)
 
 test: $(NAME)
 	@echo "$(BLUE)Running basic tests...$(NC)"

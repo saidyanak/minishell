@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   singal_handler_utils.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yuocak <yuocak@student.42kocaeli.com.tr    +#+  +:+       +#+        */
+/*   By: yuocak <yuocak@student.42kocaeli.com.tr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/02 14:44:36 by yuocak            #+#    #+#             */
-/*   Updated: 2025/08/03 13:39:15 by yuocak           ###   ########.fr       */
+/*   Updated: 2025/08/04 17:50:35 by yuocak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
