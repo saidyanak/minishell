@@ -6,11 +6,12 @@
 /*   By: yuocak <yuocak@student.42kocaeli.com.tr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 07:45:00 by yuocak            #+#    #+#             */
-/*   Updated: 2025/08/04 10:36:42 by yuocak           ###   ########.fr       */
+/*   Updated: 2025/08/05 15:24:48 by yuocak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
+#include <sys/stat.h>
 
 static void	cleanup_execution(t_exec_params *params)
 {
@@ -24,8 +25,15 @@ static void	cleanup_execution(t_exec_params *params)
 
 static void	child_process(t_exec_params *params)
 {
+	struct stat	st;
+
 	setup_child_signals();
 	execve(params->command_path, params->argv, params->envp);
+	if (stat(params->command_path, &st) == 0 && S_ISDIR(st.st_mode))
+	{
+		printf("minishell: %s: Is a directory\n", params->command_path);
+		exit(126);
+	}
 	perror("minishell");
 	exit(126);
 }

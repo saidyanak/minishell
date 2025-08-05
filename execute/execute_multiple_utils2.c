@@ -6,13 +6,14 @@
 /*   By: yuocak <yuocak@student.42kocaeli.com.tr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/24 13:00:00 by yuocak            #+#    #+#             */
-/*   Updated: 2025/08/05 13:23:17 by yuocak           ###   ########.fr       */
+/*   Updated: 2025/08/05 14:20:34 by yuocak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-static void	assign_new_command(t_token **current, t_token **commands, int *cmd_index)
+static void	assign_new_command(t_token **current, t_token **commands,
+	int *cmd_index)
 {
 	t_token	*temp;
 
@@ -22,7 +23,6 @@ static void	assign_new_command(t_token **current, t_token **commands, int *cmd_i
 	commands[*cmd_index] = temp;
 	*current = temp;
 }
-
 
 t_token	**split_commands(t_token *token, int cmd_count)
 {
