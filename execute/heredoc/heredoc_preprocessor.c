@@ -9,22 +9,69 @@
 /*                                                +#+#+#+#+#+
 	+#+           */
 /*   Created: 2025/08/06 12:30:00 by syanak            #+#    #+#             */
-/*   Updated: 2025/08/06 15:00:00 by syanak           ###   ########.fr       */
+/*   Updated: 2025/08/06 17:00:00 by syanak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+#include <fcntl.h>
 
 
-char	*initialize_empty_content_safe(void)
+/* Header dosyasında t_heredoc_info struct'ını güncelle:
+typedef struct s_heredoc_info
 {
-	char *content;
+	char			*temp_filename;     // content yerine filename
+	char			*original_delimiter;
+	int				heredoc_id;
+}					t_heredoc_info;
+*/
 
-	content = malloc(1);
-	if (!content)
+static char	*create_temp_filename(int heredoc_id)
+{
+	char *id_str;
+	char *temp_name;
+	char *full_path;
+
+	id_str = ft_itoa(heredoc_id);
+	if (!id_str)
 		return (NULL);
-	content[0] = '\0';
-	return (content);
+
+	temp_name = ft_strjoin("minishell_heredoc_", id_str);
+	free(id_str);
+	if (!temp_name)
+		return (NULL);
+
+	full_path = ft_strjoin("/tmp/", temp_name);
+	free(temp_name);
+	return (full_path);
+}
+
+static int	write_content_to_temp_file(char *filename, char *content)
+{
+	int fd;
+	ssize_t written;
+	size_t len;
+
+	if (!content)
+		return (1); // Boş content OK
+
+	fd = open(filename, O_CREAT | O_WRONLY | O_TRUNC, 0600);
+	if (fd == -1)
+	{
+		perror("open temp file");
+		return (0);
+	}
+
+	len = ft_strlen(content);
+	written = write(fd, content, len);
+	close(fd);
+
+	if (written != (ssize_t)len)
+	{
+		unlink(filename); // Başarısızlık durumunda dosyayı sil
+		return (0);
+	}
+	return (1);
 }
 
 static int	count_heredocs(t_token *token)
@@ -67,7 +114,7 @@ static t_heredoc_info	*create_heredoc_info_array(int count)
 	i = 0;
 	while (i < count)
 	{
-		array[i].content = NULL;
+		array[i].temp_filename = NULL;
 		array[i].original_delimiter = NULL;
 		array[i].heredoc_id = i;
 		i++;
@@ -75,38 +122,27 @@ static t_heredoc_info	*create_heredoc_info_array(int count)
 	return (array);
 }
 
-char	*read_from_pipe(int fd)
+char	*run_heredoc_child_to_file(char *delimiter, t_base *base,
+		t_heredoc_info *info)
 {
-	char *content;
-	char *temp;
-	char buffer[1024];
-	ssize_t bytes_read;
-
-	content = malloc(1);
-	if (!content)
-		return (NULL);
-	content[0] = '\0';
-	while ((bytes_read = read(fd, buffer, sizeof(buffer) - 1)) > 0)
-	{
-		buffer[bytes_read] = '\0';
-		temp = ft_strjoin(content, buffer);
-		free(content);
-		if (!temp)
-			return (NULL);
-		content = temp;
-	}
-	return (content);
-}
-
-static int	fork_heredoc_child(int *pipefd, char *delimiter, t_base *base,
-		int expand, t_heredoc_info *info)
-{
+	int pipefd[2];
 	pid_t pid;
+	int expand;
 	char *content;
+	int status;
+
+	expand = should_expand_heredoc(delimiter);
+	if (pipe(pipefd) == -1)
+		return (NULL);
 
 	pid = fork();
 	if (pid == -1)
-		return (-1);
+	{
+		close(pipefd[0]);
+		close(pipefd[1]);
+		return (NULL);
+	}
+
 	if (pid == 0)
 	{
 		close(pipefd[0]);
@@ -122,45 +158,43 @@ static int	fork_heredoc_child(int *pipefd, char *delimiter, t_base *base,
 		close(pipefd[1]);
 		exit(0);
 	}
-	return (pid);
-}
 
-static int	wait_for_heredoc_child(pid_t pid, int read_fd, t_base *base)
-{
-	int status;
-
+	close(pipefd[1]);
 	waitpid(pid, &status, 0);
+
 	if (WIFSIGNALED(status) && WTERMSIG(status) == SIGINT)
 	{
-		close(read_fd);
-		base->exit_status = 130;
-		return (130);
-	}
-	return (0);
-}
-
-char	*run_heredoc_child(char *delimiter, t_base *base, t_heredoc_info *info)
-{
-	int pipefd[2];
-	pid_t pid;
-	int expand;
-	char *content;
-
-	expand = should_expand_heredoc(delimiter);
-	if (pipe(pipefd) == -1)
-		return (NULL);
-	pid = fork_heredoc_child(pipefd, delimiter, base, expand, info);
-	if (pid == -1)
-	{
 		close(pipefd[0]);
-		close(pipefd[1]);
+		base->exit_status = 130;
 		return (NULL);
 	}
-	close(pipefd[1]);
-	if (wait_for_heredoc_child(pid, pipefd[0], base) == 130)
-		return (NULL);
+
 	content = read_from_pipe(pipefd[0]);
 	close(pipefd[0]);
+	return (content);
+}
+
+char	*read_from_pipe(int fd)
+{
+	char *content;
+	char *temp;
+	char buffer[1024];
+	ssize_t bytes_read;
+
+	content = malloc(1);
+	if (!content)
+		return (NULL);
+	content[0] = '\0';
+
+	while ((bytes_read = read(fd, buffer, sizeof(buffer) - 1)) > 0)
+	{
+		buffer[bytes_read] = '\0';
+		temp = ft_strjoin(content, buffer);
+		free(content);
+		if (!temp)
+			return (NULL);
+		content = temp;
+	}
 	return (content);
 }
 
@@ -173,10 +207,11 @@ void	cleanup_failed_heredocs(t_heredoc_info *heredocs, int count)
 	i = 0;
 	while (i < count)
 	{
-		if (heredocs[i].content)
+		if (heredocs[i].temp_filename)
 		{
-			free(heredocs[i].content);
-			heredocs[i].content = NULL;
+			unlink(heredocs[i].temp_filename); // Dosyayı sil
+			free(heredocs[i].temp_filename);
+			heredocs[i].temp_filename = NULL;
 		}
 		if (heredocs[i].original_delimiter)
 		{
@@ -192,29 +227,57 @@ static int	process_single_heredoc_child(t_token *heredoc_token,
 		t_heredoc_info *info, t_base *base)
 {
 	char *placeholder;
+	char *content;
 
 	if (!heredoc_token->next || !heredoc_token->next->content)
 		return (0);
+
 	info->original_delimiter = ft_strdup(heredoc_token->next->content);
 	if (!info->original_delimiter)
 		return (0);
-	info->content = run_heredoc_child(heredoc_token->next->content, base,
-			info);
-	if (!info->content)
+
+	info->temp_filename = create_temp_filename(info->heredoc_id);
+	if (!info->temp_filename)
 	{
 		free(info->original_delimiter);
 		info->original_delimiter = NULL;
 		return (0);
 	}
+
+	content = run_heredoc_child_to_file(heredoc_token->next->content, base,
+			info);
+	if (!content)
+	{
+		free(info->temp_filename);
+		free(info->original_delimiter);
+		info->temp_filename = NULL;
+		info->original_delimiter = NULL;
+		return (0);
+	}
+
+	if (!write_content_to_temp_file(info->temp_filename, content))
+	{
+		free(content);
+		free(info->temp_filename);
+		free(info->original_delimiter);
+		info->temp_filename = NULL;
+		info->original_delimiter = NULL;
+		return (0);
+	}
+
+	free(content);
+
 	placeholder = create_heredoc_placeholder(info->heredoc_id);
 	if (!placeholder)
 	{
-		free(info->content);
+		unlink(info->temp_filename);
+		free(info->temp_filename);
 		free(info->original_delimiter);
-		info->content = NULL;
+		info->temp_filename = NULL;
 		info->original_delimiter = NULL;
 		return (0);
 	}
+
 	free(heredoc_token->next->content);
 	heredoc_token->next->content = placeholder;
 	return (1);
@@ -248,19 +311,22 @@ static int	collect_heredocs_child(t_token *token, t_heredoc_info *heredocs,
 int	preprocess_heredocs(t_base *base)
 {
 	int heredoc_count;
-
 	t_heredoc_info *heredocs;
+
 	if (!base || !base->token)
 		return (1);
+
 	heredoc_count = count_heredocs(base->token);
 	if (heredoc_count == 0)
 		return (1);
+	base->heredoc_count = heredoc_count;
 	heredocs = create_heredoc_info_array(heredoc_count);
 	if (!heredocs)
 		return (0);
+
 	if (!collect_heredocs_child(base->token, heredocs, base))
 		return (0);
-	base->heredoc_count = heredoc_count;
+
 	base->heredocs = heredocs;
 	return (1);
 }

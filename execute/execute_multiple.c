@@ -6,11 +6,22 @@
 /*   By: syanak <syanak@student.42kocaeli.com.tr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/31 23:46:17 by yuocak            #+#    #+#             */
-/*   Updated: 2025/08/06 12:57:47 by syanak           ###   ########.fr       */
+/*   Updated: 2025/08/06 17:12:24 by syanak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
+
+char	*initialize_empty_content_safe(void)
+{
+	char	*content;
+
+	content = malloc(1);
+	if (!content)
+		return (NULL);
+	content[0] = '\0';
+	return (content);
+}
 
 static int	execute_child_process(t_token *cmd, t_exec_data *data,
 		int cmd_index)
@@ -26,7 +37,7 @@ static int	execute_child_process(t_token *cmd, t_exec_data *data,
 			dup2(data->pipes[cmd_index - 1][0], STDIN_FILENO);
 		if (cmd_index < data->cmd_count - 1 && !has_output_redirection(cmd))
 			dup2(data->pipes[cmd_index][1], STDOUT_FILENO);
-		ctrl = handle_redirections(cmd, data->base, data);
+		ctrl = handle_redirections(cmd, data->base);
 		redirect_control(data, ctrl);
 		cleanup_pipes(data->pipes, data->pipe_count);
 		data->base->token = cmd;

@@ -6,7 +6,7 @@
 /*   By: syanak <syanak@student.42kocaeli.com.tr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/02 11:39:59 by yuocak            #+#    #+#             */
-/*   Updated: 2025/08/06 15:34:41 by syanak           ###   ########.fr       */
+/*   Updated: 2025/08/06 17:08:56 by syanak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@
 
 typedef struct s_heredoc_info
 {
-	char			*content;
+	char *temp_filename; // content yerine filename
 	char			*original_delimiter;
 	int				heredoc_id;
 }					t_heredoc_info;
@@ -178,8 +178,7 @@ int					count_commands(t_token *token);
 int					**create_pipes(int pipe_count);
 t_token				**split_commands(t_token *token, int cmd_count);
 void				cleanup_pipes(int **pipes, int pipe_count);
-int					handle_redirections(t_token *cmd, t_base *base,
-						t_exec_data *exec);
+int					handle_redirections(t_token *cmd, t_base *base);
 int					has_output_redirection(t_token *cmd);
 int					has_input_redirection(t_token *cmd);
 void				redirect_control(t_exec_data *data, int ctrl);
@@ -260,8 +259,8 @@ void				cleanup_failed_heredocs(t_heredoc_info *heredocs,
 /* Heredoc functions - Child Process Based */
 int					preprocess_heredocs(t_base *base);
 void				cleanup_heredocs(t_base *base);
-void				restore_heredocs_in_redirections(t_token *cmd, t_base *base,
-						t_exec_data *exec);
+void				restore_heredocs_in_redirections(t_token *cmd,
+						t_base *base);
 int					should_expand_heredoc(char *delimiter);
 char				*read_heredoc_input_child(char *delimiter, t_base *base,
 						int expand);

@@ -6,7 +6,7 @@
 /*   By: syanak <syanak@student.42kocaeli.com.tr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/02 11:39:31 by yuocak            #+#    #+#             */
-/*   Updated: 2025/08/06 16:22:52 by syanak           ###   ########.fr       */
+/*   Updated: 2025/08/06 17:23:37 by syanak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ static void	run_shell_loop(t_base *base)
 				free_tokens(base->token);
 				base->token = NULL;
 			}
-			cleanup_heredocs(base);
+			cleanup_heredocs(base); /* Her komut sonrası heredoc temizliği */
 		}
 		free(input);
 	}
@@ -64,7 +64,7 @@ static void	run_shell_loop(t_base *base)
 
 int	main(int argc, char **argv, char **env)
 {
-	t_base	base;
+	t_base base;
 
 	(void)argv;
 	if (argc > 1)
@@ -81,7 +81,7 @@ int	main(int argc, char **argv, char **env)
 	setup_interactive_signals();
 	run_shell_loop(&base);
 	restore_signals();
-	cleanup_heredocs(&base);
+	cleanup_heredocs(&base); /* Program bitiminde son temizlik */
 	cleanup_all(&base);
 	clear_history();
 	return (base.exit_status);

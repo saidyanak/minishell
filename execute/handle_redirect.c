@@ -6,7 +6,7 @@
 /*   By: syanak <syanak@student.42kocaeli.com.tr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/24 17:26:39 by yuocak            #+#    #+#             */
-/*   Updated: 2025/08/06 12:59:29 by syanak           ###   ########.fr       */
+/*   Updated: 2025/08/06 17:08:44 by syanak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ int	redirect_in(t_token *current, int fd)
 	return (0);
 }
 
-int	handle_redirections(t_token *cmd, t_base *base, t_exec_data *exec)
+int	handle_redirections(t_token *cmd, t_base *base)
 {
 	t_token	*current;
 	int		fd;
@@ -100,7 +100,7 @@ int	handle_redirections(t_token *cmd, t_base *base, t_exec_data *exec)
 		}
 		else if (current->type == TOKEN_HEREDOC)
 		{
-			restore_heredocs_in_redirections(cmd, base, exec);
+			restore_heredocs_in_redirections(cmd, base);
 		}
 		current = current->next;
 	}

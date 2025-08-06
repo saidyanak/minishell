@@ -6,11 +6,11 @@
 /*   By: syanak <syanak@student.42kocaeli.com.tr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/04 11:59:31 by syanak            #+#    #+#             */
-/*   Updated: 2025/08/06 16:34:52 by syanak           ###   ########.fr       */
+/*   Updated: 2025/08/06 17:07:28 by syanak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../minishell.h"
+#include "minishell.h"
 #include <fcntl.h>
 
 static int	is_heredoc_placeholder(char *str)
@@ -32,60 +32,11 @@ static int	extract_heredoc_id(char *placeholder)
 	return (id);
 }
 
-static int	write_heredoc_to_pipe(int write_fd, char *content)
-{
-	size_t	len;
-	ssize_t	written;
-
-	if (!content)
-		return (0);
-	len = ft_strlen(content);
-	written = write(write_fd, content, len);
-	if (written == -1)
-	{
-		perror("write");
-		return (-1);
-	}
-	return (0);
-}
-
-static int	create_pipe_for_heredoc(char *content, t_exec_data *exec)
-{
-	int		pipefd[2];
-	pid_t	pid;
-
-	if (pipe(pipefd) == -1)
-	{
-		perror("pipe");
-		return (-1);
-	}
-	pid = fork();
-	if (pid == -1)
-	{
-		perror("fork");
-		close(pipefd[0]);
-		close(pipefd[1]);
-		return (-1);
-	}
-	if (pid == 0)
-	{
-		close(pipefd[0]);
-		write_heredoc_to_pipe(pipefd[1], content);
-		free_child_arg(exec);
-		cleanup_pipes(exec->pipes, exec->pipe_count);
-		close(pipefd[1]);
-		exit(0);
-	}
-	close(pipefd[1]);
-	return (pipefd[0]);
-}
-
-static void	setup_heredoc_input(t_token *heredoc_token, t_base *base,
-		t_exec_data *exec)
+static void	setup_heredoc_input(t_token *heredoc_token, t_base *base)
 {
 	int		heredoc_id;
 	int		fd;
-	char	*content;
+	char	*temp_filename;
 
 	if (!heredoc_token->next || !heredoc_token->next->content)
 		return ;
@@ -94,16 +45,20 @@ static void	setup_heredoc_input(t_token *heredoc_token, t_base *base,
 	heredoc_id = extract_heredoc_id(heredoc_token->next->content);
 	if (heredoc_id < 0 || heredoc_id >= base->heredoc_count)
 		return ;
-	content = base->heredocs[heredoc_id].content;
-	fd = create_pipe_for_heredoc(content, exec);
-	if (fd == -1)
+	temp_filename = base->heredocs[heredoc_id].temp_filename;
+	if (!temp_filename)
 		return ;
+	fd = open(temp_filename, O_RDONLY);
+	if (fd == -1)
+	{
+		perror("open heredoc temp file");
+		return ;
+	}
 	dup2(fd, STDIN_FILENO);
 	close(fd);
 }
 
-void	restore_heredocs_in_redirections(t_token *cmd, t_base *base,
-		t_exec_data *exec)
+void	restore_heredocs_in_redirections(t_token *cmd, t_base *base)
 {
 	t_token	*current;
 
@@ -113,27 +68,28 @@ void	restore_heredocs_in_redirections(t_token *cmd, t_base *base,
 	while (current)
 	{
 		if (current->type == TOKEN_HEREDOC)
-			setup_heredoc_input(current, base, exec);
+			setup_heredoc_input(current, base);
 		current = current->next;
 	}
 }
 
 void	cleanup_heredocs(t_base *base)
 {
-	int	i;
+	int i;
 
 	if (!base)
 		return ;
-	
+
 	if (base->heredocs)
 	{
 		i = 0;
 		while (i < base->heredoc_count)
 		{
-			if (base->heredocs[i].content)
+			if (base->heredocs[i].temp_filename)
 			{
-				free(base->heredocs[i].content);
-				base->heredocs[i].content = NULL;
+				unlink(base->heredocs[i].temp_filename); // Temp dosyayı sil
+				free(base->heredocs[i].temp_filename);
+				base->heredocs[i].temp_filename = NULL;
 			}
 			if (base->heredocs[i].original_delimiter)
 			{
