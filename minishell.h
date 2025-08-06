@@ -6,7 +6,7 @@
 /*   By: syanak <syanak@student.42kocaeli.com.tr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/02 11:39:59 by yuocak            #+#    #+#             */
-/*   Updated: 2025/08/06 12:59:25 by syanak           ###   ########.fr       */
+/*   Updated: 2025/08/06 15:34:41 by syanak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -254,6 +254,8 @@ int					check_redirection_syntax(t_token *token);
 int					check_heredoc_syntax(t_token *token);
 void				print_syntax_error(char *token);
 int					is_operator_token(t_token_type type);
+void				cleanup_failed_heredocs(t_heredoc_info *heredocs,
+						int count);
 
 /* Heredoc functions - Child Process Based */
 int					preprocess_heredocs(t_base *base);
@@ -264,7 +266,8 @@ int					should_expand_heredoc(char *delimiter);
 char				*read_heredoc_input_child(char *delimiter, t_base *base,
 						int expand);
 char				*read_from_pipe(int fd);
-char				*run_heredoc_child(char *delimiter, t_base *base);
+char				*run_heredoc_child(char *delimiter, t_base *base,
+						t_heredoc_info *info);
 
 /* Signal handling functions */
 void				setup_interactive_signals(void);

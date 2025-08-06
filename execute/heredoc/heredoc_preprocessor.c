@@ -99,7 +99,7 @@ char	*read_from_pipe(int fd)
 }
 
 static int	fork_heredoc_child(int *pipefd, char *delimiter, t_base *base,
-		int expand)
+		int expand, t_heredoc_info *info)
 {
 	pid_t pid;
 	char *content;
@@ -117,8 +117,8 @@ static int	fork_heredoc_child(int *pipefd, char *delimiter, t_base *base,
 			write(pipefd[1], content, ft_strlen(content));
 			free(content);
 		}
+		cleanup_failed_heredocs(info, base->heredoc_count);
 		cleanup_all(base);
-		cleanup_heredocs(base);
 		close(pipefd[1]);
 		exit(0);
 	}
@@ -139,7 +139,7 @@ static int	wait_for_heredoc_child(pid_t pid, int read_fd, t_base *base)
 	return (0);
 }
 
-char	*run_heredoc_child(char *delimiter, t_base *base)
+char	*run_heredoc_child(char *delimiter, t_base *base, t_heredoc_info *info)
 {
 	int pipefd[2];
 	pid_t pid;
@@ -149,7 +149,7 @@ char	*run_heredoc_child(char *delimiter, t_base *base)
 	expand = should_expand_heredoc(delimiter);
 	if (pipe(pipefd) == -1)
 		return (NULL);
-	pid = fork_heredoc_child(pipefd, delimiter, base, expand);
+	pid = fork_heredoc_child(pipefd, delimiter, base, expand, info);
 	if (pid == -1)
 	{
 		close(pipefd[0]);
@@ -164,7 +164,7 @@ char	*run_heredoc_child(char *delimiter, t_base *base)
 	return (content);
 }
 
-static void	cleanup_failed_heredocs(t_heredoc_info *heredocs, int count)
+void	cleanup_failed_heredocs(t_heredoc_info *heredocs, int count)
 {
 	int i;
 
@@ -188,28 +188,6 @@ static void	cleanup_failed_heredocs(t_heredoc_info *heredocs, int count)
 	free(heredocs);
 }
 
-static void	cleanup_heredoc_info(t_heredoc_info *info)
-{
-	if (info->content)
-	{
-		free(info->content);
-		info->content = NULL;
-	}
-	if (info->original_delimiter)
-	{
-		free(info->original_delimiter);
-		info->original_delimiter = NULL;
-	}
-}
-
-static int	handle_heredoc_failure(t_heredoc_info *info, char *placeholder)
-{
-	if (placeholder)
-		free(placeholder);
-	cleanup_heredoc_info(info);
-	return (0);
-}
-
 static int	process_single_heredoc_child(t_token *heredoc_token,
 		t_heredoc_info *info, t_base *base)
 {
@@ -218,15 +196,25 @@ static int	process_single_heredoc_child(t_token *heredoc_token,
 	if (!heredoc_token->next || !heredoc_token->next->content)
 		return (0);
 	info->original_delimiter = ft_strdup(heredoc_token->next->content);
-	printf("info->original_delimiter : %s\n", info->original_delimiter);
 	if (!info->original_delimiter)
 		return (0);
-	info->content = run_heredoc_child(heredoc_token->next->content, base);
+	info->content = run_heredoc_child(heredoc_token->next->content, base,
+			info);
 	if (!info->content)
-		return (handle_heredoc_failure(info, NULL));
+	{
+		free(info->original_delimiter);
+		info->original_delimiter = NULL;
+		return (0);
+	}
 	placeholder = create_heredoc_placeholder(info->heredoc_id);
 	if (!placeholder)
-		return (handle_heredoc_failure(info, placeholder));
+	{
+		free(info->content);
+		free(info->original_delimiter);
+		info->content = NULL;
+		info->original_delimiter = NULL;
+		return (0);
+	}
 	free(heredoc_token->next->content);
 	heredoc_token->next->content = placeholder;
 	return (1);
@@ -260,8 +248,8 @@ static int	collect_heredocs_child(t_token *token, t_heredoc_info *heredocs,
 int	preprocess_heredocs(t_base *base)
 {
 	int heredoc_count;
-	t_heredoc_info *heredocs;
 
+	t_heredoc_info *heredocs;
 	if (!base || !base->token)
 		return (1);
 	heredoc_count = count_heredocs(base->token);
