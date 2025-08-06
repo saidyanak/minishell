@@ -117,6 +117,7 @@ static int	fork_heredoc_child(int *pipefd, char *delimiter, t_base *base,
 			write(pipefd[1], content, ft_strlen(content));
 			free(content);
 		}
+		cleanup_all(base);
 		cleanup_heredocs(base);
 		close(pipefd[1]);
 		exit(0);

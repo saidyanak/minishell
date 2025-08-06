@@ -6,7 +6,7 @@
 /*   By: syanak <syanak@student.42kocaeli.com.tr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/02 11:39:59 by yuocak            #+#    #+#             */
-/*   Updated: 2025/08/06 10:32:06 by syanak           ###   ########.fr       */
+/*   Updated: 2025/08/06 12:59:25 by syanak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -178,7 +178,8 @@ int					count_commands(t_token *token);
 int					**create_pipes(int pipe_count);
 t_token				**split_commands(t_token *token, int cmd_count);
 void				cleanup_pipes(int **pipes, int pipe_count);
-int					handle_redirections(t_token *cmd, t_base *base);
+int					handle_redirections(t_token *cmd, t_base *base,
+						t_exec_data *exec);
 int					has_output_redirection(t_token *cmd);
 int					has_input_redirection(t_token *cmd);
 void				redirect_control(t_exec_data *data, int ctrl);
@@ -257,8 +258,8 @@ int					is_operator_token(t_token_type type);
 /* Heredoc functions - Child Process Based */
 int					preprocess_heredocs(t_base *base);
 void				cleanup_heredocs(t_base *base);
-void				restore_heredocs_in_redirections(t_token *cmd,
-						t_base *base);
+void				restore_heredocs_in_redirections(t_token *cmd, t_base *base,
+						t_exec_data *exec);
 int					should_expand_heredoc(char *delimiter);
 char				*read_heredoc_input_child(char *delimiter, t_base *base,
 						int expand);

@@ -6,7 +6,7 @@
 /*   By: syanak <syanak@student.42kocaeli.com.tr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/04 11:59:31 by syanak            #+#    #+#             */
-/*   Updated: 2025/08/06 09:40:45 by syanak           ###   ########.fr       */
+/*   Updated: 2025/08/06 13:06:30 by syanak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ static int	write_heredoc_to_pipe(int write_fd, char *content)
 	return (0);
 }
 
-static int	create_pipe_for_heredoc(char *content)
+static int	create_pipe_for_heredoc(char *content, t_exec_data *exec)
 {
 	int		pipefd[2];
 	pid_t	pid;
@@ -71,6 +71,8 @@ static int	create_pipe_for_heredoc(char *content)
 	{
 		close(pipefd[0]);
 		write_heredoc_to_pipe(pipefd[1], content);
+		free_child_arg(exec);
+		cleanup_pipes(exec->pipes, exec->pipe_count);
 		close(pipefd[1]);
 		exit(0);
 	}
@@ -78,7 +80,8 @@ static int	create_pipe_for_heredoc(char *content)
 	return (pipefd[0]);
 }
 
-static void	setup_heredoc_input(t_token *heredoc_token, t_base *base)
+static void	setup_heredoc_input(t_token *heredoc_token, t_base *base,
+		t_exec_data *exec)
 {
 	int		heredoc_id;
 	int		fd;
@@ -92,14 +95,15 @@ static void	setup_heredoc_input(t_token *heredoc_token, t_base *base)
 	if (heredoc_id < 0 || heredoc_id >= base->heredoc_count)
 		return ;
 	content = base->heredocs[heredoc_id].content;
-	fd = create_pipe_for_heredoc(content);
+	fd = create_pipe_for_heredoc(content, exec);
 	if (fd == -1)
 		return ;
 	dup2(fd, STDIN_FILENO);
 	close(fd);
 }
 
-void	restore_heredocs_in_redirections(t_token *cmd, t_base *base)
+void	restore_heredocs_in_redirections(t_token *cmd, t_base *base,
+		t_exec_data *exec)
 {
 	t_token	*current;
 
@@ -109,7 +113,7 @@ void	restore_heredocs_in_redirections(t_token *cmd, t_base *base)
 	while (current)
 	{
 		if (current->type == TOKEN_HEREDOC)
-			setup_heredoc_input(current, base);
+			setup_heredoc_input(current, base, exec);
 		current = current->next;
 	}
 }
