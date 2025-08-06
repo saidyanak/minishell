@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yuocak <yuocak@student.42kocaeli.com.tr>   +#+  +:+       +#+        */
+/*   By: syanak <syanak@student.42kocaeli.com.tr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/02 11:39:59 by yuocak            #+#    #+#             */
-/*   Updated: 2025/08/05 13:03:40 by yuocak           ###   ########.fr       */
+/*   Updated: 2025/08/06 10:32:06 by syanak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 # define MINISHELL_H
 
 # include "libft/libft.h"
+# include <fcntl.h>
 # include <readline/history.h>
 # include <readline/readline.h>
 # include <signal.h>
@@ -23,7 +24,6 @@
 # include <sys/types.h>
 # include <sys/wait.h>
 # include <unistd.h>
-# include <fcntl.h>
 
 # define SIG_NONE 0;
 # define SIG_INT 1;
@@ -150,6 +150,7 @@ int					is_ifs_char(char c);
 void				skip_ifs_chars(char *str, int *i);
 char				*extract_word(char *str, int *i);
 void				skip_ifs_chars(char *str, int *i);
+int					is_only_empty_variable(char *str, t_base *base);
 t_token				*get_last_token(t_token *tokens);
 
 /* Environment functions */
@@ -177,9 +178,11 @@ int					count_commands(t_token *token);
 int					**create_pipes(int pipe_count);
 t_token				**split_commands(t_token *token, int cmd_count);
 void				cleanup_pipes(int **pipes, int pipe_count);
+int					handle_redirections(t_token *cmd, t_base *base);
 int					has_output_redirection(t_token *cmd);
 int					has_input_redirection(t_token *cmd);
 void				redirect_control(t_exec_data *data, int ctrl);
+char				*initialize_empty_content_safe(void);
 
 /* Multiple command execution helper functions */
 void				init_exec_data(t_exec_data *data);
@@ -244,7 +247,6 @@ void				sort_and_print_env(t_env *env);
 int					process_export_args(t_token *token, t_base *base);
 
 /* Syntax checking functions */
-/* Syntax checking functions */
 int					check_syntax_errors(t_token *token);
 int					check_pipe_syntax(t_token *token);
 int					check_redirection_syntax(t_token *token);
@@ -252,13 +254,16 @@ int					check_heredoc_syntax(t_token *token);
 void				print_syntax_error(char *token);
 int					is_operator_token(t_token_type type);
 
-/* Heredoc functions */
-char				*handle_heredoc(char *delimiter, t_base *base);
-void				cleanup_heredocs(t_base *base);
+/* Heredoc functions - Child Process Based */
 int					preprocess_heredocs(t_base *base);
-int					handle_redirections(t_token *cmd, t_base *base);
+void				cleanup_heredocs(t_base *base);
 void				restore_heredocs_in_redirections(t_token *cmd,
 						t_base *base);
+int					should_expand_heredoc(char *delimiter);
+char				*read_heredoc_input_child(char *delimiter, t_base *base,
+						int expand);
+char				*read_from_pipe(int fd);
+char				*run_heredoc_child(char *delimiter, t_base *base);
 
 /* Signal handling functions */
 void				setup_interactive_signals(void);
@@ -267,6 +272,7 @@ void				setup_execution_signals(void);
 int					check_signal_status(int exit_status);
 void				restore_signals(void);
 void				sigint_handler(int sig);
+void				setup_heredoc_signals(void);
 
 /* Cleanup functions */
 void				free_tokens(t_token *tokens);

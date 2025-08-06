@@ -6,7 +6,7 @@
 /*   By: syanak <syanak@student.42kocaeli.com.tr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/04 12:19:56 by syanak            #+#    #+#             */
-/*   Updated: 2025/08/04 12:28:22 by syanak           ###   ########.fr       */
+/*   Updated: 2025/08/06 10:33:11 by syanak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,8 @@ static int	process_double_quote_section(char *str, int i, char **result,
 		return (-1);
 	content = ft_substr(str, start, i - start);
 	expanded = expand_variables(content, base);
-	*result = join_and_free(*result, expanded);
+	if (expanded)
+		*result = join_and_free(*result, expanded);
 	free(content);
 	return (i + 1);
 }
@@ -60,7 +61,8 @@ static int	process_unquoted_section(char *str, int i, char **result,
 		i++;
 	content = ft_substr(str, start, i - start);
 	expanded = expand_variables(content, base);
-	*result = join_and_free(*result, expanded);
+	if (expanded)
+		*result = join_and_free(*result, expanded);
 	free(content);
 	return (i);
 }
@@ -71,8 +73,8 @@ char	*process_mixed_quotes(char *str, t_base *base)
 	int		i;
 
 	if (!str)
-		return (ft_strdup(""));
-	result = ft_strdup("");
+		return (initialize_empty_content_safe());
+	result = initialize_empty_content_safe();
 	i = 0;
 	while (str[i])
 	{

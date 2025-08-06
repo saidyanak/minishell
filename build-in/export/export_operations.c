@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export_operations.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yuocak <yuocak@student.42kocaeli.com.tr>   +#+  +:+       +#+        */
+/*   By: syanak <syanak@student.42kocaeli.com.tr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/17 15:15:03 by yuocak            #+#    #+#             */
-/*   Updated: 2025/08/05 13:03:42 by yuocak           ###   ########.fr       */
+/*   Updated: 2025/08/06 10:32:36 by syanak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ void	update_env_var(t_env *env_var, t_token *token)
 		if (value)
 			env_var->value = value;
 		else
-			env_var->value = ft_strdup("");
+			env_var->value = initialize_empty_content_safe();
 		env_var->exported = 1;
 	}
 }

@@ -6,7 +6,7 @@
 /*   By: syanak <syanak@student.42kocaeli.com.tr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/02 11:39:31 by yuocak            #+#    #+#             */
-/*   Updated: 2025/08/04 15:28:12 by syanak           ###   ########.fr       */
+/*   Updated: 2025/08/06 11:39:52 by syanak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,11 +22,13 @@ static void	process_input(char *input, t_base *base)
 		free_tokens(base->token);
 		base->token = NULL;
 	}
-	cleanup_heredocs(base);
 	tokenize_input(input, base);
 	if (!preprocess_heredocs(base))
 	{
 		printf("minishell: heredoc processing failed\n");
+		cleanup_heredocs(base);
+		free_tokens(base->token);
+		base->token = NULL;
 		return ;
 	}
 	expand_tokens(base);
@@ -54,6 +56,8 @@ static void	run_shell_loop(t_base *base)
 				free_tokens(base->token);
 				base->token = NULL;
 			}
+			if (base->heredocs)
+				cleanup_heredocs(base);
 		}
 		free(input);
 	}

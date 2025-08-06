@@ -6,7 +6,7 @@
 /*   By: syanak <syanak@student.42kocaeli.com.tr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/04 15:27:44 by syanak            #+#    #+#             */
-/*   Updated: 2025/08/04 15:27:45 by syanak           ###   ########.fr       */
+/*   Updated: 2025/08/06 10:33:40 by syanak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ char	*parse_word_with_quotes(char *input, int *i, t_token_type *type,
 
 	if (!input || !i || !type || !q_type)
 		return (NULL);
-	result = ft_strdup("");
+	result = initialize_empty_content_safe();
 	start = *i;
 	data.quoted = 0;
 	data.detected = NONE_QUOTE;

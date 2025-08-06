@@ -1,19 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   heredoc.c                                          :+:      :+:    :+:   */
+/*   heredoc_child.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yuocak <yuocak@student.42kocaeli.com.tr>   +#+  +:+       +#+        */
+/*   By: syanak <syanak@student.42kocaeli.com.tr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/08/04 11:47:46 by syanak            #+#    #+#             */
-/*   Updated: 2025/08/04 17:55:34 by yuocak           ###   ########.fr       */
+/*   Created: 2025/08/06 12:30:00 by syanak            #+#    #+#             */
+/*   Updated: 2025/08/06 10:32:56 by syanak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../minishell.h"
-#include <signal.h>
+#include "minishell.h"
 
-static int	should_expand_heredoc(char *delimiter)
+static void	heredoc_signal_handler(int sig)
+{
+	(void)sig;
+	write(STDOUT_FILENO, "\n", 1);
+	exit(130);
+}
+
+void	setup_heredoc_signals(void)
+{
+	signal(SIGINT, heredoc_signal_handler);
+	signal(SIGQUIT, SIG_IGN);
+}
+
+int	should_expand_heredoc(char *delimiter)
 {
 	int	i;
 
@@ -33,11 +45,11 @@ static char	*remove_quotes_from_delimiter(char *delimiter)
 	int		j;
 	char	*result;
 
-	i = 0;
-	j = 0;
 	result = malloc(ft_strlen(delimiter) + 1);
 	if (!result)
 		return (NULL);
+	i = 0;
+	j = 0;
 	while (delimiter[i])
 	{
 		if (delimiter[i] != '\'' && delimiter[i] != '"')
@@ -76,27 +88,10 @@ static char	*join_heredoc_content(char *content, char *line)
 	return (result);
 }
 
-static char	*handle_eof_case(char *delimiter, char *content)
+static void	print_eof_warning(char *delimiter)
 {
-	char	*final_content;
-
 	printf("minishell: warning: here-document delimited by end-of-file (wanted `%s')\n",
 		delimiter);
-	if (content)
-	{
-		final_content = ft_strjoin(content, "\n");
-		free(content);
-		if (final_content)
-			return (final_content);
-		else
-			return (ft_strdup("\n"));
-	}
-	return (ft_strdup("\n"));
-}
-
-static int	is_delimiter_match(char *line, char *delimiter)
-{
-	return (ft_strcmp(line, delimiter) == 0);
 }
 
 static char	*process_heredoc_line(char *line, char *content, t_base *base,
@@ -116,35 +111,36 @@ static char	*process_heredoc_line(char *line, char *content, t_base *base,
 	return (content);
 }
 
-static char	*return_content(char *content)
+static char	*finalize_heredoc_content(char *content)
 {
 	char	*final_content;
 
-	final_content = NULL;
-	if (content)
-	{
-		final_content = ft_strjoin(content, "\n");
-		free(content);
-		if (final_content != NULL)
-			return (final_content);
-		else
-			return (ft_strdup("\n"));
-	}
-	return (NULL);
+	if (!content)
+		return (initialize_empty_content_safe());
+	final_content = ft_strjoin(content, "\n");
+	free(content);
+	return (final_content ? final_content : ft_strdup("\n"));
 }
 
-static char	*read_heredoc_input(char *delimiter, t_base *base, int expand)
+char	*read_heredoc_input_child(char *delimiter, t_base *base, int expand)
 {
-	char	*line;
-	char	*content;
+	char *line;
+	char *content;
+	char *clean_delimiter;
 
+	clean_delimiter = remove_quotes_from_delimiter(delimiter);
+	if (!clean_delimiter)
+		return (NULL);
 	content = NULL;
 	while (1)
 	{
 		line = readline("> ");
 		if (!line)
-			return (handle_eof_case(delimiter, content));
-		if (is_delimiter_match(line, delimiter))
+		{
+			print_eof_warning(clean_delimiter);
+			break ;
+		}
+		if (ft_strcmp(line, clean_delimiter) == 0)
 		{
 			free(line);
 			break ;
@@ -152,38 +148,11 @@ static char	*read_heredoc_input(char *delimiter, t_base *base, int expand)
 		content = process_heredoc_line(line, content, base, expand);
 		free(line);
 		if (!content)
+		{
+			free(clean_delimiter);
 			return (NULL);
+		}
 	}
-	return (return_content(content));
-}
-
-static void	setup_heredoc_signals(void)
-{
-	signal(SIGINT, SIG_IGN);
-	signal(SIGQUIT, SIG_IGN);
-}
-
-static void	restore_original_signals(void)
-{
-	signal(SIGINT, SIG_DFL);
-	signal(SIGQUIT, SIG_DFL);
-}
-
-char	*handle_heredoc(char *delimiter, t_base *base)
-{
-	char	*content;
-	char	*clean_delimiter;
-	int		expand;
-
-	if (!delimiter || !base)
-		return (NULL);
-	expand = should_expand_heredoc(delimiter);
-	clean_delimiter = remove_quotes_from_delimiter(delimiter);
-	if (!clean_delimiter)
-		return (NULL);
-	setup_heredoc_signals();
-	content = read_heredoc_input(clean_delimiter, base, expand);
-	restore_original_signals();
 	free(clean_delimiter);
-	return (content);
+	return (finalize_heredoc_content(content));
 }

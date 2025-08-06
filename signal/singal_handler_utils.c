@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   singal_handler_utils.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yuocak <yuocak@student.42kocaeli.com.tr>   +#+  +:+       +#+        */
+/*   By: syanak <syanak@student.42kocaeli.com.tr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/02 14:44:36 by yuocak            #+#    #+#             */
-/*   Updated: 2025/08/04 17:50:35 by yuocak           ###   ########.fr       */
+/*   Updated: 2025/08/05 17:41:18 by syanak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,12 +22,6 @@ void	setup_child_signals(void)
 {
 	signal(SIGINT, SIG_DFL);
 	signal(SIGQUIT, SIG_DFL);
-}
-
-void	setup_heredoc_signals(void)
-{
-	signal(SIGINT, SIG_DFL);
-	signal(SIGQUIT, SIG_IGN);
 }
 
 void	setup_execution_signals(void)

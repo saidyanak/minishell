@@ -35,6 +35,7 @@ SRCS = main.c \
 	   $(EXPANDIR)/expand_quotes.c \
 	   $(EXPANDIR)/expand_utils_1.c \
 	   $(EXPANDIR)/expand_utils_2.c \
+	   $(EXPANDIR)/expand_utils_3.c \
 	   $(EXPANDIR)/word_splitting_utils_1.c \
 	   $(EXPANDIR)/word_splitting_utils_2.c \
        $(CLEANDIR)/cleanup.c \
@@ -53,9 +54,9 @@ SRCS = main.c \
 	   $(EXECUTEDIR)/syntax_checker_pipe.c \
 	   $(EXECUTEDIR)/syntax_checker_redir.c \
        $(EXECUTEDIR)/execute.c \
-	   $(HEREDOC)/heredoc.c \
 	   $(HEREDOC)/heredoc_restore.c \
 	   $(HEREDOC)/heredoc_preprocessor.c \
+	   $(HEREDOC)/heredoc_child.c \
        $(EXECUTEDIR)/execute_command_utils.c \
        $(EXECUTEDIR)/execute_path_finder.c \
        $(EXECUTEDIR)/execute_external.c \

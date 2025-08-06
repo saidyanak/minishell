@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   create_linked_list.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yuocak <yuocak@student.42kocaeli.com.tr    +#+  +:+       +#+        */
+/*   By: syanak <syanak@student.42kocaeli.com.tr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/02 11:46:17 by yuocak            #+#    #+#             */
-/*   Updated: 2025/08/03 13:44:07 by yuocak           ###   ########.fr       */
+/*   Updated: 2025/08/06 10:32:46 by syanak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ static int	allocate_key_value(t_env *node, char *env, char *equal_sign)
 	if (!equal_sign)
 	{
 		node->key = ft_strdup(env);
-		node->value = ft_strdup("");
+		node->value = initialize_empty_content_safe();
 	}
 	else
 	{

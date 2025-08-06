@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cleanup_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yuocak <yuocak@student.42kocaeli.com.tr>   +#+  +:+       +#+        */
+/*   By: syanak <syanak@student.42kocaeli.com.tr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/04 10:31:43 by yuocak            #+#    #+#             */
-/*   Updated: 2025/08/04 10:34:53 by yuocak           ###   ########.fr       */
+/*   Updated: 2025/08/05 16:56:42 by syanak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,8 @@ void	free_child_arg(t_exec_data *data)
 {
 	int	i;
 
+	if (data && data->base)
+		cleanup_heredocs(data->base);
 	i = -1;
 	free_env_list(data->base->env);
 	while (data->commands[++i])

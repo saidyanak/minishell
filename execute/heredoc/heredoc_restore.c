@@ -6,7 +6,7 @@
 /*   By: syanak <syanak@student.42kocaeli.com.tr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/04 11:59:31 by syanak            #+#    #+#             */
-/*   Updated: 2025/08/04 15:12:46 by syanak           ###   ########.fr       */
+/*   Updated: 2025/08/06 09:40:45 by syanak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,15 +118,26 @@ void	cleanup_heredocs(t_base *base)
 {
 	int	i;
 
-	if (!base || !base->heredocs)
+	if (!base)
 		return ;
+	if (!base->heredocs)
+	{
+		base->heredoc_count = 0;
+		return ;
+	}
 	i = 0;
 	while (i < base->heredoc_count)
 	{
 		if (base->heredocs[i].content)
+		{
 			free(base->heredocs[i].content);
+			base->heredocs[i].content = NULL;
+		}
 		if (base->heredocs[i].original_delimiter)
+		{
 			free(base->heredocs[i].original_delimiter);
+			base->heredocs[i].original_delimiter = NULL;
+		}
 		i++;
 	}
 	free(base->heredocs);

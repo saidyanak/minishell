@@ -6,7 +6,7 @@
 /*   By: syanak <syanak@student.42kocaeli.com.tr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/04 12:24:18 by syanak            #+#    #+#             */
-/*   Updated: 2025/08/04 12:28:28 by syanak           ###   ########.fr       */
+/*   Updated: 2025/08/06 10:33:16 by syanak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ char	*join_and_free(char *s1, char *s2)
 	char	*result;
 
 	if (!s1 && !s2)
-		return (ft_strdup(""));
+		return (initialize_empty_content_safe());
 	if (!s1)
 		return (s2);
 	if (!s2)

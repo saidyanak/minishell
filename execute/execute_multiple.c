@@ -6,7 +6,7 @@
 /*   By: syanak <syanak@student.42kocaeli.com.tr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/31 23:46:17 by yuocak            #+#    #+#             */
-/*   Updated: 2025/08/04 15:26:15 by syanak           ###   ########.fr       */
+/*   Updated: 2025/08/06 11:57:57 by syanak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@ static int	execute_child_process(t_token *cmd, t_exec_data *data,
 		data->base->token = cmd;
 		data->base->exit_status = single_execute_command(data->base);
 		free_child_arg(data);
+		cleanup_heredocs(data->base);
 		exit(data->base->exit_status);
 	}
 	else if (pid < 0)
@@ -115,6 +116,7 @@ int	execute_multiple_command(t_base *base)
 		return (1);
 	if (!launch_child_processes(&data))
 	{
+		cleanup_heredocs(base);
 		cleanup_pipes(data.pipes, data.pipe_count);
 		free_tokens_safe(&data);
 		free_pids(&data);
