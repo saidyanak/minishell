@@ -6,7 +6,7 @@
 /*   By: syanak <syanak@student.42kocaeli.com.tr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/02 11:39:59 by yuocak            #+#    #+#             */
-/*   Updated: 2025/08/06 17:08:56 by syanak           ###   ########.fr       */
+/*   Updated: 2025/08/07 16:50:21 by syanak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,9 +35,10 @@
 
 typedef struct s_heredoc_info
 {
-	char *temp_filename; // content yerine filename
+	char			*temp_filename;
 	char			*original_delimiter;
 	int				heredoc_id;
+	struct s_heredoc_info *next; // Linked list için
 }					t_heredoc_info;
 
 typedef enum e_quote_type
@@ -253,8 +254,8 @@ int					check_redirection_syntax(t_token *token);
 int					check_heredoc_syntax(t_token *token);
 void				print_syntax_error(char *token);
 int					is_operator_token(t_token_type type);
-void				cleanup_failed_heredocs(t_heredoc_info *heredocs,
-						int count);
+void				cleanup_heredocs_list(t_heredoc_info *head);
+void				cleanup_failed_heredocs_list(t_heredoc_info *head);
 
 /* Heredoc functions - Child Process Based */
 int					preprocess_heredocs(t_base *base);

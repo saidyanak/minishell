@@ -6,7 +6,7 @@
 /*   By: syanak <syanak@student.42kocaeli.com.tr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/04 11:59:31 by syanak            #+#    #+#             */
-/*   Updated: 2025/08/06 17:07:28 by syanak           ###   ########.fr       */
+/*   Updated: 2025/08/07 16:32:32 by syanak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,73 +32,85 @@ static int	extract_heredoc_id(char *placeholder)
 	return (id);
 }
 
+static t_heredoc_info	*find_heredoc_by_id(t_heredoc_info *head, int id)
+{
+	t_heredoc_info	*current;
+
+	current = head;
+	while (current)
+	{
+		if (current->heredoc_id == id)
+			return (current);
+		current = current->next;
+	}
+	return (NULL);
+}
+
+static int	open_heredoc_file(t_heredoc_info *heredoc_node)
+{
+	int	fd;
+
+	if (!heredoc_node || !heredoc_node->temp_filename)
+		return (-1);
+	fd = open(heredoc_node->temp_filename, O_RDONLY);
+	return (fd);
+}
+
 static void	setup_heredoc_input(t_token *heredoc_token, t_base *base)
 {
-	int		heredoc_id;
-	int		fd;
-	char	*temp_filename;
+	int				heredoc_id;
+	int				fd;
+	t_heredoc_info	*heredoc_node;
 
 	if (!heredoc_token->next || !heredoc_token->next->content)
 		return ;
 	if (!is_heredoc_placeholder(heredoc_token->next->content))
 		return ;
 	heredoc_id = extract_heredoc_id(heredoc_token->next->content);
-	if (heredoc_id < 0 || heredoc_id >= base->heredoc_count)
+	if (heredoc_id < 0)
 		return ;
-	temp_filename = base->heredocs[heredoc_id].temp_filename;
-	if (!temp_filename)
-		return ;
-	fd = open(temp_filename, O_RDONLY);
+	heredoc_node = find_heredoc_by_id(base->heredocs, heredoc_id);
+	fd = open_heredoc_file(heredoc_node);
 	if (fd == -1)
-	{
-		perror("open heredoc temp file");
 		return ;
-	}
 	dup2(fd, STDIN_FILENO);
 	close(fd);
 }
 
-void	restore_heredocs_in_redirections(t_token *cmd, t_base *base)
+static t_token	*find_last_heredoc(t_token *cmd)
 {
 	t_token	*current;
+	t_token	*last_heredoc;
 
-	if (!base || !base->heredocs)
-		return ;
 	current = cmd;
+	last_heredoc = NULL;
 	while (current)
 	{
 		if (current->type == TOKEN_HEREDOC)
-			setup_heredoc_input(current, base);
+			last_heredoc = current;
 		current = current->next;
 	}
+	return (last_heredoc);
+}
+
+void	restore_heredocs_in_redirections(t_token *cmd, t_base *base)
+{
+	t_token	*last_heredoc;
+
+	if (!base || !base->heredocs)
+		return ;
+	last_heredoc = find_last_heredoc(cmd);
+	if (last_heredoc)
+		setup_heredoc_input(last_heredoc, base);
 }
 
 void	cleanup_heredocs(t_base *base)
 {
-	int i;
-
 	if (!base)
 		return ;
-
 	if (base->heredocs)
 	{
-		i = 0;
-		while (i < base->heredoc_count)
-		{
-			if (base->heredocs[i].temp_filename)
-			{
-				unlink(base->heredocs[i].temp_filename); // Temp dosyayı sil
-				free(base->heredocs[i].temp_filename);
-				base->heredocs[i].temp_filename = NULL;
-			}
-			if (base->heredocs[i].original_delimiter)
-			{
-				free(base->heredocs[i].original_delimiter);
-				base->heredocs[i].original_delimiter = NULL;
-			}
-			i++;
-		}
-		free(base->heredocs);
+		cleanup_heredocs_list(base->heredocs);
 		base->heredocs = NULL;
 	}
 	base->heredoc_count = 0;

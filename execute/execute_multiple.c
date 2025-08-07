@@ -6,7 +6,7 @@
 /*   By: syanak <syanak@student.42kocaeli.com.tr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/31 23:46:17 by yuocak            #+#    #+#             */
-/*   Updated: 2025/08/06 17:12:24 by syanak           ###   ########.fr       */
+/*   Updated: 2025/08/07 15:42:50 by syanak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,6 @@ static int	execute_child_process(t_token *cmd, t_exec_data *data,
 		data->base->token = cmd;
 		data->base->exit_status = single_execute_command(data->base);
 		free_child_arg(data);
-		cleanup_heredocs(data->base);
 		exit(data->base->exit_status);
 	}
 	else if (pid < 0)
@@ -119,18 +118,21 @@ static int	wait_for_children(t_exec_data *data)
 
 int	execute_multiple_command(t_base *base)
 {
-	t_exec_data	data;
-	int			exit_status;
+	t_exec_data data;
+	int exit_status;
 
 	init_exec_data(&data);
 	if (!init_execution_resources(&data, base))
-		return (1);
-	if (!launch_child_processes(&data))
 	{
 		cleanup_heredocs(base);
+		return (1);
+	}
+	if (!launch_child_processes(&data))
+	{
 		cleanup_pipes(data.pipes, data.pipe_count);
 		free_tokens_safe(&data);
 		free_pids(&data);
+		cleanup_heredocs(base);
 		return (1);
 	}
 	cleanup_pipes(data.pipes, data.pipe_count);
@@ -138,5 +140,8 @@ int	execute_multiple_command(t_base *base)
 	exit_status = wait_for_children(&data);
 	free_tokens_safe(&data);
 	free_pids(&data);
+
+	// Multiple command tamamlandıktan sonra heredoc'ları temizle
+	cleanup_heredocs(base);
 	return (exit_status);
 }

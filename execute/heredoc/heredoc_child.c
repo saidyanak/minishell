@@ -6,7 +6,7 @@
 /*   By: syanak <syanak@student.42kocaeli.com.tr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/06 12:30:00 by syanak            #+#    #+#             */
-/*   Updated: 2025/08/06 10:32:56 by syanak           ###   ########.fr       */
+/*   Updated: 2025/08/07 16:32:36 by syanak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,31 +122,43 @@ static char	*finalize_heredoc_content(char *content)
 	return (final_content ? final_content : ft_strdup("\n"));
 }
 
+static int	process_readline_input(char **line, char *clean_delimiter,
+		char **content, t_base *base)
+{
+	int	expand;
+
+	expand = should_expand_heredoc(clean_delimiter);
+	*line = readline("> ");
+	if (!*line)
+	{
+		print_eof_warning(clean_delimiter);
+		return (0);
+	}
+	if (ft_strcmp(*line, clean_delimiter) == 0)
+	{
+		free(*line);
+		return (0);
+	}
+	*content = process_heredoc_line(*line, *content, base, expand);
+	free(*line);
+	return (*content != NULL);
+}
+
 char	*read_heredoc_input_child(char *delimiter, t_base *base, int expand)
 {
 	char *line;
 	char *content;
 	char *clean_delimiter;
 
+	(void)expand;
 	clean_delimiter = remove_quotes_from_delimiter(delimiter);
 	if (!clean_delimiter)
 		return (NULL);
 	content = NULL;
 	while (1)
 	{
-		line = readline("> ");
-		if (!line)
-		{
-			print_eof_warning(clean_delimiter);
+		if (!process_readline_input(&line, clean_delimiter, &content, base))
 			break ;
-		}
-		if (ft_strcmp(line, clean_delimiter) == 0)
-		{
-			free(line);
-			break ;
-		}
-		content = process_heredoc_line(line, content, base, expand);
-		free(line);
 		if (!content)
 		{
 			free(clean_delimiter);
