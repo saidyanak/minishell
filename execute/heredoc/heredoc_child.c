@@ -6,11 +6,11 @@
 /*   By: syanak <syanak@student.42kocaeli.com.tr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/06 12:30:00 by syanak            #+#    #+#             */
-/*   Updated: 2025/08/07 16:32:36 by syanak           ###   ########.fr       */
+/*   Updated: 2025/08/07 17:42:54 by syanak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../../minishell.h"
 
 static void	heredoc_signal_handler(int sig)
 {
@@ -39,7 +39,7 @@ int	should_expand_heredoc(char *delimiter)
 	return (1);
 }
 
-static char	*remove_quotes_from_delimiter(char *delimiter)
+char	*remove_quotes_from_delimiter(char *delimiter)
 {
 	int		i;
 	int		j;
@@ -58,90 +58,6 @@ static char	*remove_quotes_from_delimiter(char *delimiter)
 	}
 	result[j] = '\0';
 	return (result);
-}
-
-static char	*expand_heredoc_line(char *line, t_base *base, int expand)
-{
-	if (!line || !expand || !has_dollar_sign(line))
-		return (ft_strdup(line));
-	return (expand_variables(line, base));
-}
-
-static char	*join_heredoc_content(char *content, char *line)
-{
-	char	*temp;
-	char	*result;
-
-	if (!line)
-		return (content);
-	if (!content)
-		return (ft_strdup(line));
-	temp = ft_strjoin(content, "\n");
-	if (!temp)
-	{
-		free(content);
-		return (NULL);
-	}
-	result = ft_strjoin(temp, line);
-	free(temp);
-	free(content);
-	return (result);
-}
-
-static void	print_eof_warning(char *delimiter)
-{
-	printf("minishell: warning: here-document delimited by end-of-file (wanted `%s')\n",
-		delimiter);
-}
-
-static char	*process_heredoc_line(char *line, char *content, t_base *base,
-		int expand)
-{
-	char	*expanded_line;
-
-	expanded_line = expand_heredoc_line(line, base, expand);
-	if (!expanded_line)
-	{
-		if (content)
-			free(content);
-		return (NULL);
-	}
-	content = join_heredoc_content(content, expanded_line);
-	free(expanded_line);
-	return (content);
-}
-
-static char	*finalize_heredoc_content(char *content)
-{
-	char	*final_content;
-
-	if (!content)
-		return (initialize_empty_content_safe());
-	final_content = ft_strjoin(content, "\n");
-	free(content);
-	return (final_content ? final_content : ft_strdup("\n"));
-}
-
-static int	process_readline_input(char **line, char *clean_delimiter,
-		char **content, t_base *base)
-{
-	int	expand;
-
-	expand = should_expand_heredoc(clean_delimiter);
-	*line = readline("> ");
-	if (!*line)
-	{
-		print_eof_warning(clean_delimiter);
-		return (0);
-	}
-	if (ft_strcmp(*line, clean_delimiter) == 0)
-	{
-		free(*line);
-		return (0);
-	}
-	*content = process_heredoc_line(*line, *content, base, expand);
-	free(*line);
-	return (*content != NULL);
 }
 
 char	*read_heredoc_input_child(char *delimiter, t_base *base, int expand)
