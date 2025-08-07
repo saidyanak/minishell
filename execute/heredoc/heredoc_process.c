@@ -6,7 +6,7 @@
 /*   By: syanak <syanak@student.42kocaeli.com.tr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/07 19:30:00 by syanak            #+#    #+#             */
-/*   Updated: 2025/08/07 17:43:07 by syanak           ###   ########.fr       */
+/*   Updated: 2025/08/07 17:48:46 by syanak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,7 @@ int	count_heredocs(t_token *token)
 
 int	preprocess_heredocs(t_base *base)
 {
-	int heredoc_count;
+	int	heredoc_count;
 
 	if (!base || !base->token)
 		return (1);

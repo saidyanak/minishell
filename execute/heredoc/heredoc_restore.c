@@ -6,7 +6,7 @@
 /*   By: syanak <syanak@student.42kocaeli.com.tr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/04 11:59:31 by syanak            #+#    #+#             */
-/*   Updated: 2025/08/07 17:43:10 by syanak           ###   ########.fr       */
+/*   Updated: 2025/08/07 17:48:42 by syanak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,7 @@ void	restore_heredocs_in_redirections(t_token *cmd, t_base *base)
 
 char	*initialize_empty_content_safe(void)
 {
-	char *content;
+	char	*content;
 
 	content = malloc(1);
 	if (!content)

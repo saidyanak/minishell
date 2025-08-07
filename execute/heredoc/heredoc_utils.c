@@ -6,7 +6,7 @@
 /*   By: syanak <syanak@student.42kocaeli.com.tr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/07 19:30:00 by syanak            #+#    #+#             */
-/*   Updated: 2025/08/07 17:43:12 by syanak           ###   ########.fr       */
+/*   Updated: 2025/08/07 18:01:47 by syanak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,19 +65,23 @@ char	*finalize_heredoc_content(char *content)
 		return (initialize_empty_content_safe());
 	final_content = ft_strjoin(content, "\n");
 	free(content);
-	return (final_content ? final_content : ft_strdup("\n"));
+	if (final_content)
+		return (final_content);
+	else
+		return (ft_strdup("\n"));
 }
 
 int	process_readline_input(char **line, char *clean_delimiter, char **content,
 		t_base *base)
 {
-	int expand;
+	int	expand;
 
 	expand = should_expand_heredoc(clean_delimiter);
 	*line = readline("> ");
 	if (!*line)
 	{
-		printf("minishell: warning: here-document delimited by end-of-file (wanted `%s')\n",
+		printf("minishell: warning: here-document deli\
+			mited by end-of-file (wanted `%s')\n",
 			clean_delimiter);
 		return (0);
 	}

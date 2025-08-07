@@ -6,7 +6,7 @@
 /*   By: syanak <syanak@student.42kocaeli.com.tr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/07 19:30:00 by syanak            #+#    #+#             */
-/*   Updated: 2025/08/07 17:42:59 by syanak           ###   ########.fr       */
+/*   Updated: 2025/08/07 17:58:40 by syanak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,8 @@ char	*read_from_pipe(int fd)
 	if (!content)
 		return (NULL);
 	content[0] = '\0';
-	while ((bytes_read = read(fd, buffer, sizeof(buffer) - 1)) > 0)
+	bytes_read = read(fd, buffer, sizeof(buffer) - 1);
+	while (bytes_read > 0)
 	{
 		buffer[bytes_read] = '\0';
 		temp = ft_strjoin(content, buffer);
@@ -82,6 +83,7 @@ char	*read_from_pipe(int fd)
 		if (!temp)
 			return (NULL);
 		content = temp;
+		bytes_read = read(fd, buffer, sizeof(buffer) - 1);
 	}
 	return (content);
 }
@@ -89,9 +91,9 @@ char	*read_from_pipe(int fd)
 char	*run_heredoc_child_to_file(char *delimiter, t_base *base,
 		t_heredoc_info *info_node)
 {
-	int pipefd[2];
-	pid_t pid;
-	char *content;
+	int		pipefd[2];
+	pid_t	pid;
+	char	*content;
 
 	(void)info_node;
 	if (pipe(pipefd) == -1)

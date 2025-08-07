@@ -6,7 +6,7 @@
 /*   By: syanak <syanak@student.42kocaeli.com.tr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/06 12:30:00 by syanak            #+#    #+#             */
-/*   Updated: 2025/08/07 17:42:54 by syanak           ###   ########.fr       */
+/*   Updated: 2025/08/07 17:49:10 by syanak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,9 +62,9 @@ char	*remove_quotes_from_delimiter(char *delimiter)
 
 char	*read_heredoc_input_child(char *delimiter, t_base *base, int expand)
 {
-	char *line;
-	char *content;
-	char *clean_delimiter;
+	char	*line;
+	char	*content;
+	char	*clean_delimiter;
 
 	(void)expand;
 	clean_delimiter = remove_quotes_from_delimiter(delimiter);
