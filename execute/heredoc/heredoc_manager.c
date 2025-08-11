@@ -6,7 +6,7 @@
 /*   By: syanak <syanak@student.42kocaeli.com.tr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/07 19:30:00 by syanak            #+#    #+#             */
-/*   Updated: 2025/08/07 17:48:50 by syanak           ###   ########.fr       */
+/*   Updated: 2025/08/08 15:53:15 by syanak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,12 @@ int	process_heredoc_list(t_token *token, t_base *base)
 		{
 			node = find_heredoc_by_id(base->heredocs, heredoc_index);
 			if (!node || !process_single_heredoc_child(current, node, base))
+			{
+				cleanup_heredocs_list(base->heredocs);
+				base->heredocs = NULL;
+				return (0);
+			}
+			if (base->exit_status == 130)
 			{
 				cleanup_heredocs_list(base->heredocs);
 				base->heredocs = NULL;

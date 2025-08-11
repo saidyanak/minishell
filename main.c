@@ -6,7 +6,7 @@
 /*   By: syanak <syanak@student.42kocaeli.com.tr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/02 11:39:31 by yuocak            #+#    #+#             */
-/*   Updated: 2025/08/07 15:45:15 by syanak           ###   ########.fr       */
+/*   Updated: 2025/08/09 15:06:29 by syanak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,22 +14,23 @@
 
 static void	process_input(char *input, t_base *base)
 {
+	int	heredoc_result;
+
 	if (!input || !*input)
 		return ;
 	add_history(input);
-	// Önceki kaynakları tamamen temizle
 	if (base->token)
 	{
 		free_tokens(base->token);
 		base->token = NULL;
 	}
 	cleanup_heredocs(base);
-	// Yeni komut için tokenize et
 	tokenize_input(input, base);
-	if (!preprocess_heredocs(base))
+	heredoc_result = preprocess_heredocs(base);
+	if (heredoc_result == 0)
 	{
+		/* Normal hata */
 		printf("minishell: heredoc processing failed\n");
-		// Error durumunda da tam cleanup
 		cleanup_heredocs(base);
 		if (base->token)
 		{
@@ -38,16 +39,25 @@ static void	process_input(char *input, t_base *base)
 		}
 		return ;
 	}
-	// Expand ve execute
+	else if (heredoc_result == 2)
+	{
+		/* CTRL+C ile iptal edildi - sessizce çık */
+		cleanup_heredocs(base);
+		if (base->token)
+		{
+			free_tokens(base->token);
+			base->token = NULL;
+		}
+		return ; /* Bu return ile expand ve execute yapılmaz */
+	}
+	/* heredoc_result == 1: Normal devam */
 	expand_tokens(base);
 	execute_command(base);
-	// ZORUNLU: Her komut sonrası tam temizlik
 	if (base->token)
 	{
 		free_tokens(base->token);
 		base->token = NULL;
 	}
-	// Bu çok önemli - heredoc'lar kesinlikle temizlenmeli
 	cleanup_heredocs(base);
 }
 
@@ -95,7 +105,6 @@ int	main(int argc, char **argv, char **env)
 	run_shell_loop(&base);
 	restore_signals();
 
-	// Final cleanup
 	cleanup_all(&base);
 	clear_history();
 	return (base.exit_status);

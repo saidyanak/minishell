@@ -6,7 +6,7 @@
 /*   By: syanak <syanak@student.42kocaeli.com.tr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/07 19:30:00 by syanak            #+#    #+#             */
-/*   Updated: 2025/08/07 17:48:46 by syanak           ###   ########.fr       */
+/*   Updated: 2025/08/09 15:06:01 by syanak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,6 +97,13 @@ int	preprocess_heredocs(t_base *base)
 	base->heredoc_count = heredoc_count;
 	base->heredocs = NULL;
 	if (!collect_heredocs_child(base->token, base))
-		return (0);
-	return (1);
+	{
+		/* CTRL+C durumunda base->exit_status = 130 set edilmiş olur */
+		if (base->exit_status == 130)
+		{
+			return (2); /* Özel dönüş kodu: CTRL+C ile iptal */
+		}
+		return (0); /* Normal hata */
+	}
+	return (1); /* Başarılı */
 }

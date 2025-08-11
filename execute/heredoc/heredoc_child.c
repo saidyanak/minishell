@@ -6,24 +6,11 @@
 /*   By: syanak <syanak@student.42kocaeli.com.tr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/06 12:30:00 by syanak            #+#    #+#             */
-/*   Updated: 2025/08/07 17:49:10 by syanak           ###   ########.fr       */
+/*   Updated: 2025/08/09 16:36:37 by syanak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
-
-static void	heredoc_signal_handler(int sig)
-{
-	(void)sig;
-	write(STDOUT_FILENO, "\n", 1);
-	exit(130);
-}
-
-void	setup_heredoc_signals(void)
-{
-	signal(SIGINT, heredoc_signal_handler);
-	signal(SIGQUIT, SIG_IGN);
-}
 
 int	should_expand_heredoc(char *delimiter)
 {
@@ -74,7 +61,9 @@ char	*read_heredoc_input_child(char *delimiter, t_base *base, int expand)
 	while (1)
 	{
 		if (!process_readline_input(&line, clean_delimiter, &content, base))
+		{
 			break ;
+		}
 		if (!content)
 		{
 			free(clean_delimiter);

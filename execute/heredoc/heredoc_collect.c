@@ -6,7 +6,7 @@
 /*   By: syanak <syanak@student.42kocaeli.com.tr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/07 19:30:00 by syanak            #+#    #+#             */
-/*   Updated: 2025/08/07 17:49:06 by syanak           ###   ########.fr       */
+/*   Updated: 2025/08/08 16:13:56 by syanak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,13 +73,36 @@ int	process_single_heredoc_child(t_token *heredoc_token,
 		return (0);
 	content = run_heredoc_child_to_file(heredoc_token->next->content, base,
 			info_node);
+	if (base->exit_status == 130)
+	{
+		if (content)
+			free(content);
+		if (info_node->temp_filename)
+		{
+			unlink(info_node->temp_filename);
+			free(info_node->temp_filename);
+			info_node->temp_filename = NULL;
+		}
+		if (info_node->original_delimiter)
+		{
+			free(info_node->original_delimiter);
+			info_node->original_delimiter = NULL;
+		}
+		return (0);
+	}
 	if (!content)
 	{
-		unlink(info_node->temp_filename);
-		free(info_node->temp_filename);
-		free(info_node->original_delimiter);
-		info_node->temp_filename = NULL;
-		info_node->original_delimiter = NULL;
+		if (info_node->temp_filename)
+		{
+			unlink(info_node->temp_filename);
+			free(info_node->temp_filename);
+			info_node->temp_filename = NULL;
+		}
+		if (info_node->original_delimiter)
+		{
+			free(info_node->original_delimiter);
+			info_node->original_delimiter = NULL;
+		}
 		return (0);
 	}
 	if (!create_temp_file_from_content(info_node, content))
