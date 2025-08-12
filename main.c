@@ -6,7 +6,7 @@
 /*   By: syanak <syanak@student.42kocaeli.com.tr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/02 11:39:31 by yuocak            #+#    #+#             */
-/*   Updated: 2025/08/12 10:33:14 by syanak           ###   ########.fr       */
+/*   Updated: 2025/08/12 11:49:53 by syanak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@ int	handle_heredoc_processing(t_base *base)
 {
 	heredoc_static_flag(-1);
 	process_all_heredocs(base);
+	// Ctrl+C kontrolü
 	if (*heredoc_static_flag(0) == 1 || base->exit_status == 130)
 	{
 		base->exit_status = 130;
@@ -42,10 +43,24 @@ int	handle_heredoc_processing(t_base *base)
 	return (1);
 }
 
+int	check_heredoc(t_token *token)
+{
+	t_token	*head;
+
+	head = token;
+	while (head)
+	{
+		if (head->type == TOKEN_HEREDOC)
+		{
+			return (1);
+		}
+		head = head->next;
+	}
+	return (0);
+}
+
 static void	process_input(char *input, t_base *base)
 {
-	int	heredoc_result;
-
 	if (!input || !*input)
 		return ;
 	add_history(input);
@@ -54,32 +69,17 @@ static void	process_input(char *input, t_base *base)
 		free_tokens(base->token);
 		base->token = NULL;
 	}
-	cleanup_heredocs(base);
-	// Yeni komut için tokenize et
 	tokenize_input(input, base);
-	if (!preprocess_heredocs(base))
+	if (!base->token)
 	{
-		printf("minishell: heredoc processing failed\n");
-		// Error durumunda da tam cleanup
-		cleanup_heredocs(base);
-		if (base->token)
-		{
-			free_tokens(base->token);
-			base->token = NULL;
-		}
+		cleanup_tokens_and_heredocs(base);
 		return ;
 	}
-	// Expand ve execute
+	if (check_heredoc(base->token))
+		handle_heredoc_processing(base);
 	expand_tokens(base);
 	execute_command(base);
-	// ZORUNLU: Her komut sonrası tam temizlik
-	if (base->token)
-	{
-		free_tokens(base->token);
-		base->token = NULL;
-	}
-	// Bu çok önemli - heredoc'lar kesinlikle temizlenmeli
-	cleanup_heredocs(base);
+	cleanup_tokens_and_heredocs(base);
 }
 
 static void	run_shell_loop(t_base *base)
@@ -88,20 +88,15 @@ static void	run_shell_loop(t_base *base)
 
 	while (1)
 	{
-		heredoc_static_flag(-1);
 		input = readline("gameofshell$ ");
 		base->exit_status = check_signal_status(base->exit_status);
-		if (base->exit_status == 130)
-			base->exit_status = 0;
 		if (!input)
 		{
 			printf("exit\n");
 			break ;
 		}
 		if (*input)
-		{
 			process_input(input, base);
-		}
 		free(input);
 	}
 }
@@ -131,8 +126,6 @@ int	main(int argc, char **argv, char **env)
 	setup_interactive_signals();
 	run_shell_loop(&base);
 	restore_signals();
-
-	// Final cleanup
 	cleanup_all(&base);
 	clear_history();
 	return (base.exit_status);
