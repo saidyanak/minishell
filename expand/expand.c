@@ -6,7 +6,7 @@
 /*   By: syanak <syanak@student.42kocaeli.com.tr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/03 12:16:15 by syanak            #+#    #+#             */
-/*   Updated: 2025/08/06 10:33:32 by syanak           ###   ########.fr       */
+/*   Updated: 2025/08/12 07:09:47 by syanak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,16 @@ static int	copy_regular_text(char *str, int i, char **result)
 		*result = join_and_free(*result, text);
 	}
 	return (j);
+}
+char	*initialize_empty_content_safe(void)
+{
+	char	*result;
+
+	result = malloc(sizeof(char) * 1);
+	if (!result)
+		return (NULL);
+	result[0] = '\0';
+	return (result);
 }
 
 char	*expand_variables(char *str, t_base *base)

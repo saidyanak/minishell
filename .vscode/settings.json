@@ -1,6 +1,7 @@
 {
     "files.associations": {
         "wait.h": "c",
-        "minishell.h": "c"
+        "minishell.h": "c",
+        "signal.h": "c"
     }
 }

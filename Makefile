@@ -54,14 +54,7 @@ SRCS = main.c \
 	   $(EXECUTEDIR)/syntax_checker_pipe.c \
 	   $(EXECUTEDIR)/syntax_checker_redir.c \
        $(EXECUTEDIR)/execute.c \
-	   $(HEREDOC)/heredoc_restore.c \
-	   $(HEREDOC)/heredoc_child.c \
-       $(HEREDOC)/heredoc_utils.c \
-	   $(HEREDOC)/heredoc_list.c \
-	   $(HEREDOC)/heredoc_process.c\
-	   $(HEREDOC)/heredoc_fork.c\
-	   $(HEREDOC)/heredoc_collect.c \
-	   $(HEREDOC)/heredoc_manager.c \
+	   $(HEREDOC)/heredoc_expand.c \
 	   $(EXECUTEDIR)/execute_command_utils.c \
        $(EXECUTEDIR)/execute_path_finder.c \
        $(EXECUTEDIR)/execute_external.c \

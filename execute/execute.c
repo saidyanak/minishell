@@ -6,7 +6,7 @@
 /*   By: syanak <syanak@student.42kocaeli.com.tr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/24 15:07:31 by yuocak            #+#    #+#             */
-/*   Updated: 2025/08/07 15:45:25 by syanak           ###   ########.fr       */
+/*   Updated: 2025/08/12 09:56:54 by syanak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,16 +38,10 @@ int	single_execute_command(t_base *base)
 void	execute_command(t_base *base)
 {
 	if (!base->token)
-	{
-		// Token yoksa bile heredoc'ları temizle
-		cleanup_heredocs(base);
 		return ;
-	}
 	if (!check_syntax_errors(base->token))
 	{
 		base->exit_status = 2;
-		// Syntax error durumunda heredoc'ları temizle
-		cleanup_heredocs(base);
 		return ;
 	}
 	if (has_special_tokens(base->token))
