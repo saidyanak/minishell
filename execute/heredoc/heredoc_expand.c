@@ -6,7 +6,7 @@
 /*   By: syanak <syanak@student.42kocaeli.com.tr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/12 14:30:00 by syanak            #+#    #+#             */
-/*   Updated: 2025/08/12 08:52:34 by syanak           ###   ########.fr       */
+/*   Updated: 2025/08/12 10:19:12 by syanak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -323,11 +323,21 @@ char	*process_heredoc(char *delimiter, t_base *base)
 	return (NULL);
 }
 
+static int	get_unique_heredoc_id(void)
+{
+	static int	counter = 0;
+
+	return (++counter);
+}
+
 int	handle_heredoc_token(t_token *token, t_base *base)
 {
 	char *content;
 	char *temp_file;
 	char *pid_str;
+	char *counter_str;
+	char *unique_name;
+	char *temp;
 	int fd;
 
 	if (!token || !token->next || !token->next->content)
@@ -335,13 +345,29 @@ int	handle_heredoc_token(t_token *token, t_base *base)
 	content = process_heredoc(token->next->content, base);
 	if (!content)
 		return (0);
+
+	// DÜZELTME: Manuel strjoin kullan, ft_strjoin_free kullanma
 	pid_str = ft_itoa(getpid());
 	if (!pid_str)
 		return (free(content), 0);
-	temp_file = ft_strjoin("/tmp/heredoc_", pid_str);
+	counter_str = ft_itoa(get_unique_heredoc_id());
+	if (!counter_str)
+		return (free(content), free(pid_str), 0);
+
+	// Manuel olarak birleştir
+	temp = ft_strjoin(pid_str, "_");
+	unique_name = ft_strjoin(temp, counter_str);
+	free(temp);
+	temp_file = ft_strjoin("/tmp/heredoc_", unique_name);
+
+	// Memory temizliği
 	free(pid_str);
+	free(counter_str);
+	free(unique_name);
+
 	if (!temp_file)
 		return (free(content), 0);
+
 	fd = open(temp_file, O_WRONLY | O_CREAT | O_TRUNC, 0600);
 	if (fd == -1)
 		return (free(content), free(temp_file), 0);

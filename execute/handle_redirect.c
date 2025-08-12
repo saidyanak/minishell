@@ -6,7 +6,7 @@
 /*   By: syanak <syanak@student.42kocaeli.com.tr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/24 17:26:39 by yuocak            #+#    #+#             */
-/*   Updated: 2025/08/12 09:03:25 by syanak           ###   ########.fr       */
+/*   Updated: 2025/08/12 10:12:39 by syanak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,13 +81,23 @@ int	handle_redirections(t_token *cmd, t_base *base)
 	fd = 0;
 	current = cmd;
 	last_heredoc = NULL;
+	printf("DEBUG: handle_redirections başlıyor\n");
 	// Bu komutun kendi heredoc'unu bul
 	while (current && current->type != TOKEN_PIPE)
 	{
+		printf("DEBUG: Token: '%s', Type: %d\n", current->content,
+			current->type);
 		if (current->type == TOKEN_HEREDOC)
-			last_heredoc = current; // Bu komutun son heredoc'u
+		{
+			last_heredoc = current;
+			printf("DEBUG: Heredoc bulundu: '%s'\n", current->next->content);
+		}
 		current = current->next;
 	}
+	if (last_heredoc)
+		printf("DEBUG: Son heredoc: '%s'\n", last_heredoc->next->content);
+	else
+		printf("DEBUG: Hiç heredoc bulunamadı!\n");
 	// Şimdi redirectionları işle
 	current = cmd;
 	while (current && current->type != TOKEN_PIPE)

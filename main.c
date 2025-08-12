@@ -6,7 +6,7 @@
 /*   By: syanak <syanak@student.42kocaeli.com.tr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/02 11:39:31 by yuocak            #+#    #+#             */
-/*   Updated: 2025/08/12 08:54:50 by syanak           ###   ########.fr       */
+/*   Updated: 2025/08/12 09:55:24 by syanak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,11 +74,6 @@ static void	run_shell_loop(t_base *base)
 		heredoc_static_flag(-1);
 		input = readline("gameofshell$ ");
 		base->exit_status = check_signal_status(base->exit_status);
-		if (*heredoc_static_flag(0) == 1)
-		{
-			base->exit_status = 130;
-			heredoc_static_flag(-1);
-		}
 		if (base->exit_status == 130)
 			base->exit_status = 0;
 		if (!input)
