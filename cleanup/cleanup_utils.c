@@ -6,7 +6,7 @@
 /*   By: syanak <syanak@student.42kocaeli.com.tr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/04 10:31:43 by yuocak            #+#    #+#             */
-/*   Updated: 2025/08/07 15:40:40 by syanak           ###   ########.fr       */
+/*   Updated: 2025/08/08 14:23:50 by syanak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,15 +23,12 @@ void	cleanup_all(t_base *base)
 {
 	if (!base)
 		return ;
-	// Token'ları temizle
 	if (base->token)
 	{
 		free_tokens(base->token);
 		base->token = NULL;
 	}
-	// Heredoc'ları temizle
 	cleanup_heredocs(base);
-	// Environment'ı temizle
 	if (base->env)
 	{
 		free_env_list(base->env);
@@ -45,16 +42,13 @@ void	free_child_arg(t_exec_data *data)
 
 	if (!data)
 		return ;
-	// Child process'te heredoc'ları temizle
 	if (data && data->base)
 		cleanup_heredocs(data->base);
-	// Environment'ı temizle
 	if (data->base && data->base->env)
 	{
 		free_env_list(data->base->env);
 		data->base->env = NULL;
 	}
-	// Command'ları temizle
 	if (data->commands)
 	{
 		i = 0;
@@ -66,7 +60,6 @@ void	free_child_arg(t_exec_data *data)
 		free_commands(data->commands);
 		data->commands = NULL;
 	}
-	// PID'leri temizle
 	if (data->pids)
 	{
 		free(data->pids);
