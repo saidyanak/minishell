@@ -6,7 +6,7 @@
 /*   By: syanak <syanak@student.42kocaeli.com.tr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/02 11:39:59 by yuocak            #+#    #+#             */
-/*   Updated: 2025/08/07 17:41:46 by syanak           ###   ########.fr       */
+/*   Updated: 2025/08/12 03:00:53 by syanak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -170,6 +170,7 @@ char				*get_value(t_env *env, char *key);
 
 /* ====== HEREDOC_CHILD.C ====== */
 void				setup_heredoc_signals(void);
+void				heredoc_sigint(int sig);
 int					should_expand_heredoc(char *delimiter);
 char				*remove_quotes_from_delimiter(char *delimiter);
 char				*read_heredoc_input_child(char *delimiter, t_base *base,
@@ -181,6 +182,7 @@ char				*join_heredoc_content(char *content, char *line);
 char				*process_heredoc_line(char *line, char *content,
 						t_base *base, int expand);
 char				*finalize_heredoc_content(char *content);
+int					*heredoc_static_flag(int control);
 int					process_readline_input(char **line, char *clean_delimiter,
 						char **content, t_base *base);
 

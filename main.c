@@ -6,7 +6,7 @@
 /*   By: syanak <syanak@student.42kocaeli.com.tr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/02 11:39:31 by yuocak            #+#    #+#             */
-/*   Updated: 2025/08/07 15:45:15 by syanak           ###   ########.fr       */
+/*   Updated: 2025/08/11 21:05:43 by syanak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,14 +17,11 @@ static void	process_input(char *input, t_base *base)
 	if (!input || !*input)
 		return ;
 	add_history(input);
-	// Önceki kaynakları tamamen temizle
 	if (base->token)
 	{
 		free_tokens(base->token);
 		base->token = NULL;
 	}
-	cleanup_heredocs(base);
-	// Yeni komut için tokenize et
 	tokenize_input(input, base);
 	if (!preprocess_heredocs(base))
 	{

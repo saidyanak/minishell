@@ -6,7 +6,7 @@
 /*   By: syanak <syanak@student.42kocaeli.com.tr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/07 19:30:00 by syanak            #+#    #+#             */
-/*   Updated: 2025/08/07 18:01:47 by syanak           ###   ########.fr       */
+/*   Updated: 2025/08/12 03:43:11 by syanak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,14 +75,23 @@ int	process_readline_input(char **line, char *clean_delimiter, char **content,
 		t_base *base)
 {
 	int	expand;
+	int	*flag;
 
 	expand = should_expand_heredoc(clean_delimiter);
 	*line = readline("> ");
+	flag = heredoc_static_flag(0);
+	if (*flag == 1)
+	{
+		printf("geldim\n");
+		base->exit_status = 130;
+		free(*line);
+		return (0);
+	}
 	if (!*line)
 	{
 		printf("minishell: warning: here-document deli\
 			mited by end-of-file (wanted `%s')\n",
-			clean_delimiter);
+				clean_delimiter);
 		return (0);
 	}
 	if (ft_strcmp(*line, clean_delimiter) == 0)

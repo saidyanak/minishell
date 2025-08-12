@@ -6,7 +6,7 @@
 /*   By: syanak <syanak@student.42kocaeli.com.tr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/07 19:30:00 by syanak            #+#    #+#             */
-/*   Updated: 2025/08/07 17:58:40 by syanak           ###   ########.fr       */
+/*   Updated: 2025/08/12 04:37:58 by syanak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,15 @@ int	handle_child_process(int pipefd[2], char *delimiter, t_base *base)
 	close(pipefd[0]);
 	setup_heredoc_signals();
 	content = read_heredoc_input_child(delimiter, base, 0);
-	if (content)
+	if (base->exit_status == 130)
+	{
+		free(content);
+		content = NULL;
+		cleanup_child_resources(base);
+		close(pipefd[1]);
+		exit(130);
+	}
+	else if (content)
 	{
 		write(pipefd[1], content, ft_strlen(content));
 		free(content);

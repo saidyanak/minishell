@@ -6,22 +6,16 @@
 /*   By: syanak <syanak@student.42kocaeli.com.tr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/06 12:30:00 by syanak            #+#    #+#             */
-/*   Updated: 2025/08/07 17:49:10 by syanak           ###   ########.fr       */
+/*   Updated: 2025/08/11 22:37:33 by syanak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
-
-static void	heredoc_signal_handler(int sig)
-{
-	(void)sig;
-	write(STDOUT_FILENO, "\n", 1);
-	exit(130);
-}
+#include <signal.h>
 
 void	setup_heredoc_signals(void)
 {
-	signal(SIGINT, heredoc_signal_handler);
+	signal(SIGINT, heredoc_sigint);
 	signal(SIGQUIT, SIG_IGN);
 }
 
