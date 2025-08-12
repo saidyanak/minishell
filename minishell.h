@@ -6,7 +6,7 @@
 /*   By: syanak <syanak@student.42kocaeli.com.tr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/02 11:39:59 by yuocak            #+#    #+#             */
-/*   Updated: 2025/08/12 03:00:53 by syanak           ###   ########.fr       */
+/*   Updated: 2025/08/12 08:50:15 by syanak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,6 +116,7 @@ typedef struct s_shell_signal
 	int				last_exit_status;
 }					t_shell_signal;
 
+char				*initialize_empty_content_safe(void);
 /* Tokenizer functions */
 char				*parse_word_with_quotes(char *input, int *i,
 						t_token_type *type, t_quote_type *q_type);
@@ -153,6 +154,8 @@ char				*extract_word(char *str, int *i);
 void				skip_ifs_chars(char *str, int *i);
 int					is_only_empty_variable(char *str, t_base *base);
 t_token				*get_last_token(t_token *tokens);
+void				restore_heredocs_in_redirections(t_token *cmd,
+						t_base *base);
 
 /* Environment functions */
 t_env				*create_new_node(char *env);
@@ -168,91 +171,39 @@ int					ft_isspace(char c);
 char				*join_and_free(char *s1, char *s2);
 char				*get_value(t_env *env, char *key);
 
-/* ====== HEREDOC_CHILD.C ====== */
-void				setup_heredoc_signals(void);
-void				heredoc_sigint(int sig);
-int					should_expand_heredoc(char *delimiter);
-char				*remove_quotes_from_delimiter(char *delimiter);
-char				*read_heredoc_input_child(char *delimiter, t_base *base,
-						int expand);
-
-/* ====== HEREDOC_UTILS.C ====== */
-char				*expand_heredoc_line(char *line, t_base *base, int expand);
-char				*join_heredoc_content(char *content, char *line);
-char				*process_heredoc_line(char *line, char *content,
-						t_base *base, int expand);
-char				*finalize_heredoc_content(char *content);
-int					*heredoc_static_flag(int control);
-int					process_readline_input(char **line, char *clean_delimiter,
-						char **content, t_base *base);
-
-/* ====== HEREDOC_LIST.C ====== */
-t_heredoc_info		*create_heredoc_node(int heredoc_id);
-void				add_heredoc_to_list(t_heredoc_info **head,
-						t_heredoc_info *new_node);
-t_heredoc_info		*find_heredoc_by_id(t_heredoc_info *head, int id);
-void				cleanup_heredocs_list(t_heredoc_info *head);
-void				cleanup_failed_heredocs_list(t_heredoc_info *head);
-
-/* ====== HEREDOC_PROCESS.C ====== */
-char				*create_temp_filename(int heredoc_id);
-int					write_content_to_temp_file(char *filename, char *content);
-char				*create_heredoc_placeholder(int heredoc_id);
-int					count_heredocs(t_token *token);
-int					preprocess_heredocs(t_base *base);
-
-/* ====== HEREDOC_FORK.C ====== */
-void				cleanup_child_resources(t_base *base);
-int					handle_child_process(int pipefd[2], char *delimiter,
-						t_base *base);
-int					handle_parent_process(int pipefd[2], pid_t pid,
-						t_base *base);
-char				*read_from_pipe(int fd);
-char				*run_heredoc_child_to_file(char *delimiter, t_base *base,
-						t_heredoc_info *info_node);
-
-/* ====== HEREDOC_COLLECT.C ====== */
-int					setup_heredoc_node(t_token *heredoc_token,
-						t_heredoc_info *info_node);
-int					create_temp_file_from_content(t_heredoc_info *info_node,
-						char *content);
-int					create_placeholder_token(t_token *heredoc_token,
-						t_heredoc_info *info_node);
-int					process_single_heredoc_child(t_token *heredoc_token,
-						t_heredoc_info *info_node, t_base *base);
-int					collect_heredocs_child(t_token *token, t_base *base);
-
-/* ====== HEREDOC_MANAGER.C ====== */
-int					create_heredoc_list(t_token *token, t_base *base);
-int					process_heredoc_list(t_token *token, t_base *base);
-int					is_heredoc_placeholder(char *str);
-int					extract_heredoc_id(char *placeholder);
+char				*process_heredoc(char *delimiter, t_base *base);
+int					handle_heredoc_token(t_token *token, t_base *base);
+void				process_all_heredocs(t_base *base);
+void				cleanup_heredoc_files(t_base *base);
 void				cleanup_heredocs(t_base *base);
 
-/* ====== HEREDOC_RESTORE.C ====== */
-int					open_heredoc_file(t_heredoc_info *heredoc_node);
-void				setup_heredoc_input(t_token *heredoc_token, t_base *base);
-t_token				*find_last_heredoc(t_token *cmd);
-void				restore_heredocs_in_redirections(t_token *cmd,
-						t_base *base);
+void				cleanup_tokens_and_heredocs(t_base *base);
+void				init_base_struct(t_base *base, char **env);
+
+/* ====== OPSIYONEL: EĞER YOKSA EKLEYIN ====== */
+/* Bu utility fonksiyonlar yeni sistemde kullanılıyor */
+char				*ft_strjoin_free(char *s1, char *s2);
+int					*heredoc_static_flag(int control);
 char				*initialize_empty_content_safe(void);
 
 /* Core execution functions */
 void				execute_command(t_base *base);
 int					single_execute_command(t_base *base);
 int					execute_multiple_command(t_base *base);
+char				*expand_variables(char *str, t_base *base);
 int					execute_external_command(t_base *base);
+int					handle_heredoc_processing(t_base *base);
 
 /* Multiple command execution utility functions */
 int					count_commands(t_token *token);
 int					**create_pipes(int pipe_count);
+void				set_g_signal(int sig);
 t_token				**split_commands(t_token *token, int cmd_count);
 void				cleanup_pipes(int **pipes, int pipe_count);
 int					handle_redirections(t_token *cmd, t_base *base);
 int					has_output_redirection(t_token *cmd);
 int					has_input_redirection(t_token *cmd);
 void				redirect_control(t_exec_data *data, int ctrl);
-char				*initialize_empty_content_safe(void);
 
 /* Multiple command execution helper functions */
 void				init_exec_data(t_exec_data *data);

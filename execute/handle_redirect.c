@@ -6,7 +6,7 @@
 /*   By: syanak <syanak@student.42kocaeli.com.tr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/24 17:26:39 by yuocak            #+#    #+#             */
-/*   Updated: 2025/08/06 17:08:44 by syanak           ###   ########.fr       */
+/*   Updated: 2025/08/12 09:03:25 by syanak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,10 +75,22 @@ int	handle_redirections(t_token *cmd, t_base *base)
 	t_token	*current;
 	int		fd;
 	int		error;
+	t_token	*last_heredoc;
 
+	(void)base;
 	fd = 0;
 	current = cmd;
-	while (current)
+	last_heredoc = NULL;
+	// Bu komutun kendi heredoc'unu bul
+	while (current && current->type != TOKEN_PIPE)
+	{
+		if (current->type == TOKEN_HEREDOC)
+			last_heredoc = current; // Bu komutun son heredoc'u
+		current = current->next;
+	}
+	// Şimdi redirectionları işle
+	current = cmd;
+	while (current && current->type != TOKEN_PIPE)
 	{
 		if (current->type == TOKEN_REDIRECT_IN)
 		{
@@ -98,9 +110,17 @@ int	handle_redirections(t_token *cmd, t_base *base)
 			if (error == -1)
 				return (-1);
 		}
-		else if (current->type == TOKEN_HEREDOC)
+		else if (current->type == TOKEN_HEREDOC && current == last_heredoc)
 		{
-			restore_heredocs_in_redirections(cmd, base);
+			// Sadece bu komutun son heredoc'unu kullan
+			fd = open(current->next->content, O_RDONLY);
+			if (fd == -1)
+			{
+				perror("open heredoc");
+				return (-1);
+			}
+			dup2(fd, STDIN_FILENO);
+			close(fd);
 		}
 		current = current->next;
 	}

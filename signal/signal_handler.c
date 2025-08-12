@@ -6,7 +6,7 @@
 /*   By: syanak <syanak@student.42kocaeli.com.tr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/01 00:01:15 by yuocak            #+#    #+#             */
-/*   Updated: 2025/08/12 04:44:11 by syanak           ###   ########.fr       */
+/*   Updated: 2025/08/12 08:50:03 by syanak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,13 +28,8 @@ void	heredoc_sigint(int sig)
 {
 	(void)sig;
 	g_signal = SIGINT;
-	// Force readline to exit immediately
 	close(STDIN_FILENO);
 	rl_done = 1;
-	// Clear the current line buffer
-	// Send a character to stdin to wake up readline
-	// This prevents readline from waiting for another character
-	// Set the heredoc flag
 	heredoc_static_flag(1);
 }
 
@@ -55,6 +50,11 @@ int	*heredoc_static_flag(int control)
 		flag = 1;
 		return (&flag);
 	}
+	else if (control == -1)
+	{
+		flag = 0;
+		return (&flag);
+	}
 	return (&flag);
 }
 
@@ -66,6 +66,7 @@ void	sigint_execution_handler(int sig)
 
 int	check_signal_status(int exit_status)
 {
+	// Global signal kontrolü
 	if (g_signal == SIGINT)
 	{
 		g_signal = 0;
@@ -76,7 +77,17 @@ int	check_signal_status(int exit_status)
 		g_signal = 0;
 		return (131);
 	}
+	// HEREDOC signal kontrolü ekle
+	if (*heredoc_static_flag(0) == 1)
+	{
+		heredoc_static_flag(-1); // Reset et
+		return (130);
+	}
 	return (exit_status);
+}
+void	set_g_signal(int sig)
+{
+	g_signal = sig;
 }
 
 void	restore_signals(void)
