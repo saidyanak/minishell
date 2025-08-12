@@ -6,7 +6,7 @@
 /*   By: syanak <syanak@student.42kocaeli.com.tr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/02 11:39:59 by yuocak            #+#    #+#             */
-/*   Updated: 2025/08/12 11:30:07 by syanak           ###   ########.fr       */
+/*   Updated: 2025/08/12 18:01:02 by syanak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 
 # include "libft/libft.h"
 # include <fcntl.h>
+# include <get_next_line/get_next_line.h>
 # include <readline/history.h>
 # include <readline/readline.h>
 # include <signal.h>
@@ -165,6 +166,7 @@ char				*get_env_value(t_base base, char *key);
 void				update_shlvl(t_base *base);
 void				env_null_check(t_env *env_lst);
 int					is_valid_var_char(char c, int first);
+void				set_underscore_variable(t_base *base, t_token *token);
 
 /* Utility functions */
 int					ft_isspace(char c);

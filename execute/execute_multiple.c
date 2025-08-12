@@ -6,11 +6,14 @@
 /*   By: syanak <syanak@student.42kocaeli.com.tr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/31 23:46:17 by yuocak            #+#    #+#             */
-/*   Updated: 2025/08/07 17:46:17 by syanak           ###   ########.fr       */
+/*   Updated: 2025/08/12 18:34:31 by syanak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
+#include <errno.h>
+#include <fcntl.h>
+
 
 static int	execute_child_process(t_token *cmd, t_exec_data *data,
 		int cmd_index)

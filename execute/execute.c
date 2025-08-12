@@ -6,7 +6,7 @@
 /*   By: syanak <syanak@student.42kocaeli.com.tr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/24 15:07:31 by yuocak            #+#    #+#             */
-/*   Updated: 2025/08/12 09:56:54 by syanak           ###   ########.fr       */
+/*   Updated: 2025/08/12 14:57:02 by syanak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,7 @@ void	execute_command(t_base *base)
 	else
 	{
 		base->exit_status = single_execute_command(base);
+		set_underscore_variable(base, base->token);
 		// Single command için cleanup burada değil main.c'de yapılıyor
 	}
 }
