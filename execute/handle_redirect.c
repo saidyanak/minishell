@@ -6,7 +6,7 @@
 /*   By: syanak <syanak@student.42kocaeli.com.tr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/24 17:26:39 by yuocak            #+#    #+#             */
-/*   Updated: 2025/08/12 18:34:16 by syanak           ###   ########.fr       */
+/*   Updated: 2025/08/13 16:29:12 by syanak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,8 +79,17 @@ int	handle_redirections(t_token *cmd, t_base *base)
 
 	(void)base;
 	fd = 0;
-	current = cmd;
 	last_heredoc = NULL;
+	current = cmd;
+	while (current && current->type != TOKEN_PIPE)
+	{
+		if (current->type == TOKEN_HEREDOC)
+		{
+			last_heredoc = current;
+		}
+		current = current->next;
+	}
+	current = cmd;
 	// Bu komutun kendi heredoc'unu bul
 	// Şimdi redirectionları işle
 	current = cmd;

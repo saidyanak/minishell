@@ -6,7 +6,7 @@
 /*   By: syanak <syanak@student.42kocaeli.com.tr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/21 12:00:00 by yuocak            #+#    #+#             */
-/*   Updated: 2025/08/04 15:20:17 by syanak           ###   ########.fr       */
+/*   Updated: 2025/08/13 19:03:17 by syanak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,13 +18,20 @@ void	free_tokens(t_token *tokens)
 	t_token	*next;
 
 	current = tokens;
-	while (current)
+	if (tokens)
 	{
-		next = current->next;
-		if (current->content)
-			free(current->content);
-		free(current);
-		current = next;
+		while (current)
+		{
+			next = current->next;
+			if (current->content)
+			{
+				free(current->content);
+				current->content = NULL;
+			}
+			free(current);
+			current = NULL;
+			current = next;
+		}
 	}
 }
 

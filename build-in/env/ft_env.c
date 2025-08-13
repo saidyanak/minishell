@@ -6,7 +6,7 @@
 /*   By: syanak <syanak@student.42kocaeli.com.tr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/01 14:45:26 by yuocak            #+#    #+#             */
-/*   Updated: 2025/08/12 17:56:00 by syanak           ###   ########.fr       */
+/*   Updated: 2025/08/13 16:14:27 by syanak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,10 +30,10 @@ int	ft_env(t_base *base)
 	{
 		if (head->key && head->value && head->exported)
 		{
-			write(1, head->key, ft_strlen(head->key));
-			write(1, "=", 1);
-			write(1, head->value, ft_strlen(head->value));
-			write(1, "\n", 1);
+			write(STDOUT_FILENO, head->key, ft_strlen(head->key));
+			write(STDOUT_FILENO, "=", 1);
+			write(STDOUT_FILENO, head->value, ft_strlen(head->value));
+			write(STDOUT_FILENO, "\n", 1);
 		}
 		head = head->next;
 	}
