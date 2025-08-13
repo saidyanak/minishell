@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cleanup_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: syanak <syanak@student.42kocaeli.com.tr    +#+  +:+       +#+        */
+/*   By: yuocak <yuocak@student.42kocaeli.com.tr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/04 10:31:43 by yuocak            #+#    #+#             */
-/*   Updated: 2025/08/13 20:45:22 by syanak           ###   ########.fr       */
+/*   Updated: 2025/08/14 02:22:25 by yuocak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ void	cleanup_all(t_base *base)
 {
 	if (!base)
 		return ;
-	if (base->token != NULL)
+	if (base->token)
 	{
 		free_tokens(base->token);
 		base->token = NULL;
@@ -33,6 +33,14 @@ void	cleanup_all(t_base *base)
 	{
 		free_env_list(base->env);
 		base->env = NULL;
+	}
+	if (base->data)
+	{
+		cleanup_pipes(base->data->pipes, base->data->pipe_count);
+		if (base->data->commands && base->data->commands[0] && base->data->commands[0]->content != NULL)
+		{
+			free_child_arg(base->data);
+		}
 	}
 }
 
@@ -50,7 +58,7 @@ void	free_child_arg(t_exec_data *data)
 		free_env_list(data->base->env);
 		data->base->env = NULL;
 	}
-	if (data->commands && data->base->token->content)
+	if (data->commands)
 	{
 		i = 0;
 		while (data->commands[i])

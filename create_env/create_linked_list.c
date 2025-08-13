@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   create_linked_list.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: syanak <syanak@student.42kocaeli.com.tr    +#+  +:+       +#+        */
+/*   By: yuocak <yuocak@student.42kocaeli.com.tr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/02 11:46:17 by yuocak            #+#    #+#             */
-/*   Updated: 2025/08/13 20:05:53 by syanak           ###   ########.fr       */
+/*   Updated: 2025/08/14 02:22:25 by yuocak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,14 +84,56 @@ void	add_new_node(t_env **head, t_env *new_node)
 	}
 }
 
+t_env	*create_minimal_env(void)
+{
+	t_env	*env_list;
+	t_env	*node;
+	char	*pwd_path;
+	char	*pwd_env;
+
+	env_list = NULL;
+	
+	// PWD değişkenini ekle
+	pwd_path = getcwd(NULL, 0);
+	if (pwd_path)
+	{
+		pwd_env = ft_strjoin("PWD=", pwd_path);
+		if (pwd_env)
+		{
+			node = create_new_node(pwd_env);
+			if (node)
+				add_new_node(&env_list, node);
+			free(pwd_env);
+		}
+		free(pwd_path);
+	}
+	
+	// SHLVL=1 ekle
+	node = create_new_node("SHLVL=1");
+	if (node)
+		add_new_node(&env_list, node);
+	
+	// PATH değişkenini minimal olarak ekle
+	node = create_new_node("PATH=/usr/local/bin:/usr/bin:/bin");
+	if (node)
+		add_new_node(&env_list, node);
+	
+	// _ değişkenini ekle
+	node = create_new_node("_=/usr/bin/env");
+	if (node)
+		add_new_node(&env_list, node);
+	
+	return (env_list);
+}
+
 t_env	*init_env(char **env)
 {
 	int		i;
 	t_env	*env_list;
 	t_env	*node;
 
-	if (!env)
-		exit(1);
+	if (!env || !env[0])
+		return (create_minimal_env());
 	env_list = NULL;
 	i = 0;
 	while (env[i])
@@ -107,6 +149,5 @@ t_env	*init_env(char **env)
 		}
 		i++;
 	}
-	env_null_check(env_list);
 	return (env_list);
 }

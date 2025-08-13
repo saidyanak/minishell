@@ -3,23 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   create_linked_list_utils.c                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: syanak <syanak@student.42kocaeli.com.tr    +#+  +:+       +#+        */
+/*   By: yuocak <yuocak@student.42kocaeli.com.tr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/02 14:52:07 by yuocak            #+#    #+#             */
-/*   Updated: 2025/08/13 20:05:54 by syanak           ###   ########.fr       */
+/*   Updated: 2025/08/14 02:22:25 by yuocak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
-
-void	env_null_check(t_env *env_lst)
-{
-	if (!env_lst)
-	{
-		ft_putstr_fd("minishell: error initializing environment\n", 2);
-		exit(1);
-	}
-}
 
 void	update_shlvl(t_base *base)
 {
@@ -28,7 +19,10 @@ void	update_shlvl(t_base *base)
 	char	*new_value;
 
 	shlvl_str = get_value(base->env, "SHLVL");
-	shlvl = ft_atoi(shlvl_str);
+	if (shlvl_str)
+		shlvl = ft_atoi(shlvl_str);
+	else
+		shlvl = 0;
 	shlvl++;
 	new_value = ft_itoa(shlvl);
 	set_env_value(&(base->env), "SHLVL", new_value);

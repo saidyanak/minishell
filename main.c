@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: syanak <syanak@student.42kocaeli.com.tr    +#+  +:+       +#+        */
+/*   By: yuocak <yuocak@student.42kocaeli.com.tr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/02 11:39:31 by yuocak            #+#    #+#             */
-/*   Updated: 2025/08/13 20:05:53 by syanak           ###   ########.fr       */
+/*   Updated: 2025/08/14 02:22:25 by yuocak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,6 +105,7 @@ void	init_base_struct(t_base *base, char **env)
 	base->exit_status = 0;
 	base->heredocs = NULL;
 	base->heredoc_count = 0;
+	base->data = NULL;
 	base->env = init_env(env);
 	heredoc_static_flag(-1);
 }

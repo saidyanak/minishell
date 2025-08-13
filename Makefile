@@ -19,7 +19,6 @@ PARSERDIR = parser
 SIGNALDIR = signal
 ENVDIR = create_env
 CLEANDIR = cleanup
-GNLDIR = get_next_line
 
 # Libft
 LIBFT = $(LIBFTDIR)/libft.a
@@ -67,8 +66,6 @@ SRCS = main.c \
 	   $(EXECUTEDIR)/execute_multiple_utils2.c \
 	   $(EXECUTEDIR)/execute_utils.c \
 	   $(EXECUTEDIR)/handle_redirect.c \
-	   $(GNLDIR)/get_next_line.c \
-	   $(GNLDIR)/get_next_line_utils.c \
        $(BUILTINDIR)/build_in.c \
        $(BUILTINDIR)/echo/ft_echo.c \
 	   $(BUILTINDIR)/cd/ft_cd.c \

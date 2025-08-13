@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute_multiple.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: syanak <syanak@student.42kocaeli.com.tr    +#+  +:+       +#+        */
+/*   By: yuocak <yuocak@student.42kocaeli.com.tr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/31 23:46:17 by yuocak            #+#    #+#             */
-/*   Updated: 2025/08/14 00:41:18 by syanak           ###   ########.fr       */
+/*   Updated: 2025/08/14 01:58:16 by yuocak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,40 +14,6 @@
 #include <errno.h>
 #include <fcntl.h>
 
-// static void	close_unused_pipes(int **pipes, int pipe_count, int cmd_index)
-// {
-// 	int	i;
-
-// 	if (!pipes)
-// 		return ;
-// 	i = 0;
-// 	while (i < pipe_count)
-// 	{
-// 		// Close pipes that this child doesn't use
-// 		if (i != cmd_index - 1 && i != cmd_index)
-// 		{
-// 			if (pipes[i])
-// 			{
-// 				close(pipes[i][0]);
-// 				close(pipes[i][1]);
-// 			}
-// 		}
-// 		// For pipes this child uses, close the unused end
-// 		else if (i == cmd_index - 1)
-// 		{
-// 			// This child reads from this pipe, close write end
-// 			if (pipes[i])
-// 				close(pipes[i][1]);
-// 		}
-// 		else if (i == cmd_index)
-// 		{
-// 			// This child writes to this pipe, close read end
-// 			if (pipes[i])
-// 				close(pipes[i][0]);
-// 		}
-// 		i++;
-// 	}
-// }
 
 static int	execute_child_process(t_token *cmd, t_exec_data *data,
 		int cmd_index)
@@ -59,22 +25,15 @@ static int	execute_child_process(t_token *cmd, t_exec_data *data,
 	if (pid == 0)
 	{
 		setup_child_signals();
-		// Input redirection setup
 		if (cmd_index > 0 && !has_input_redirection(cmd))
-		{
 			dup2(data->pipes[cmd_index - 1][0], STDIN_FILENO);
-		}
-		// Output redirection setup
 		if (cmd_index < data->cmd_count - 1 && !has_output_redirection(cmd))
-		{
 			dup2(data->pipes[cmd_index][1], STDOUT_FILENO);
-		}
 		ctrl = handle_redirections(cmd, data->base);
 		redirect_control(data, ctrl);
+		cleanup_pipes(data->pipes, data->pipe_count);
 		data->base->token = cmd;
 		data->base->exit_status = single_execute_command(data->base);
-		cleanup_pipes(data->pipes, data->pipe_count);
-		// Command'ı execute et
 		free_child_arg(data);
 		exit(data->base->exit_status);
 	}
@@ -91,9 +50,6 @@ static int	init_execution_resources(t_exec_data *data, t_base *base)
 	data->cmd_count = count_commands(base->token);
 	data->pipe_count = data->cmd_count - 1;
 	data->base = base;
-	base->data = data;
-	data->base->token = base->token;
-	data->base->env = base->env;
 	data->pipes = create_pipes(data->pipe_count);
 	if (data->pipe_count > 0 && !data->pipes)
 		return (0);
@@ -123,23 +79,17 @@ static int	launch_child_processes(t_exec_data *data)
 		data->pids[i] = execute_child_process(data->commands[i], data, i);
 		if (data->pids[i] == -1)
 		{
-			// Fork başarısız olursa önceki child'ları temizle
 			while (--i >= 0)
 				waitpid(data->pids[i], NULL, 0);
 			return (0);
 		}
 		i++;
 	}
-	// CRITICAL: Tüm child'lar başlatıldıktan SONRA parent'taki pipe'ları kapat
-	// Bu sayede child'lar arasındaki pipe iletişimi kesilmez
 	i = 0;
 	while (i < data->pipe_count)
 	{
 		close(data->pipes[i][0]);
 		close(data->pipes[i][1]);
-		// Her pipe array'ini free et
-		free(data->pipes[i]);
-		data->pipes[i] = NULL;
 		i++;
 	}
 	return (1);
@@ -169,7 +119,6 @@ int	execute_multiple_command(t_base *base)
 		cleanup_heredocs(base);
 		return (1);
 	}
-
 	if (!launch_child_processes(&data))
 	{
 		cleanup_pipes(data.pipes, data.pipe_count);
@@ -178,15 +127,8 @@ int	execute_multiple_command(t_base *base)
 		cleanup_heredocs(base);
 		return (1);
 	}
-
-	// CRITICAL: Parent process'te pipe array'ini free et
-	// launch_child_processes içinde pipe'lar kapatıldı ama array free edilmedi
-	if (data.pipes)
-	{
-		free(data.pipes);
-		data.pipes = NULL;
-	}
-
+	cleanup_pipes(data.pipes, data.pipe_count);
+	data.pipes = NULL;
 	exit_status = wait_for_children(&data);
 	free_tokens_safe(&data);
 	free_pids(&data);

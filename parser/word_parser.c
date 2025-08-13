@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   word_parser.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: syanak <syanak@student.42kocaeli.com.tr    +#+  +:+       +#+        */
+/*   By: yuocak <yuocak@student.42kocaeli.com.tr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/04 15:27:44 by syanak            #+#    #+#             */
-/*   Updated: 2025/08/13 20:05:53 by syanak           ###   ########.fr       */
+/*   Updated: 2025/08/14 01:54:47 by yuocak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,7 @@ void	handle_word_or_error(char *input, int *i, t_token **head)
 	word = parse_word_with_quotes(input, i, &type, &q_type);
 	if (!word)
 	{
-		ft_putstr_fd("minishell: syntax error: unclosed quote\n", 2);
+		printf("minishell: syntax error: unclosed quote\n");
 		if (*head)
 			free_tokens(*head);
 		*head = NULL;
