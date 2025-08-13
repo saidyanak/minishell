@@ -6,7 +6,7 @@
 /*   By: syanak <syanak@student.42kocaeli.com.tr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/17 15:15:03 by yuocak            #+#    #+#             */
-/*   Updated: 2025/08/06 10:32:36 by syanak           ###   ########.fr       */
+/*   Updated: 2025/08/13 20:05:53 by syanak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,9 @@ int	validate_and_error(char *key, char *content)
 {
 	if (!is_valid_identifier(key))
 	{
-		printf("minishell: export: `%s': not a valid identifier\n", content);
+		ft_putstr_fd("minishell: export: `", 2);
+		ft_putstr_fd(content, 2);
+		ft_putstr_fd("': not a valid identifier\n", 2);
 		return (0);
 	}
 	return (1);

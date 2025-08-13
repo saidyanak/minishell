@@ -6,7 +6,7 @@
 /*   By: syanak <syanak@student.42kocaeli.com.tr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/02 13:05:21 by syanak            #+#    #+#             */
-/*   Updated: 2025/08/04 15:10:28 by syanak           ###   ########.fr       */
+/*   Updated: 2025/08/13 20:05:53 by syanak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,9 @@ int	is_valid_unset_name(char *name)
 
 int	handle_unset_error(char *name)
 {
-	printf("minishell: unset: `%s': not a valid identifier\n", name);
+	ft_putstr_fd("minishell: unset: `", 2);
+	ft_putstr_fd(name, 2);
+	ft_putstr_fd("': not a valid identifier\n", 2);
 	return (1);
 }
 

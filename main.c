@@ -6,7 +6,7 @@
 /*   By: syanak <syanak@student.42kocaeli.com.tr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/02 11:39:31 by yuocak            #+#    #+#             */
-/*   Updated: 2025/08/12 14:00:43 by syanak           ###   ########.fr       */
+/*   Updated: 2025/08/13 20:05:53 by syanak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,7 @@ static void	run_shell_loop(t_base *base)
 		base->exit_status = check_signal_status(base->exit_status);
 		if (!input)
 		{
-			printf("exit\n");
+			ft_putstr_fd("exit\n", 1);
 			break ;
 		}
 		if (*input)
@@ -116,7 +116,7 @@ int	main(int argc, char **argv, char **env)
 	(void)argv;
 	if (argc > 1)
 	{
-		printf("One more argument error\n");
+		ft_putstr_fd("One more argument error\n", 2);
 		exit(1);
 	}
 	init_base_struct(&base, env);

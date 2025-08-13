@@ -6,7 +6,7 @@
 /*   By: syanak <syanak@student.42kocaeli.com.tr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/12 14:30:00 by syanak            #+#    #+#             */
-/*   Updated: 2025/08/12 10:19:12 by syanak           ###   ########.fr       */
+/*   Updated: 2025/08/13 20:05:53 by syanak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -224,10 +224,11 @@ static void	heredoc_child_process(int pipefd[2], char *delimiter, t_base *base)
 		}
 		if (!line)
 		{
-			printf("minishell: warning: here-document at line \
-				%d delimited by end-of-file (wanted `%s')\n",
-					line_count,
-					clean_delimiter);
+			ft_putstr_fd("minishell: warning: here-document at line ", 2);
+			ft_putnbr_fd(line_count, 2);
+			ft_putstr_fd(" delimited by end-of-file (wanted `", 2);
+			ft_putstr_fd(clean_delimiter, 2);
+			ft_putstr_fd("')\n", 2);
 			break ;
 		}
 		// Ctrl+C kontrolü

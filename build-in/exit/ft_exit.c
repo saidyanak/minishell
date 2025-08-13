@@ -6,7 +6,7 @@
 /*   By: syanak <syanak@student.42kocaeli.com.tr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/03 00:00:00 by yuocak            #+#    #+#             */
-/*   Updated: 2025/08/13 18:09:37 by syanak           ###   ########.fr       */
+/*   Updated: 2025/08/13 20:05:53 by syanak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ static int	check_argument_count(t_token *arg, t_base *base)
 {
 	if (count_tokens(arg) > 1)
 	{
-		printf("minishell: exit: too many arguments\n");
+		ft_putstr_fd("minishell: exit: too many arguments\n", 2);
 		base->exit_status = 1;
 		return (0);
 	}
@@ -48,8 +48,9 @@ static void	check_numeric_argument(t_token *arg, t_base *base)
 {
 	if (!is_numeric(arg->content))
 	{
-		printf("minishell: exit: %s: numeric argument required\n",
-			arg->content);
+		ft_putstr_fd("minishell: exit: ", 2);
+		ft_putstr_fd(arg->content, 2);
+		ft_putstr_fd(": numeric argument required\n", 2);
 		cleanup_all(base);
 		exit(2);
 	}
@@ -60,7 +61,7 @@ void	ft_exit(t_token *current_prompt, t_base *base)
 	int		exit_code;
 	t_token	*arg;
 
-	printf("exit\n");
+	ft_putstr_fd("exit\n", 1);
 	arg = current_prompt->next;
 	if (!arg)
 	{

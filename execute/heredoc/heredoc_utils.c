@@ -6,7 +6,7 @@
 /*   By: syanak <syanak@student.42kocaeli.com.tr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/07 19:30:00 by syanak            #+#    #+#             */
-/*   Updated: 2025/08/09 16:36:47 by syanak           ###   ########.fr       */
+/*   Updated: 2025/08/13 20:05:53 by syanak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,8 +80,10 @@ int	process_readline_input(char **line, char *clean_delimiter, char **content,
 	*line = readline("> ");
 	if (!*line)
 	{
-		printf("minishell: warning: here-document delimited by end-of-file (wanted `%s')\n",
-			clean_delimiter);
+		ft_putstr_fd("minishell: warning: here-document delimited by end-of-file (wanted `",
+			2);
+		ft_putstr_fd(clean_delimiter, 2);
+		ft_putstr_fd("')\n", 2);
 		return (0);
 	}
 	if (ft_strcmp(*line, clean_delimiter) == 0)

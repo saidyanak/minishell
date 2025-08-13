@@ -6,7 +6,7 @@
 /*   By: syanak <syanak@student.42kocaeli.com.tr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/04 15:04:12 by syanak            #+#    #+#             */
-/*   Updated: 2025/08/04 15:07:11 by syanak           ###   ########.fr       */
+/*   Updated: 2025/08/13 20:05:53 by syanak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ char	*get_home_dir(t_env *env)
 	home = get_value(env, "HOME");
 	if (!home)
 	{
-		printf("minishell: cd: HOME not set\n");
+		ft_putstr_fd("minishell: cd: HOME not set\n", 2);
 		return (NULL);
 	}
 	return (home);
@@ -79,9 +79,10 @@ char	*get_oldpwd_dir(t_env *env)
 	oldpwd = get_value(env, "OLDPWD");
 	if (!oldpwd)
 	{
-		printf("minishell: cd: OLDPWD not set\n");
+		ft_putstr_fd("minishell: cd: OLDPWD not set\n", 2);
 		return (NULL);
 	}
-	printf("%s\n", oldpwd);
+	ft_putstr_fd(oldpwd, 1);
+	ft_putstr_fd("\n", 1);
 	return (oldpwd);
 }

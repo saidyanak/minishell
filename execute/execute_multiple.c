@@ -6,13 +6,48 @@
 /*   By: syanak <syanak@student.42kocaeli.com.tr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/31 23:46:17 by yuocak            #+#    #+#             */
-/*   Updated: 2025/08/13 18:37:50 by syanak           ###   ########.fr       */
+/*   Updated: 2025/08/14 00:41:18 by syanak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 #include <errno.h>
 #include <fcntl.h>
+
+// static void	close_unused_pipes(int **pipes, int pipe_count, int cmd_index)
+// {
+// 	int	i;
+
+// 	if (!pipes)
+// 		return ;
+// 	i = 0;
+// 	while (i < pipe_count)
+// 	{
+// 		// Close pipes that this child doesn't use
+// 		if (i != cmd_index - 1 && i != cmd_index)
+// 		{
+// 			if (pipes[i])
+// 			{
+// 				close(pipes[i][0]);
+// 				close(pipes[i][1]);
+// 			}
+// 		}
+// 		// For pipes this child uses, close the unused end
+// 		else if (i == cmd_index - 1)
+// 		{
+// 			// This child reads from this pipe, close write end
+// 			if (pipes[i])
+// 				close(pipes[i][1]);
+// 		}
+// 		else if (i == cmd_index)
+// 		{
+// 			// This child writes to this pipe, close read end
+// 			if (pipes[i])
+// 				close(pipes[i][0]);
+// 		}
+// 		i++;
+// 	}
+// }
 
 static int	execute_child_process(t_token *cmd, t_exec_data *data,
 		int cmd_index)
@@ -38,8 +73,8 @@ static int	execute_child_process(t_token *cmd, t_exec_data *data,
 		redirect_control(data, ctrl);
 		data->base->token = cmd;
 		data->base->exit_status = single_execute_command(data->base);
-		// Command'ı execute et
 		cleanup_pipes(data->pipes, data->pipe_count);
+		// Command'ı execute et
 		free_child_arg(data);
 		exit(data->base->exit_status);
 	}
@@ -57,6 +92,8 @@ static int	init_execution_resources(t_exec_data *data, t_base *base)
 	data->pipe_count = data->cmd_count - 1;
 	data->base = base;
 	base->data = data;
+	data->base->token = base->token;
+	data->base->env = base->env;
 	data->pipes = create_pipes(data->pipe_count);
 	if (data->pipe_count > 0 && !data->pipes)
 		return (0);
@@ -126,7 +163,6 @@ int	execute_multiple_command(t_base *base)
 	t_exec_data data;
 	int exit_status;
 
-	
 	init_exec_data(&data);
 	if (!init_execution_resources(&data, base))
 	{

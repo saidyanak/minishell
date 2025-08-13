@@ -6,7 +6,7 @@
 /*   By: syanak <syanak@student.42kocaeli.com.tr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/04 15:27:44 by syanak            #+#    #+#             */
-/*   Updated: 2025/08/06 10:33:40 by syanak           ###   ########.fr       */
+/*   Updated: 2025/08/13 20:05:53 by syanak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,7 @@ void	handle_word_or_error(char *input, int *i, t_token **head)
 	word = parse_word_with_quotes(input, i, &type, &q_type);
 	if (!word)
 	{
-		printf("minishell: syntax error: unclosed quote\n");
+		ft_putstr_fd("minishell: syntax error: unclosed quote\n", 2);
 		if (*head)
 			free_tokens(*head);
 		*head = NULL;

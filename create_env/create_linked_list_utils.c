@@ -6,7 +6,7 @@
 /*   By: syanak <syanak@student.42kocaeli.com.tr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/02 14:52:07 by yuocak            #+#    #+#             */
-/*   Updated: 2025/08/12 14:58:29 by syanak           ###   ########.fr       */
+/*   Updated: 2025/08/13 20:05:54 by syanak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ void	env_null_check(t_env *env_lst)
 {
 	if (!env_lst)
 	{
-		printf("minishell: error initializing environment\n");
+		ft_putstr_fd("minishell: error initializing environment\n", 2);
 		exit(1);
 	}
 }

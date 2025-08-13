@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute_argv_envp.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yuocak <yuocak@student.42kocaeli.com.tr>   +#+  +:+       +#+        */
+/*   By: syanak <syanak@student.42kocaeli.com.tr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 07:15:00 by yuocak            #+#    #+#             */
-/*   Updated: 2025/08/04 10:36:51 by yuocak           ###   ########.fr       */
+/*   Updated: 2025/08/13 20:05:53 by syanak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,9 @@ int	prepare_execution(t_token *token, t_base *base, t_exec_params *params)
 	params->command_path = find_command_path((params->argv)[0], base);
 	if (!params->command_path)
 	{
-		printf("minishell: %s: command not found\n", (params->argv)[0]);
+		ft_putstr_fd("minishell: ", 2);
+		ft_putstr_fd((params->argv)[0], 2);
+		ft_putstr_fd(": command not found\n", 2);
 		free_argv(params->argv);
 		return (127);
 	}

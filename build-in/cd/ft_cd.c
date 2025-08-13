@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_cd.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yuocak <yuocak@student.42kocaeli.com.tr>   +#+  +:+       +#+        */
+/*   By: syanak <syanak@student.42kocaeli.com.tr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/01 17:00:00 by yuocak            #+#    #+#             */
-/*   Updated: 2025/08/05 12:39:59 by yuocak           ###   ########.fr       */
+/*   Updated: 2025/08/14 00:16:19 by syanak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,13 @@ static char	*get_target_dir(t_token *token, t_env *env)
 		return (get_home_dir(env));
 	if (ft_strcmp(arg->content, "-") == 0)
 		return (get_oldpwd_dir(env));
+	if (check_redirection(token))
+	{
+		if (ft_strcmp(arg->content, "-"))
+			return (get_oldpwd_dir(env));
+		else
+			return (get_home_dir(env));
+	}
 	return (arg->content);
 }
 
@@ -29,12 +36,16 @@ static int	check_dir_access(char *path)
 {
 	if (access(path, F_OK) != 0)
 	{
-		printf("minishell: cd: %s: No such file or directory\n", path);
+		ft_putstr_fd("minishell: cd: ", 2);
+		ft_putstr_fd(path, 2);
+		ft_putstr_fd(": No such file or directory\n", 2);
 		return (0);
 	}
 	if (access(path, X_OK) != 0)
 	{
-		printf("minishell: cd: %s: Permission denied\n", path);
+		ft_putstr_fd("minishell: cd: ", 2);
+		ft_putstr_fd(path, 2);
+		ft_putstr_fd(": Permission denied\n", 2);
 		return (0);
 	}
 	return (1);
@@ -73,9 +84,9 @@ t_base	*ft_cd(t_token *token, t_base *base)
 
 	if (!token || !base)
 		return (base);
-	if (token->next && token->next->next)
+	if (token->next->next && !(check_redirection(token)))
 	{
-		printf("minishell: cd: too many arguments\n");
+		ft_putstr_fd("minishell: cd: too many arguments\n", 2);
 		base->exit_status = 1;
 		return (base);
 	}

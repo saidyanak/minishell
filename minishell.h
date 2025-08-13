@@ -6,7 +6,7 @@
 /*   By: syanak <syanak@student.42kocaeli.com.tr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/02 11:39:59 by yuocak            #+#    #+#             */
-/*   Updated: 2025/08/13 18:12:52 by syanak           ###   ########.fr       */
+/*   Updated: 2025/08/14 00:18:22 by syanak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,6 @@ typedef struct s_parse_data
 	t_quote_type		detected;
 }						t_parse_data;
 
-
 typedef struct s_base
 {
 	t_token				*token;
@@ -158,12 +157,14 @@ void					skip_ifs_chars(char *str, int *i);
 char					*extract_word(char *str, int *i);
 void					skip_ifs_chars(char *str, int *i);
 int						is_only_empty_variable(char *str, t_base *base);
+void					swap_token(t_token *token);
 t_token					*get_last_token(t_token *tokens);
 void					restore_heredocs_in_redirections(t_token *cmd,
 							t_base *base);
 
 /* Environment functions */
 t_env					*create_new_node(char *env);
+int						check_redirection(t_token *token);
 void					add_new_node(t_env **head, t_env *new_node);
 t_env					*init_env(char **env);
 char					*get_env_value(t_base base, char *key);
@@ -194,6 +195,7 @@ char					*initialize_empty_content_safe(void);
 
 /* Core execution functions */
 void					execute_command(t_base *base);
+void					swap_redirect_tokens(t_token **head);
 int						single_execute_command(t_base *base);
 int						execute_multiple_command(t_base *base);
 char					*expand_variables(char *str, t_base *base);

@@ -6,7 +6,7 @@
 /*   By: syanak <syanak@student.42kocaeli.com.tr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/17 15:14:43 by yuocak            #+#    #+#             */
-/*   Updated: 2025/08/04 12:12:31 by syanak           ###   ########.fr       */
+/*   Updated: 2025/08/13 20:05:53 by syanak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,10 +57,15 @@ int	has_equal_sign_in_original(t_env *env)
 
 void	print_export_var(t_env *env)
 {
-	printf("declare -x %s", env->key);
+	ft_putstr_fd("declare -x ", 1);
+	ft_putstr_fd(env->key, 1);
 	if (has_equal_sign_in_original(env))
-		printf("=\"%s\"", env->value);
-	printf("\n");
+	{
+		ft_putstr_fd("=\"", 1);
+		ft_putstr_fd(env->value, 1);
+		ft_putstr_fd("\"", 1);
+	}
+	ft_putstr_fd("\n", 1);
 }
 
 void	print_sorted_export(t_env *env)
