@@ -4,6 +4,7 @@ build-in
 cat
 cleanup
 create_env
+dosya
 execute
 expand
 get_next_line
