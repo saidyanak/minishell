@@ -6,7 +6,7 @@
 /*   By: syanak <syanak@student.42kocaeli.com.tr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/24 17:26:39 by yuocak            #+#    #+#             */
-/*   Updated: 2025/08/14 00:22:08 by syanak           ###   ########.fr       */
+/*   Updated: 2025/08/14 10:41:35 by syanak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,6 @@ int	handle_redirections(t_token *cmd, t_base *base)
 	int		error;
 	t_token	*last_heredoc;
 
-	
 	(void)base;
 	fd = 0;
 	last_heredoc = NULL;

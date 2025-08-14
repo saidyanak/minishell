@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cleanup_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yuocak <yuocak@student.42kocaeli.com.tr>   +#+  +:+       +#+        */
+/*   By: syanak <syanak@student.42kocaeli.com.tr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/04 10:31:43 by yuocak            #+#    #+#             */
-/*   Updated: 2025/08/14 02:22:25 by yuocak           ###   ########.fr       */
+/*   Updated: 2025/08/14 10:34:45 by syanak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,14 +33,6 @@ void	cleanup_all(t_base *base)
 	{
 		free_env_list(base->env);
 		base->env = NULL;
-	}
-	if (base->data)
-	{
-		cleanup_pipes(base->data->pipes, base->data->pipe_count);
-		if (base->data->commands && base->data->commands[0] && base->data->commands[0]->content != NULL)
-		{
-			free_child_arg(base->data);
-		}
 	}
 }
 

@@ -6,7 +6,7 @@
 /*   By: syanak <syanak@student.42kocaeli.com.tr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/24 15:07:31 by yuocak            #+#    #+#             */
-/*   Updated: 2025/08/14 00:32:02 by syanak           ###   ########.fr       */
+/*   Updated: 2025/08/14 09:49:40 by syanak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,21 +35,7 @@ int	check_redirection(t_token *token)
 int	single_execute_command(t_base *base)
 {
 	int	result;
-	// int	saved_stdin;
-	// int	saved_stdout;
 
-	// if (check_redirection(base->token))
-	// {
-	// 	saved_stdin = dup(STDIN_FILENO);
-	// 	saved_stdout = dup(STDOUT_FILENO);
-	// 	swap_token(base->token);
-	// 	handle_redirections(base->token, base);
-	// 	single_execute_command(base);
-	// 	dup2(saved_stdin, STDIN_FILENO);
-	// 	close(saved_stdin);
-	// 	dup2(saved_stdout, STDOUT_FILENO);
-	// 	close(saved_stdout);
-	// }
 	if (!base->token)
 		return (1);
 	if (base->token->type == TOKEN_WORD
@@ -112,23 +98,59 @@ void	swap_token(t_token *token)
 
 void	execute_command(t_base *base)
 {
+	int saved_stdin;
+	int saved_stdout;
+
 	if (!base->token)
 		return ;
+	saved_stdin = -1;
+	saved_stdout = -1;
 	if (!check_syntax_errors(base->token))
 	{
 		base->exit_status = 2;
 		return ;
 	}
-	else if (has_special_tokens(base->token))
+	if (check_redirection(base->token))
+	{
+		if (base->token->type != TOKEN_WORD
+			&& base->token->type != TOKEN_QUOTED_WORD)
+			swap_token(base->token);
+		saved_stdin = dup(STDIN_FILENO);
+		saved_stdout = dup(STDOUT_FILENO);
+		if (handle_redirections(base->token, base) == -1)
+		{
+			if (saved_stdin != -1)
+			{
+				dup2(saved_stdin, STDIN_FILENO);
+				close(saved_stdin);
+			}
+			if (saved_stdout != -1)
+			{
+				dup2(saved_stdout, STDOUT_FILENO);
+				close(saved_stdout);
+			}
+			return ;
+		}
+		single_execute_command(base);
+		if (saved_stdin != -1)
+		{
+			dup2(saved_stdin, STDIN_FILENO);
+			close(saved_stdin);
+		}
+		if (saved_stdout != -1)
+		{
+			dup2(saved_stdout, STDOUT_FILENO);
+			close(saved_stdout);
+		}
+	}
+	if (has_special_tokens(base->token))
 	{
 		base->exit_status = execute_multiple_command(base);
-		// Multiple command'da cleanup yapılıyor, token NULL yapılıyor
 		base->token = NULL;
 	}
 	else
 	{
 		base->exit_status = single_execute_command(base);
 		set_underscore_variable(base, base->token);
-		// Single command için cleanup burada değil main.c'de yapılıyor
 	}
 }
