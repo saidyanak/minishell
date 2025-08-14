@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yuocak <yuocak@student.42kocaeli.com.tr>   +#+  +:+       +#+        */
+/*   By: syanak <syanak@student.42kocaeli.com.tr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/24 15:07:31 by yuocak            #+#    #+#             */
-/*   Updated: 2025/08/14 15:45:37 by yuocak           ###   ########.fr       */
+/*   Updated: 2025/08/14 17:36:22 by syanak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,9 @@
 int	check_redirection(t_token *token)
 {
 	t_token	*head;
+	int		type;
 
+	type = 0;
 	if (!token)
 		return (0);
 	head = token;
@@ -26,10 +28,10 @@ int	check_redirection(t_token *token)
 		if (head->type == TOKEN_APPEND || head->type == TOKEN_HEREDOC
 			|| head->type == TOKEN_REDIRECT_IN
 			|| head->type == TOKEN_REDIRECT_OUT)
-			return (1);
+			type = 1;
 		head = head->next;
 	}
-	return (0);
+	return (type);
 }
 
 int	single_execute_command(t_base *base)
@@ -131,7 +133,7 @@ void	execute_command(t_base *base)
 			}
 			return ;
 		}
-		single_execute_command(base);
+		base->exit_status = single_execute_command(base);
 		if (saved_stdin != -1)
 		{
 			dup2(saved_stdin, STDIN_FILENO);
@@ -142,6 +144,7 @@ void	execute_command(t_base *base)
 			dup2(saved_stdout, STDOUT_FILENO);
 			close(saved_stdout);
 		}
+		return ;
 	}
 	if (has_special_tokens(base->token))
 	{
