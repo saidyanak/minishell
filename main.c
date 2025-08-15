@@ -3,60 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yuocak <yuocak@student.42kocaeli.com.tr>   +#+  +:+       +#+        */
+/*   By: yuocak <yuocak@student.42kocaeli.com.tr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/02 11:39:31 by yuocak            #+#    #+#             */
-/*   Updated: 2025/08/14 02:22:25 by yuocak           ###   ########.fr       */
+/*   Updated: 2025/08/15 16:14:23 by yuocak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	cleanup_tokens_and_heredocs(t_base *base)
-{
-	if (base->token)
-	{
-		cleanup_heredoc_files(base);
-		free_tokens(base->token);
-		base->token = NULL;
-	}
-	cleanup_heredocs(base);
-	heredoc_static_flag(-1);
-}
-
-int	handle_heredoc_processing(t_base *base)
-{
-	heredoc_static_flag(-1);
-	process_all_heredocs(base);
-	if (*heredoc_static_flag(0) == 1 || base->exit_status == 130)
-	{
-		base->exit_status = 130;
-		cleanup_tokens_and_heredocs(base);
-		return (0);
-	}
-	if (base->exit_status != 0)
-	{
-		cleanup_tokens_and_heredocs(base);
-		return (0);
-	}
-	return (1);
-}
-
-int	check_heredoc(t_token *token)
-{
-	t_token	*head;
-
-	head = token;
-	while (head)
-	{
-		if (head->type == TOKEN_HEREDOC)
-		{
-			return (1);
-		}
-		head = head->next;
-	}
-	return (0);
-}
 static void	process_input(char *input, t_base *base)
 {
 	if (!input || !*input)
@@ -112,7 +67,7 @@ void	init_base_struct(t_base *base, char **env)
 
 int	main(int argc, char **argv, char **env)
 {
-	t_base base;
+	t_base	base;
 
 	(void)argv;
 	if (argc > 1)

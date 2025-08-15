@@ -1,37 +1,38 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   singal_handler_utils.c                             :+:      :+:    :+:   */
+/*   signal_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yuocak <yuocak@student.42kocaeli.com.tr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/08/02 14:44:36 by yuocak            #+#    #+#             */
-/*   Updated: 2025/08/15 16:58:51 by yuocak           ###   ########.fr       */
+/*   Created: 2025/08/15 17:00:00 by yuocak            #+#    #+#             */
+/*   Updated: 2025/08/15 16:58:52 by yuocak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void	setup_interactive_signals(void)
+int	*heredoc_static_flag(int control)
 {
-	signal(SIGINT, sigint_handler);
-	signal(SIGQUIT, SIG_IGN);
+	static int	flag = 0;
+
+	if (control == 0)
+		return (&flag);
+	else if (control == 1)
+	{
+		flag = 1;
+		return (&flag);
+	}
+	else if (control == -1)
+	{
+		flag = 0;
+		return (&flag);
+	}
+	return (&flag);
 }
 
-void	setup_child_signals(void)
+void	sigint_execution_handler(int sig)
 {
-	signal(SIGINT, SIG_DFL);
-	signal(SIGQUIT, SIG_DFL);
-}
-
-void	setup_execution_signals(void)
-{
-	signal(SIGINT, SIG_IGN);
-	signal(SIGQUIT, SIG_IGN);
-}
-
-void	restore_signals(void)
-{
-	signal(SIGINT, SIG_DFL);
-	signal(SIGQUIT, SIG_DFL);
+	(void)sig;
+	write(STDOUT_FILENO, "\n", 1);
 }

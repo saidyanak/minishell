@@ -3,14 +3,26 @@
 /*                                                        :::      ::::::::   */
 /*   cleanup.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: syanak <syanak@student.42kocaeli.com.tr    +#+  +:+       +#+        */
+/*   By: yuocak <yuocak@student.42kocaeli.com.tr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/21 12:00:00 by yuocak            #+#    #+#             */
-/*   Updated: 2025/08/13 20:10:54 by syanak           ###   ########.fr       */
+/*   Updated: 2025/08/15 16:11:33 by yuocak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+void	cleanup_tokens_and_heredocs(t_base *base)
+{
+	if (base->token)
+	{
+		cleanup_heredoc_files(base);
+		free_tokens(base->token);
+		base->token = NULL;
+	}
+	cleanup_heredocs(base);
+	heredoc_static_flag(-1);
+}
 
 void	free_tokens(t_token *tokens)
 {

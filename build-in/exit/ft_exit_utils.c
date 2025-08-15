@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_exit_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yuocak <yuocak@student.42kocaeli.com.tr>   +#+  +:+       +#+        */
+/*   By: yuocak <yuocak@student.42kocaeli.com.tr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/03 14:30:31 by yuocak            #+#    #+#             */
-/*   Updated: 2025/08/05 12:37:09 by yuocak           ###   ########.fr       */
+/*   Updated: 2025/08/15 16:29:50 by yuocak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,8 +40,8 @@ int	is_numeric(char *str)
 
 	i = 0;
 	sign = 1;
-	while (str[i] && (str[i] == ' ' || str[i] == '\t' || str[i] == '\n' || 
-		str[i] == '\r' || str[i] == '\f' || str[i] == '\v'))
+	while (str[i] && (str[i] == ' ' || str[i] == '\t' || str[i] == '\n'
+			|| str[i] == '\r' || str[i] == '\f' || str[i] == '\v'))
 		i++;
 	if (str[i] == '-' || str[i] == '+')
 	{
@@ -54,8 +54,7 @@ int	is_numeric(char *str)
 	digit_start = i;
 	while (str[i] && ft_isdigit(str[i]))
 		i++;
-	while (str[i] && (str[i] == ' ' || str[i] == '\t' || str[i] == '\n' || 
-		str[i] == '\r' || str[i] == '\f' || str[i] == '\v'))
+	while (ft_isspace(str[i]))
 		i++;
 	if (str[i] != '\0')
 		return (0);
