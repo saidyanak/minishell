@@ -185,7 +185,7 @@ int	execute_multiple_command(t_base *base)
 		free(data.pipes);
 		data.pipes = NULL;
 	}
-
+	base->data = NULL;
 	exit_status = wait_for_children(&data);
 	free_tokens_safe(&data);
 	free_pids(&data);

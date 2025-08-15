@@ -71,7 +71,6 @@ char	*parse_word_with_quotes(char *input, int *i, t_token_type *type,
 	if (*i == start)
 	{
 		free(result);
-		free(result);
 		return (NULL);
 	}
 	set_token_type(data.quoted, data.detected, type, q_type);
