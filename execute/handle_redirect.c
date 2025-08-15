@@ -6,7 +6,7 @@
 /*   By: yuocak <yuocak@student.42kocaeli.com.tr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/24 17:26:39 by yuocak            #+#    #+#             */
-/*   Updated: 2025/08/15 17:51:41 by yuocak           ###   ########.fr       */
+/*   Updated: 2025/08/15 17:53:21 by yuocak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,8 @@ int	handle_redirections(t_token *cmd, t_base *base)
 			|| current->type == TOKEN_APPEND
 			|| (current->type == TOKEN_HEREDOC && current == last_heredoc))
 		{
-			if (process_redirection_token(current, fd, last_heredoc, error) == -1)
+			if (process_redirection_token(current, fd, last_heredoc,
+					error) == -1)
 				return (-1);
 		}
 		current = current->next;
