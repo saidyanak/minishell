@@ -6,7 +6,7 @@
 /*   By: yuocak <yuocak@student.42kocaeli.com.tr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/15 18:00:00 by yuocak            #+#    #+#             */
-/*   Updated: 2025/08/15 17:46:08 by yuocak           ###   ########.fr       */
+/*   Updated: 2025/08/15 17:51:53 by yuocak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,10 +44,8 @@ int	handle_heredoc_redirection(t_token *current)
 }
 
 int	process_redirection_token(t_token *current, int fd,
-		t_token *last_heredoc)
+		t_token *last_heredoc, int error)
 {
-	int	error; 
-
 	if (current->type == TOKEN_REDIRECT_IN)
 	{
 		error = redirect_in(current, fd);
