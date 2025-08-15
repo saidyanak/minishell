@@ -74,23 +74,7 @@ int	execute_multiple_command(t_base *base)
 		cleanup_heredocs(base);
 		return (1);
 	}
-<<<<<<< HEAD
-
-	// CRITICAL: Parent process'te pipe array'ini free et
-	// launch_child_processes içinde pipe'lar kapatıldı ama array free edilmedi
-	if (data.pipes)
-	{
-		free(data.pipes);
-		data.pipes = NULL;
-	}
-	base->data = NULL;
-	exit_status = wait_for_children(&data);
-	free_tokens_safe(&data);
-	free_pids(&data);
-
-	// Multiple command tamamlandıktan sonra heredoc'ları temizle
-=======
->>>>>>> d7edb6aa545a95210f02456a8c655a6c4f7f68b7
 	cleanup_heredocs(base);
+	base->data = NULL;
 	return (execute_cleanup_and_wait(&data));
 }
