@@ -6,7 +6,7 @@
 /*   By: yuocak <yuocak@student.42kocaeli.com.tr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/21 12:00:00 by yuocak            #+#    #+#             */
-/*   Updated: 2025/08/15 16:11:33 by yuocak           ###   ########.fr       */
+/*   Updated: 2025/08/15 18:57:18 by yuocak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,6 @@ void	cleanup_tokens_and_heredocs(t_base *base)
 {
 	if (base->token)
 	{
-		cleanup_heredoc_files(base);
 		free_tokens(base->token);
 		base->token = NULL;
 	}

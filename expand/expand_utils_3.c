@@ -6,7 +6,7 @@
 /*   By: yuocak <yuocak@student.42kocaeli.com.tr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/05 16:01:19 by syanak            #+#    #+#             */
-/*   Updated: 2025/08/15 16:27:38 by yuocak           ###   ########.fr       */
+/*   Updated: 2025/08/15 18:57:09 by yuocak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ int	is_only_empty_variable(char *str, t_base *base)
 	var_name = extract_var_name(str + 1, &var_len);
 	if (!var_name)
 		return (0);
-	if (var_len + 1 != (int)strlen(str))
+	if (var_len + 1 != (int)ft_strlen(str))
 	{
 		free(var_name);
 		return (0);
@@ -53,7 +53,7 @@ int	is_only_empty_variable(char *str, t_base *base)
 	free(var_name);
 	if (!var_value)
 		return (1);
-	if (strlen(var_value) == 0)
+	if (ft_strlen(var_value) == 0)
 	{
 		free(var_value);
 		return (1);

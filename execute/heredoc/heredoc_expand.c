@@ -3,19 +3,19 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc_expand.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: syanak <syanak@student.42kocaeli.com.tr    +#+  +:+       +#+        */
+/*   By: yuocak <yuocak@student.42kocaeli.com.tr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/12 14:30:00 by syanak            #+#    #+#             */
-/*   Updated: 2025/08/13 20:05:53 by syanak           ###   ########.fr       */
+/*   Updated: 2025/08/15 20:32:28 by yuocak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
-
-void	cleanup_heredoc_files(t_base *base)
-{
-	(void)base;
-}
+#include <readline/readline.h>
+#include <fcntl.h>
+#include <sys/wait.h>
+#include <unistd.h>
+#include <signal.h>
 
 void	cleanup_heredocs(t_base *base)
 {
@@ -98,6 +98,7 @@ static void	heredoc_signal_handler(int sig)
 		rl_cleanup_after_signal();
 		rl_free_line_state();
 		close(STDIN_FILENO);
+		write(STDOUT_FILENO, "\n", 1);
 	}
 }
 
@@ -212,10 +213,20 @@ static void	heredoc_child_process(int pipefd[2], char *delimiter, t_base *base)
 	
 	while (1)
 	{
+		
+		if (*heredoc_static_flag(0) == 1)
+		{
+			if (line)
+				free(line);
+			free(clean_delimiter);
+			close(pipefd[1]);	
+			cleanup_child_resources(base);
+			exit(130);
+		}
 		heredoc_static_flag(-1);
 		line = readline("> ");
 		
-		// Ctrl+C kontrolü
+		// Ctrl+C kontrolü - readline sonrası tekrar kontrol
 		if (*heredoc_static_flag(0) == 1)
 		{
 			if (line)
@@ -273,12 +284,28 @@ static char	*read_heredoc_content(int pipefd[2], pid_t pid, t_base *base)
 	{
 		close(pipefd[0]);
 		waitpid(pid, &status, 0);
+		// Child'ın çıkış durumunu kontrol et
+		if (WIFEXITED(status) && WEXITSTATUS(status) == 130)
+			base->exit_status = 130;
 		return (NULL);
 	}
 	
 	// Child'dan veri oku
-	while ((bytes_read = read(pipefd[0], buffer, 1023)) > 0)
+	while (1)
 	{
+		bytes_read = read(pipefd[0], buffer, 1023);
+		if (bytes_read == -1)
+		{
+			free(content);
+			close(pipefd[0]);
+			waitpid(pid, &status, 0);
+			// Child'ın çıkış durumunu kontrol et
+			if (WIFEXITED(status) && WEXITSTATUS(status) == 130)
+				base->exit_status = 130;
+			return (NULL);
+		}
+		if (bytes_read == 0)
+			break;
 		buffer[bytes_read] = '\0';
 		temp = ft_strjoin(content, buffer);
 		if (!temp)
@@ -286,23 +313,44 @@ static char	*read_heredoc_content(int pipefd[2], pid_t pid, t_base *base)
 			free(content);
 			close(pipefd[0]);
 			waitpid(pid, &status, 0);
+			if (WIFEXITED(status) && WEXITSTATUS(status) == 130)
+				base->exit_status = 130;
 			return (NULL);
 		}
 		free(content);
 		content = temp;
+		temp = NULL;  // temp'i NULL yap, double free'yi önle
 	}
 	close(pipefd[0]);
 	
 	// Child process'i bekle
 	waitpid(pid, &status, 0);
 	
-	// Ctrl+C durumu
-	if (WIFEXITED(status) && WEXITSTATUS(status) == 130)
+	// Child'ın çıkış durumunu detaylı kontrol et
+	if (WIFEXITED(status))
 	{
-		base->exit_status = 130;
-		free(content);
-		return (NULL);
+		int exit_code = WEXITSTATUS(status);
+		if (exit_code == 130)  // Ctrl+C
+		{
+			base->exit_status = 130;
+			heredoc_static_flag(1);  // Flag'i parent'ta da set et
+			if (content)
+				free(content);
+			return (NULL);
+		}
 	}
+	else if (WIFSIGNALED(status))
+	{
+		int sig = WTERMSIG(status);
+		if (sig == SIGINT)
+		{
+			base->exit_status = 130;
+			heredoc_static_flag(1);
+			if (content)
+				free(content);
+			return (NULL);
+		}
+	} 
 	
 	// Normal durum - content'i döndür (boş da olsa)
 	return (content);
@@ -332,6 +380,8 @@ char	*process_heredoc(char *delimiter, t_base *base)
 		// Ctrl+C durumunda cleanup
 		if (base->exit_status == 130)
 		{
+			if (content)
+				free(content);
 			rl_cleanup_after_signal();
 			rl_reset_after_signal();
 			rl_initialize();

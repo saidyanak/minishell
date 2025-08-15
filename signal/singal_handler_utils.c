@@ -6,11 +6,13 @@
 /*   By: yuocak <yuocak@student.42kocaeli.com.tr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/02 14:44:36 by yuocak            #+#    #+#             */
-/*   Updated: 2025/08/15 16:58:51 by yuocak           ###   ########.fr       */
+/*   Updated: 2025/08/15 19:10:15 by yuocak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
+#include <sys/wait.h>
+#include <signal.h>
 
 void	setup_interactive_signals(void)
 {

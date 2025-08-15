@@ -6,32 +6,18 @@
 /*   By: yuocak <yuocak@student.42kocaeli.com.tr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/02 11:39:59 by yuocak            #+#    #+#             */
-/*   Updated: 2025/08/15 17:52:08 by yuocak           ###   ########.fr       */
+/*   Updated: 2025/08/15 19:11:23 by yuocak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
-# include "libft/libft.h"
-# include <fcntl.h>
-# include <readline/history.h>
-# include <readline/readline.h>
-# include <signal.h>
-# include <stddef.h>
-# include <stdio.h>
-# include <stdlib.h>
-# include <sys/types.h>
-# include <sys/wait.h>
-# include <unistd.h>
-
-# define SIG_NONE 0
-# define SIG_INT 1
-# define SIG_QUIT 2
-
 # define INT_MAX 2147483647
 # define INT_MIN -2147483648
 # define LLONG_MAX 9223372036854775807
+
+# include "libft/libft.h"
 
 typedef struct s_heredoc_info
 {
@@ -181,7 +167,6 @@ char						*get_value(t_env *env, char *key);
 char						*process_heredoc(char *delimiter, t_base *base);
 int							handle_heredoc_token(t_token *token, t_base *base);
 void						process_all_heredocs(t_base *base);
-void						cleanup_heredoc_files(t_base *base);
 void						cleanup_heredocs(t_base *base);
 
 void						cleanup_tokens_and_heredocs(t_base *base);

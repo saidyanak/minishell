@@ -6,11 +6,15 @@
 /*   By: yuocak <yuocak@student.42kocaeli.com.tr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/01 00:01:15 by yuocak            #+#    #+#             */
-/*   Updated: 2025/08/15 16:58:49 by yuocak           ###   ########.fr       */
+/*   Updated: 2025/08/15 19:10:13 by yuocak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
+#include <readline/readline.h>
+#include <sys/wait.h>
+#include <unistd.h>
+#include <signal.h>
 
 int		g_signal = 0;
 

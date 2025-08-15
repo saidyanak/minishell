@@ -6,11 +6,15 @@
 /*   By: yuocak <yuocak@student.42kocaeli.com.tr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 07:45:00 by yuocak            #+#    #+#             */
-/*   Updated: 2025/08/15 15:50:47 by yuocak           ###   ########.fr       */
+/*   Updated: 2025/08/15 19:09:44 by yuocak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
+#include <stdio.h>
+#include <sys/wait.h>
+#include <unistd.h>
+#include <signal.h>
 
 static void	cleanup_execution(t_exec_params *params)
 {

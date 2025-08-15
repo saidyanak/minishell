@@ -6,11 +6,14 @@
 /*   By: yuocak <yuocak@student.42kocaeli.com.tr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/15 18:00:00 by yuocak            #+#    #+#             */
-/*   Updated: 2025/08/15 17:51:53 by yuocak           ###   ########.fr       */
+/*   Updated: 2025/08/15 19:08:13 by yuocak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
+#include <fcntl.h>
+#include <stdio.h>
+#include <unistd.h>
 
 t_token	*find_last_heredoc(t_token *cmd)
 {

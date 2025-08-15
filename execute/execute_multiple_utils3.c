@@ -6,13 +6,16 @@
 /*   By: yuocak <yuocak@student.42kocaeli.com.tr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/15 17:30:00 by yuocak            #+#    #+#             */
-/*   Updated: 2025/08/15 17:19:17 by yuocak           ###   ########.fr       */
+/*   Updated: 2025/08/15 19:07:50 by yuocak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 #include <errno.h>
 #include <fcntl.h>
+#include <stdio.h>
+#include <sys/wait.h>
+#include <unistd.h>
 
 int	next_command_has_input_redirect(t_exec_data *data, int cmd_index)
 {

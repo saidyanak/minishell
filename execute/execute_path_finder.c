@@ -3,14 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   execute_path_finder.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: syanak <syanak@student.42kocaeli.com.tr    +#+  +:+       +#+        */
+/*   By: yuocak <yuocak@student.42kocaeli.com.tr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/03 13:24:13 by yuocak            #+#    #+#             */
-/*   Updated: 2025/08/04 15:01:33 by syanak           ###   ########.fr       */
+/*   Updated: 2025/08/15 19:07:24 by yuocak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
+#include <unistd.h>
 
 static int	is_absolute_or_relative_path(char *command)
 {

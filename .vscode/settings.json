@@ -1,8 +1,5 @@
 {
     "files.associations": {
-        "wait.h": "c",
-        "minishell.h": "c",
-        "signal.h": "c",
-        "libft.h": "c"
+        "wait.h": "c"
     }
 }

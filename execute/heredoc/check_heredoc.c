@@ -6,7 +6,7 @@
 /*   By: yuocak <yuocak@student.42kocaeli.com.tr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/15 16:13:20 by yuocak            #+#    #+#             */
-/*   Updated: 2025/08/15 16:14:09 by yuocak           ###   ########.fr       */
+/*   Updated: 2025/08/15 20:21:46 by yuocak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,14 @@
 int	handle_heredoc_processing(t_base *base)
 {
 	heredoc_static_flag(-1);
+	
+	// Heredoc işlemi başlamadan önce exit_status'u tamamen temizle
+	// Heredoc işlemi önceki komutun exit status'undan bağımsız çalışmalı
+	base->exit_status = 0;
+	
 	process_all_heredocs(base);
+	
+	// Sadece bu heredoc işlemi sırasında Ctrl+C basıldıysa 130 döndür
 	if (*heredoc_static_flag(0) == 1 || base->exit_status == 130)
 	{
 		base->exit_status = 130;

@@ -127,7 +127,7 @@ re: fclean all
 
 valgrind: $(NAME)
 	@echo "$(BLUE)Running valgrind with readline suppressions...$(NC)"
-	valgrind --tool=memcheck --leak-check=full --show-leak-kinds=all --suppressions=readline.supp --track-origins=yes --track-fds=yes  ./$(NAME)
+	valgrind --tool=memcheck --leak-check=full --show-leak-kinds=all --track-origins=yes --track-fds=yes  ./$(NAME)
 
 norm:
 	@echo "$(BLUE)Checking norminette...$(NC)"

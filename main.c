@@ -6,14 +6,18 @@
 /*   By: yuocak <yuocak@student.42kocaeli.com.tr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/02 11:39:31 by yuocak            #+#    #+#             */
-/*   Updated: 2025/08/15 16:14:23 by yuocak           ###   ########.fr       */
+/*   Updated: 2025/08/15 20:33:17 by yuocak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+#include <readline/history.h>
+#include <readline/readline.h>
 
 static void	process_input(char *input, t_base *base)
 {
+	// Yeni komut başlamadan önce heredoc durumunu temizle
+	heredoc_static_flag(-1);
 	if (!input || !*input)
 		return ;
 	add_history(input);
@@ -29,7 +33,13 @@ static void	process_input(char *input, t_base *base)
 		return ;
 	}
 	if (check_heredoc(base->token))
-		handle_heredoc_processing(base);
+	{
+		if (!handle_heredoc_processing(base))
+		{
+			// Heredoc işlemi Ctrl+C ile kesildi, ana döngüye dön
+			return ;
+		}
+	}
 	expand_tokens(base);
 	execute_command(base);
 	cleanup_tokens_and_heredocs(base);
@@ -49,7 +59,15 @@ static void	run_shell_loop(t_base *base)
 			break ;
 		}
 		if (*input)
+		{
 			process_input(input, base);
+		}
+		else
+		{
+			// Boş input durumunda exit_status'u reset et (sadece heredoc Ctrl+C için)
+			if (base->exit_status == 130 && *heredoc_static_flag(0) == 0)
+				base->exit_status = 0;
+		}
 		free(input);
 	}
 }

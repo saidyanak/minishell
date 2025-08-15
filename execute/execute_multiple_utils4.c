@@ -6,13 +6,14 @@
 /*   By: yuocak <yuocak@student.42kocaeli.com.tr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/15 17:45:00 by yuocak            #+#    #+#             */
-/*   Updated: 2025/08/15 17:19:03 by yuocak           ###   ########.fr       */
+/*   Updated: 2025/08/15 19:07:57 by yuocak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 #include <errno.h>
 #include <fcntl.h>
+#include <unistd.h>
 
 void	setup_child_redirections(t_token *cmd, t_exec_data *data,
 		int cmd_index)
