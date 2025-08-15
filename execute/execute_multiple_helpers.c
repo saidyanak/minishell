@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute_multiple_helpers.c                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: syanak <syanak@student.42kocaeli.com.tr    +#+  +:+       +#+        */
+/*   By: yuocak <yuocak@student.42kocaeli.com.tr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/03 14:30:00 by yuocak            #+#    #+#             */
-/*   Updated: 2025/08/13 20:16:59 by syanak           ###   ########.fr       */
+/*   Updated: 2025/08/15 17:21:23 by yuocak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,6 @@ void	init_exec_data(t_exec_data *data)
 	data->pids = NULL;
 	data->cmd_count = 0;
 	data->pipe_count = 0;
-	
 }
 
 void	free_tokens_safe(t_exec_data *data)

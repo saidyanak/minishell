@@ -6,7 +6,7 @@
 /*   By: yuocak <yuocak@student.42kocaeli.com.tr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/24 15:07:31 by yuocak            #+#    #+#             */
-/*   Updated: 2025/08/15 15:54:31 by yuocak           ###   ########.fr       */
+/*   Updated: 2025/08/15 17:05:36 by yuocak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,7 @@ int	single_execute_command(t_base *base)
 	}
 	return (0);
 }
+
 void	swap_token_data(t_token *a, t_token *b)
 {
 	char			*temp_content;
@@ -82,7 +83,6 @@ void	swap_token(t_token *token)
 	current = token;
 	while (current && current->next && current->next->next)
 	{
-		// Pattern: [REDIRECT] [FILE] [COMMAND] -> [COMMAND] [REDIRECT] [FILE]
 		if ((current->type == TOKEN_REDIRECT_OUT
 				|| current->type == TOKEN_REDIRECT_IN
 				|| current->type == TOKEN_APPEND
@@ -100,13 +100,8 @@ void	swap_token(t_token *token)
 
 void	execute_command(t_base *base)
 {
-	int saved_stdin;
-	int saved_stdout;
-
 	if (!base->token)
 		return ;
-	saved_stdin = -1;
-	saved_stdout = -1;
 	if (!check_syntax_errors(base->token))
 	{
 		base->exit_status = 2;
@@ -114,37 +109,7 @@ void	execute_command(t_base *base)
 	}
 	if (check_redirection(base->token))
 	{
-		if (base->token->type != TOKEN_WORD
-			&& base->token->type != TOKEN_QUOTED_WORD)
-			swap_token(base->token);
-		saved_stdin = dup(STDIN_FILENO);
-		saved_stdout = dup(STDOUT_FILENO);
-		if (handle_redirections(base->token, base) == -1)
-		{
-			if (saved_stdin != -1)
-			{
-				dup2(saved_stdin, STDIN_FILENO);
-				close(saved_stdin);
-			}
-			if (saved_stdout != -1)
-			{
-				dup2(saved_stdout, STDOUT_FILENO);
-				close(saved_stdout);
-			}
-			base->exit_status = 1;
-			return ;
-		}
-		base->exit_status = single_execute_command(base);
-		if (saved_stdin != -1)
-		{
-			dup2(saved_stdin, STDIN_FILENO);
-			close(saved_stdin);
-		}
-		if (saved_stdout != -1)
-		{
-			dup2(saved_stdout, STDOUT_FILENO);
-			close(saved_stdout);
-		}
+		base->exit_status = handle_redirection_execution(base);
 		return ;
 	}
 	if (has_special_tokens(base->token))
