@@ -57,6 +57,7 @@ int	check_signal_status(int exit_status)
 	}
 	if (*heredoc_static_flag(0) == 1)
 	{
+		g_signal = 0;
 		heredoc_static_flag(-1);
 		return (130);
 	}

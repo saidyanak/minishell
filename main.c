@@ -35,10 +35,7 @@ static void	process_input(char *input, t_base *base)
 	if (check_heredoc(base->token))
 	{
 		if (!handle_heredoc_processing(base))
-		{
-			// Heredoc işlemi Ctrl+C ile kesildi, ana döngüye dön
 			return ;
-		}
 	}
 	expand_tokens(base);
 	execute_command(base);
@@ -59,15 +56,7 @@ static void	run_shell_loop(t_base *base)
 			break ;
 		}
 		if (*input)
-		{
 			process_input(input, base);
-		}
-		else
-		{
-			// Boş input durumunda exit_status'u reset et (sadece heredoc Ctrl+C için)
-			if (base->exit_status == 130 && *heredoc_static_flag(0) == 0)
-				base->exit_status = 0;
-		}
 		free(input);
 	}
 }

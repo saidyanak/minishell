@@ -51,6 +51,10 @@ SRCS = main.c \
        $(EXECUTEDIR)/execute.c \
 	   $(HEREDOC)/heredoc_expand.c \
 	   $(HEREDOC)/check_heredoc.c \
+	   $(HEREDOC)/heredoc_cleanup.c\
+	   $(HEREDOC)/heredoc_process.c\
+	   $(HEREDOC)/heredoc_reader.c\
+	   $(HEREDOC)/heredoc_handler.c\
 	   $(EXECUTEDIR)/execute_command_utils.c \
        $(EXECUTEDIR)/execute_path_finder.c \
        $(EXECUTEDIR)/execute_external.c \
@@ -127,7 +131,7 @@ re: fclean all
 
 valgrind: $(NAME)
 	@echo "$(BLUE)Running valgrind with readline suppressions...$(NC)"
-	valgrind --tool=memcheck --leak-check=full --show-leak-kinds=all --track-origins=yes --track-fds=yes  ./$(NAME)
+	valgrind --tool=memcheck --leak-check=full --show-leak-kinds=all --track-origins=yes --suppressions=readline.supp --track-fds=yes  ./$(NAME)
 
 norm:
 	@echo "$(BLUE)Checking norminette...$(NC)"
