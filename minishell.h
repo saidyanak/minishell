@@ -6,7 +6,7 @@
 /*   By: yuocak <yuocak@student.42kocaeli.com.tr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/02 11:39:59 by yuocak            #+#    #+#             */
-/*   Updated: 2025/08/15 17:30:08 by yuocak           ###   ########.fr       */
+/*   Updated: 2025/08/15 17:52:08 by yuocak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -223,7 +223,7 @@ int							redirect_in(t_token *current, int fd);
 t_token						*find_last_heredoc(t_token *cmd);
 int							handle_heredoc_redirection(t_token *current);
 int							process_redirection_token(t_token *current, int fd,
-								t_token *last_heredoc);
+								t_token *last_heredoc, int error);
 int							next_command_has_input_redirect(t_exec_data *data,
 								int cmd_index);
 int							should_skip_command_execution(t_exec_data *data,
