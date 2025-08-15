@@ -3,35 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   expand.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: syanak <syanak@student.42kocaeli.com.tr    +#+  +:+       +#+        */
+/*   By: yuocak <yuocak@student.42kocaeli.com.tr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/03 12:16:15 by syanak            #+#    #+#             */
-/*   Updated: 2025/08/12 07:09:47 by syanak           ###   ########.fr       */
+/*   Updated: 2025/08/15 16:28:21 by yuocak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
-
-static int	expand_dollar_var(char *str, int i, char **result, t_base *base)
-{
-	char	*var_name;
-	char	*var_value;
-	int		var_len;
-
-	var_name = extract_var_name(str + i + 1, &var_len);
-	if (var_name && var_len > 0)
-	{
-		var_value = find_env_value(base, var_name);
-		if (var_value)
-			*result = join_and_free(*result, var_value);
-		free(var_name);
-		return (i + var_len + 1);
-	}
-	if (var_name)
-		free(var_name);
-	*result = join_and_free(*result, ft_strdup("$"));
-	return (i + 1);
-}
 
 static int	copy_regular_text(char *str, int i, char **result)
 {
@@ -48,6 +27,7 @@ static int	copy_regular_text(char *str, int i, char **result)
 	}
 	return (j);
 }
+
 char	*initialize_empty_content_safe(void)
 {
 	char	*result;

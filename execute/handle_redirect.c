@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   handle_redirect.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: syanak <syanak@student.42kocaeli.com.tr    +#+  +:+       +#+        */
+/*   By: yuocak <yuocak@student.42kocaeli.com.tr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/24 17:26:39 by yuocak            #+#    #+#             */
-/*   Updated: 2025/08/14 10:41:35 by syanak           ###   ########.fr       */
+/*   Updated: 2025/08/15 17:30:07 by yuocak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,54 +73,22 @@ int	redirect_in(t_token *current, int fd)
 int	handle_redirections(t_token *cmd, t_base *base)
 {
 	t_token	*current;
-	int		fd;
-	int		error;
 	t_token	*last_heredoc;
+	int		fd;
 
 	(void)base;
 	fd = 0;
-	last_heredoc = NULL;
+	last_heredoc = find_last_heredoc(cmd);
 	current = cmd;
 	while (current && current->type != TOKEN_PIPE)
 	{
-		if (current->type == TOKEN_HEREDOC)
+		if (current->type == TOKEN_REDIRECT_IN
+			|| current->type == TOKEN_REDIRECT_OUT
+			|| current->type == TOKEN_APPEND
+			|| (current->type == TOKEN_HEREDOC && current == last_heredoc))
 		{
-			last_heredoc = current;
-		}
-		current = current->next;
-	}
-	current = cmd;
-	while (current && current->type != TOKEN_PIPE)
-	{
-		if (current->type == TOKEN_REDIRECT_IN)
-		{
-			error = redirect_in(current, fd);
-			if (error == -1)
+			if (process_redirection_token(current, fd, last_heredoc) == -1)
 				return (-1);
-		}
-		else if (current->type == TOKEN_REDIRECT_OUT)
-		{
-			error = redirect_out(current, fd);
-			if (error == -1)
-				return (-1);
-		}
-		else if (current->type == TOKEN_APPEND)
-		{
-			error = redirect_append(current, fd);
-			if (error == -1)
-				return (-1);
-		}
-		else if (current->type == TOKEN_HEREDOC && current == last_heredoc)
-		{
-			// Sadece bu komutun son heredoc'unu kullan
-			fd = open(current->next->content, O_RDONLY);
-			if (fd == -1)
-			{
-				perror("open heredoc");
-				return (-1);
-			}
-			dup2(fd, STDIN_FILENO);
-			close(fd);
 		}
 		current = current->next;
 	}

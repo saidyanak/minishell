@@ -38,6 +38,7 @@ SRCS = main.c \
 	   $(ENVDIR)/create_linked_list_utils.c \
 	   $(SIGNALDIR)/singal_handler_utils.c \
 	   $(SIGNALDIR)/signal_handler.c \
+	   $(SIGNALDIR)/signal_utils.c \
 	   $(PARSERDIR)/tokenizer.c \
 	   $(PARSERDIR)/word_parser.c \
 	   $(PARSERDIR)/quote_parser.c \
@@ -49,6 +50,7 @@ SRCS = main.c \
 	   $(EXECUTEDIR)/syntax_checker_redir.c \
        $(EXECUTEDIR)/execute.c \
 	   $(HEREDOC)/heredoc_expand.c \
+	   $(HEREDOC)/check_heredoc.c \
 	   $(EXECUTEDIR)/execute_command_utils.c \
        $(EXECUTEDIR)/execute_path_finder.c \
        $(EXECUTEDIR)/execute_external.c \
@@ -58,8 +60,12 @@ SRCS = main.c \
 	   $(EXECUTEDIR)/execute_multiple_helpers.c \
 	   $(EXECUTEDIR)/execute_multiple_utils.c \
 	   $(EXECUTEDIR)/execute_multiple_utils2.c \
+	   $(EXECUTEDIR)/execute_multiple_utils3.c \
+	   $(EXECUTEDIR)/execute_multiple_utils4.c \
 	   $(EXECUTEDIR)/execute_utils.c \
 	   $(EXECUTEDIR)/handle_redirect.c \
+	   $(EXECUTEDIR)/handle_redirect_utils.c \
+	   $(EXECUTEDIR)/redirect_fd.c \
        $(BUILTINDIR)/build_in.c \
        $(BUILTINDIR)/echo/ft_echo.c \
 	   $(BUILTINDIR)/cd/ft_cd.c \

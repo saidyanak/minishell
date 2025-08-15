@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute_multiple_utils2.c                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: syanak <syanak@student.42kocaeli.com.tr    +#+  +:+       +#+        */
+/*   By: yuocak <yuocak@student.42kocaeli.com.tr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/24 13:00:00 by yuocak            #+#    #+#             */
-/*   Updated: 2025/08/12 10:15:02 by syanak           ###   ########.fr       */
+/*   Updated: 2025/08/15 17:20:57 by yuocak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,15 +33,12 @@ static void	assign_new_command(t_token **current, t_token **commands,
 
 	pipe_token = *current;
 	next_command = pipe_token->next;
-	// Önceki token'ı bul ve bağlantıyı kes
 	prev_token = find_previous_token(commands[*cmd_index], pipe_token);
 	if (prev_token)
-		prev_token->next = NULL; // Bağlantıyı kes!
-	// Pipe token'ını free et
+		prev_token->next = NULL;
 	if (pipe_token->content)
 		free(pipe_token->content);
 	free(pipe_token);
-	// Yeni komut başlat
 	(*cmd_index)++;
 	commands[*cmd_index] = next_command;
 	*current = next_command;
