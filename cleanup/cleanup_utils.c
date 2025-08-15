@@ -23,17 +23,25 @@ void	cleanup_all(t_base *base)
 {
 	if (!base)
 		return ;
-	if (base->token)
+	if (base->data == NULL)
 	{
-		free_tokens(base->token);
-		base->token = NULL;
+		if (base->token)
+		{
+			free_tokens(base->token);
+			base->token = NULL;
+		}
+		cleanup_heredocs(base);
+		if (base->env)
+		{
+			free_env_list(base->env);
+			base->env = NULL;
+		}
 	}
-	cleanup_heredocs(base);
-	if (base->env)
-	{
-		free_env_list(base->env);
-		base->env = NULL;
-	}
+		else if (base->data && base->data->commands)
+		{
+			free_child_arg(base->data);
+			base->data = NULL;
+		}
 }
 
 void	free_child_arg(t_exec_data *data)

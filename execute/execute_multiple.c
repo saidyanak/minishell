@@ -75,5 +75,6 @@ int	execute_multiple_command(t_base *base)
 		return (1);
 	}
 	cleanup_heredocs(base);
+	base->data = NULL;
 	return (execute_cleanup_and_wait(&data));
 }
