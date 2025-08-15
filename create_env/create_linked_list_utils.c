@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   create_linked_list_utils.c                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yuocak <yuocak@student.42kocaeli.com.tr>   +#+  +:+       +#+        */
+/*   By: yuocak <yuocak@student.42kocaeli.com.tr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/02 14:52:07 by yuocak            #+#    #+#             */
-/*   Updated: 2025/08/14 02:22:25 by yuocak           ###   ########.fr       */
+/*   Updated: 2025/08/14 21:30:12 by yuocak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,9 +33,7 @@ void	set_underscore_variable(t_base *base, t_token *token)
 {
 	t_token	*last_token;
 	char	*last_arg;
-	char	*heredoc;
 
-	heredoc = "<<";
 	if (!token || !base)
 		return ;
 	last_token = token;

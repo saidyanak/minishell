@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: syanak <syanak@student.42kocaeli.com.tr    +#+  +:+       +#+        */
+/*   By: yuocak <yuocak@student.42kocaeli.com.tr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/24 15:07:31 by yuocak            #+#    #+#             */
-/*   Updated: 2025/08/14 17:36:22 by syanak           ###   ########.fr       */
+/*   Updated: 2025/08/15 15:54:31 by yuocak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -131,6 +131,7 @@ void	execute_command(t_base *base)
 				dup2(saved_stdout, STDOUT_FILENO);
 				close(saved_stdout);
 			}
+			base->exit_status = 1;
 			return ;
 		}
 		base->exit_status = single_execute_command(base);

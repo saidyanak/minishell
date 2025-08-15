@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute_external.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yuocak <yuocak@student.42kocaeli.com.tr>   +#+  +:+       +#+        */
+/*   By: yuocak <yuocak@student.42kocaeli.com.tr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 07:45:00 by yuocak            #+#    #+#             */
-/*   Updated: 2025/08/14 15:58:27 by yuocak           ###   ########.fr       */
+/*   Updated: 2025/08/15 15:50:47 by yuocak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,6 @@ static void	child_process(t_exec_params *params)
 	setup_child_signals();
 	execve(params->command_path, params->argv, params->envp);
 	perror("minishell");
-	exit(126);
 }
 
 static int	parent_process(pid_t pid, t_exec_params *params)
@@ -67,7 +66,11 @@ int	execute_external_command(t_base *base)
 		return (prep_result);
 	pid = fork();
 	if (pid == 0)
+	{
 		child_process(&params);
+		cleanup_heredocs(base);
+		exit(126);
+	}
 	else if (pid > 0)
 		return (parent_process(pid, &params));
 	else
