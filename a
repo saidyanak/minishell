@@ -1,1 +1,16 @@
-/home/syanak/Desktop
+Makefile
+a
+build-in
+cleanup
+create_env
+execute
+expand
+libft
+ls
+main.c
+minishell
+minishell.h
+obj
+parser
+readline.supp
+signal

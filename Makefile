@@ -62,6 +62,7 @@ SRCS = main.c \
        $(EXECUTEDIR)/execute_argv_envp.c \
 	   $(EXECUTEDIR)/execute_multiple.c \
 	   $(EXECUTEDIR)/execute_multiple_helpers.c \
+	   $(EXECUTEDIR)/token_filtering.c\
 	   $(EXECUTEDIR)/execute_multiple_utils.c \
 	   $(EXECUTEDIR)/execute_multiple_utils2.c \
 	   $(EXECUTEDIR)/execute_multiple_utils3.c \

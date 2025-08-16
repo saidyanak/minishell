@@ -6,7 +6,7 @@
 /*   By: yuocak <yuocak@student.42kocaeli.com.tr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/24 15:07:31 by yuocak            #+#    #+#             */
-/*   Updated: 2025/08/16 16:01:00 by yuocak           ###   ########.fr       */
+/*   Updated: 2025/08/17 00:00:00 by yuocak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,9 +16,7 @@
 int	check_redirection(t_token *token)
 {
 	t_token	*head;
-	int		type;
 
-	type = 0;
 	if (!token)
 		return (0);
 	head = token;
@@ -29,10 +27,24 @@ int	check_redirection(t_token *token)
 		if (head->type == TOKEN_APPEND || head->type == TOKEN_HEREDOC
 			|| head->type == TOKEN_REDIRECT_IN
 			|| head->type == TOKEN_REDIRECT_OUT)
-			type = 1;
+			return (1);
 		head = head->next;
 	}
-	return (type);
+	return (0);
+}
+
+int	has_pipe_token(t_token *token)
+{
+	t_token	*current;
+
+	current = token;
+	while (current)
+	{
+		if (current->type == TOKEN_PIPE)
+			return (1);
+		current = current->next;
+	}
+	return (0);
 }
 
 int	single_execute_command(t_base *base)
@@ -58,47 +70,6 @@ int	single_execute_command(t_base *base)
 	return (0);
 }
 
-void	swap_token_data(t_token *a, t_token *b)
-{
-	char			*temp_content;
-	t_token_type	temp_type;
-	t_quote_type	temp_quote;
-
-	temp_content = a->content;
-	a->content = b->content;
-	b->content = temp_content;
-	temp_type = a->type;
-	a->type = b->type;
-	b->type = temp_type;
-	temp_quote = a->q_type;
-	a->q_type = b->q_type;
-	b->q_type = temp_quote;
-}
-
-void	swap_token(t_token *token)
-{
-	t_token	*current;
-
-	if (!token)
-		return ;
-	current = token;
-	while (current && current->next && current->next->next)
-	{
-		if ((current->type == TOKEN_REDIRECT_OUT
-				|| current->type == TOKEN_REDIRECT_IN
-				|| current->type == TOKEN_APPEND
-				|| current->type == TOKEN_HEREDOC)
-			&& (current->next->next->type == TOKEN_WORD
-				|| current->next->next->type == TOKEN_QUOTED_WORD))
-		{
-			swap_token_data(current, current->next->next);
-			swap_token_data(current->next, current->next->next);
-			return ;
-		}
-		current = current->next;
-	}
-}
-
 void	execute_command(t_base *base)
 {
 	if (!base->token)
@@ -108,16 +79,19 @@ void	execute_command(t_base *base)
 		base->exit_status = 2;
 		return ;
 	}
-	if (check_redirection(base->token))
-	{
-		base->exit_status = handle_redirection_execution(base);
-		return ;
-	}
-	if (has_special_tokens(base->token))
+	
+	// ÖNCELİK 1: PIPE varsa multiple command
+	if (has_pipe_token(base->token))
 	{
 		base->exit_status = execute_multiple_command(base);
 		base->token = NULL;
 	}
+	// ÖNCELİK 2: Redirection varsa (ama pipe yoksa)
+	else if (check_redirection(base->token))
+	{
+		base->exit_status = handle_redirection_execution(base);
+	}
+	// ÖNCELİK 3: Normal single command
 	else
 	{
 		base->exit_status = single_execute_command(base);

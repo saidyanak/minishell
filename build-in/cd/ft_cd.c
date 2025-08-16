@@ -6,7 +6,7 @@
 /*   By: syanak <syanak@student.42kocaeli.com.tr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/01 17:00:00 by yuocak            #+#    #+#             */
-/*   Updated: 2025/08/16 19:08:23 by syanak           ###   ########.fr       */
+/*   Updated: 2025/08/17 00:00:00 by syanak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,22 @@
 #include <linux/limits.h>
 #include <stdio.h>
 #include <unistd.h>
+
+static int	count_cd_arguments(t_token *token)
+{
+	t_token	*current;
+	int		count;
+
+	count = 0;
+	current = token;
+	while (current)
+	{
+		if (current->type == TOKEN_WORD || current->type == TOKEN_QUOTED_WORD)
+			count++;
+		current = current->next;
+	}
+	return (count - 1);
+}
 
 static char	*get_target_dir(t_token *token, t_env *env)
 {
@@ -25,13 +41,6 @@ static char	*get_target_dir(t_token *token, t_env *env)
 		return (get_home_dir(env));
 	if (ft_strcmp(arg->content, "-") == 0)
 		return (get_oldpwd_dir(env));
-	if (check_redirection(token))
-	{
-		if (ft_strcmp(arg->content, "-"))
-			return (get_oldpwd_dir(env));
-		else if (!check_redirection(token->next))
-			return (arg->content);
-	}
 	return (arg->content);
 }
 
@@ -84,10 +93,12 @@ static int	change_to_dir(char *path, t_env **env)
 t_base	*ft_cd(t_token *token, t_base *base)
 {
 	char	*target;
+	int		arg_count;
 
 	if (!token || !base)
 		return (base);
-	if (token->next && token->next->next && !(check_redirection(token)))
+	arg_count = count_cd_arguments(token);
+	if (arg_count > 1)
 	{
 		ft_putstr_fd("minishell: cd: too many arguments\n", 2);
 		base->exit_status = 1;
