@@ -3,19 +3,19 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc_process.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yuocak <yuocak@student.42kocaeli.com.tr    +#+  +:+       +#+        */
+/*   By: syanak <syanak@student.42kocaeli.com.tr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/08/16 14:30:00 by yuocak            #+#    #+#             */
-/*   Updated: 2025/08/16 14:30:00 by yuocak           ###   ########.fr       */
+/*   Created: 2025/08/16 16:36:26 by syanak            #+#    #+#             */
+/*   Updated: 2025/08/16 17:47:10 by syanak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../minishell.h"
 #include "../../libft/libft.h"
+#include "../../minishell.h"
 #include <readline/readline.h>
 #include <signal.h>
-#include <unistd.h>
 #include <sys/wait.h>
+#include <unistd.h>
 
 void	heredoc_child_init(int pipefd[2], char *delimiter, t_base *base,
 		t_heredoc_data *data)
@@ -97,7 +97,6 @@ void	heredoc_child_process(int pipefd[2], char *delimiter, t_base *base)
 	free(data.clean_delimiter);
 	close(data.pipefd);
 	cleanup_child_resources(base);
-	heredoc_static_flag(-1);
 	exit(0);
 }
 
@@ -107,6 +106,7 @@ char	*process_heredoc(char *delimiter, t_base *base)
 	pid_t	pid;
 	char	*content;
 
+	content = NULL;
 	heredoc_static_flag(-1);
 	if (pipe(pipefd) == -1)
 		return (NULL);
@@ -114,17 +114,7 @@ char	*process_heredoc(char *delimiter, t_base *base)
 	if (pid == 0)
 		heredoc_child_process(pipefd, delimiter, base);
 	else if (pid > 0)
-	{
-		content = read_heredoc_content(pipefd, pid, base);
-		if (base->exit_status == 130)
-		{
-			rl_cleanup_after_signal();
-			rl_reset_after_signal();
-			rl_initialize();
-			return (NULL);
-		}
-		return (content);
-	}
+		return (heredoc_parent_process(content, pipefd, pid, base));
 	else
 	{
 		close(pipefd[0]);

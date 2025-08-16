@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yuocak <yuocak@student.42kocaeli.com.tr>   +#+  +:+       +#+        */
+/*   By: syanak <syanak@student.42kocaeli.com.tr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/02 11:39:59 by yuocak            #+#    #+#             */
-/*   Updated: 2025/08/16 16:00:29 by yuocak           ###   ########.fr       */
+/*   Updated: 2025/08/16 17:45:19 by syanak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -169,13 +169,17 @@ int							is_valid_var_char(char c, int first);
 void						set_underscore_variable(t_base *base,
 								t_token *token);
 
+char						*check_return(char *line);
 void						cleanup_heredocs(t_base *base);
 void						process_all_heredocs(t_base *base);
 void						restore_heredocs_in_redirections(t_token *cmd,
 								t_base *base);
 void						cleanup_child_resources(t_base *base);
 int							get_unique_heredoc_id(void);
-
+char						*unique_name_return(char *temp, char *counter_str,
+								char *temp_file);
+char						*heredoc_parent_process(char *content, int *pipefd,
+								pid_t pid, t_base *base);
 char						*expand_heredoc_var(char *line, int *i,
 								t_base *base);
 char						*expand_heredoc_line(char *line, t_base *base,

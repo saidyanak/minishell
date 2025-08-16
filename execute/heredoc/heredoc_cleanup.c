@@ -3,17 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc_cleanup.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yuocak <yuocak@student.42kocaeli.com.tr    +#+  +:+       +#+        */
+/*   By: syanak <syanak@student.42kocaeli.com.tr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/08/16 14:30:00 by yuocak            #+#    #+#             */
-/*   Updated: 2025/08/16 14:30:00 by yuocak           ###   ########.fr       */
+/*   Created: 2025/08/16 16:34:21 by syanak            #+#    #+#             */
+/*   Updated: 2025/08/16 16:34:22 by syanak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../minishell.h"
 #include "../../libft/libft.h"
-#include <unistd.h>
+#include "../../minishell.h"
 #include <fcntl.h>
+#include <unistd.h>
 
 void	cleanup_heredocs(t_base *base)
 {
@@ -28,7 +28,6 @@ void	cleanup_heredocs(t_base *base)
 		next = current->next;
 		if (current->temp_filename)
 		{
-			unlink(current->temp_filename);
 			free(current->temp_filename);
 		}
 		if (current->original_delimiter)

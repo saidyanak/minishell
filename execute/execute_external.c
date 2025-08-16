@@ -3,19 +3,19 @@
 /*                                                        :::      ::::::::   */
 /*   execute_external.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yuocak <yuocak@student.42kocaeli.com.tr>   +#+  +:+       +#+        */
+/*   By: syanak <syanak@student.42kocaeli.com.tr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 07:45:00 by yuocak            #+#    #+#             */
-/*   Updated: 2025/08/16 16:01:28 by yuocak           ###   ########.fr       */
+/*   Updated: 2025/08/16 19:23:18 by syanak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../minishell.h"
 #include "../libft/libft.h"
+#include "../minishell.h"
+#include <signal.h>
 #include <stdio.h>
 #include <sys/wait.h>
 #include <unistd.h>
-#include <signal.h>
 
 static void	cleanup_execution(t_exec_params *params)
 {
@@ -73,6 +73,8 @@ int	execute_external_command(t_base *base)
 	if (pid == 0)
 	{
 		child_process(&params);
+		cleanup_all(base);
+		cleanup_execution(&params);
 		exit(126);
 	}
 	else if (pid > 0)

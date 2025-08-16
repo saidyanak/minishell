@@ -3,15 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc_reader.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yuocak <yuocak@student.42kocaeli.com.tr    +#+  +:+       +#+        */
+/*   By: syanak <syanak@student.42kocaeli.com.tr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/08/16 14:30:00 by yuocak            #+#    #+#             */
-/*   Updated: 2025/08/16 14:30:00 by yuocak           ###   ########.fr       */
+/*   Created: 2025/08/16 16:36:54 by syanak            #+#    #+#             */
+/*   Updated: 2025/08/16 16:39:31 by syanak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../minishell.h"
 #include "../../libft/libft.h"
+#include "../../minishell.h"
 #include <sys/wait.h>
 #include <unistd.h>
 
@@ -39,8 +39,10 @@ char	*read_heredoc_buffer(int pipefd, char *content)
 	char	*temp;
 	int		bytes_read;
 
-	while((bytes_read = read(pipefd, buffer, 1023)) > 0)
+	bytes_read = 1;
+	while (bytes_read > 0)
 	{
+		bytes_read = read(pipefd, buffer, 1023);
 		buffer[bytes_read] = '\0';
 		temp = ft_strjoin(content, buffer);
 		if (!temp)

@@ -3,15 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   ft_cd.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yuocak <yuocak@student.42kocaeli.com.tr>   +#+  +:+       +#+        */
+/*   By: syanak <syanak@student.42kocaeli.com.tr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/01 17:00:00 by yuocak            #+#    #+#             */
-/*   Updated: 2025/08/16 16:03:08 by yuocak           ###   ########.fr       */
+/*   Updated: 2025/08/16 19:08:23 by syanak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../minishell.h"
 #include "../../libft/libft.h"
+#include "../../minishell.h"
 #include <linux/limits.h>
 #include <stdio.h>
 #include <unistd.h>
@@ -29,8 +29,8 @@ static char	*get_target_dir(t_token *token, t_env *env)
 	{
 		if (ft_strcmp(arg->content, "-"))
 			return (get_oldpwd_dir(env));
-		else
-			return (get_home_dir(env));
+		else if (!check_redirection(token->next))
+			return (arg->content);
 	}
 	return (arg->content);
 }
@@ -87,7 +87,7 @@ t_base	*ft_cd(t_token *token, t_base *base)
 
 	if (!token || !base)
 		return (base);
-	if (token->next->next && !(check_redirection(token)))
+	if (token->next && token->next->next && !(check_redirection(token)))
 	{
 		ft_putstr_fd("minishell: cd: too many arguments\n", 2);
 		base->exit_status = 1;

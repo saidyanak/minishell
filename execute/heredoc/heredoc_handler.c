@@ -3,18 +3,18 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc_handler.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yuocak <yuocak@student.42kocaeli.com.tr    +#+  +:+       +#+        */
+/*   By: syanak <syanak@student.42kocaeli.com.tr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/08/16 14:30:00 by yuocak            #+#    #+#             */
-/*   Updated: 2025/08/16 14:30:00 by yuocak           ###   ########.fr       */
+/*   Created: 2025/08/16 16:35:52 by syanak            #+#    #+#             */
+/*   Updated: 2025/08/16 17:25:46 by syanak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../minishell.h"
 #include "../../libft/libft.h"
+#include "../../minishell.h"
 #include <fcntl.h>
-#include <unistd.h>
 #include <stdio.h>
+#include <unistd.h>
 
 char	*get_heredoc_content(t_token *token, t_base *base)
 {
