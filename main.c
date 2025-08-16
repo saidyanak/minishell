@@ -3,20 +3,20 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yuocak <yuocak@student.42kocaeli.com.tr    +#+  +:+       +#+        */
+/*   By: yuocak <yuocak@student.42kocaeli.com.tr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/02 11:39:31 by yuocak            #+#    #+#             */
-/*   Updated: 2025/08/15 20:33:17 by yuocak           ###   ########.fr       */
+/*   Updated: 2025/08/16 15:58:12 by yuocak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+#include "libft/libft.h"
 #include <readline/history.h>
 #include <readline/readline.h>
 
 static void	process_input(char *input, t_base *base)
 {
-	// Yeni komut başlamadan önce heredoc durumunu temizle
 	heredoc_static_flag(-1);
 	if (!input || !*input)
 		return ;
@@ -79,8 +79,8 @@ int	main(int argc, char **argv, char **env)
 	(void)argv;
 	if (argc > 1)
 	{
-		ft_putstr_fd("One more argument error\n", 2);
-		exit(1);
+		ft_putstr_fd("No such file or directory\n", 2);
+		exit(127);
 	}
 	init_base_struct(&base, env);
 	update_shlvl(&base);

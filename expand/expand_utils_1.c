@@ -3,14 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   expand_utils_1.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: syanak <syanak@student.42kocaeli.com.tr    +#+  +:+       +#+        */
+/*   By: yuocak <yuocak@student.42kocaeli.com.tr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/04 12:21:00 by syanak            #+#    #+#             */
-/*   Updated: 2025/08/05 15:45:26 by syanak           ###   ########.fr       */
+/*   Updated: 2025/08/16 15:58:50 by yuocak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
+#include "../libft/libft.h"
 
 char	*find_env_value(t_base *base, char *key)
 {

@@ -3,14 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   syntax_checker_pipe.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yuocak <yuocak@student.42kocaeli.com.tr    +#+  +:+       +#+        */
+/*   By: yuocak <yuocak@student.42kocaeli.com.tr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/03 14:00:00 by yuocak            #+#    #+#             */
-/*   Updated: 2025/08/03 13:28:53 by yuocak           ###   ########.fr       */
+/*   Updated: 2025/08/16 16:00:48 by yuocak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
+#include "../libft/libft.h"
 
 static int	check_pipe_start(t_token *current, t_token *prev)
 {

@@ -3,14 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   cd_utils.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: syanak <syanak@student.42kocaeli.com.tr    +#+  +:+       +#+        */
+/*   By: yuocak <yuocak@student.42kocaeli.com.tr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/04 15:04:12 by syanak            #+#    #+#             */
-/*   Updated: 2025/08/13 20:05:53 by syanak           ###   ########.fr       */
+/*   Updated: 2025/08/16 16:03:22 by yuocak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
+#include "../../libft/libft.h"
 
 char	*get_value(t_env *env, char *key)
 {

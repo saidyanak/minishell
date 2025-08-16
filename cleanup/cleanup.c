@@ -3,14 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   cleanup.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yuocak <yuocak@student.42kocaeli.com.tr    +#+  +:+       +#+        */
+/*   By: yuocak <yuocak@student.42kocaeli.com.tr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/21 12:00:00 by yuocak            #+#    #+#             */
-/*   Updated: 2025/08/15 18:57:18 by yuocak           ###   ########.fr       */
+/*   Updated: 2025/08/16 15:59:21 by yuocak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+#include "../libft/libft.h"
 
 void	cleanup_tokens_and_heredocs(t_base *base)
 {
@@ -77,4 +78,27 @@ void	free_string_array(char **array)
 		i++;
 	}
 	free(array);
+}
+
+void	free_child_env_and_commands(t_exec_data *data)
+{
+	int	i;
+
+	if (data->base && data->base->env && data->base->env->key
+		&& data->base->env->value)
+	{
+		free_env_list(data->base->env);
+		data->base->env = NULL;
+	}
+	if (data->commands)
+	{
+		i = 0;
+		while (data->commands[i])
+		{
+			free_tokens(data->commands[i]);
+			i++;
+		}
+		free_commands(data->commands);
+		data->commands = NULL;
+	}
 }

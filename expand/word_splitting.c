@@ -3,14 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   word_splitting.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: syanak <syanak@student.42kocaeli.com.tr    +#+  +:+       +#+        */
+/*   By: yuocak <yuocak@student.42kocaeli.com.tr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/17 19:30:00 by syanak            #+#    #+#             */
-/*   Updated: 2025/08/04 14:49:22 by syanak           ###   ########.fr       */
+/*   Updated: 2025/08/16 15:58:36 by yuocak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
+#include "../libft/libft.h"
 
 static void	connect_split_tokens(t_token *split_tokens, t_token *next_token)
 {

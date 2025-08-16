@@ -6,11 +6,12 @@
 /*   By: yuocak <yuocak@student.42kocaeli.com.tr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/17 15:15:14 by yuocak            #+#    #+#             */
-/*   Updated: 2025/08/02 14:49:31 by yuocak           ###   ########.fr       */
+/*   Updated: 2025/08/16 16:03:34 by yuocak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
+#include "../../libft/libft.h"
 
 int	has_equal_sign(char *content)
 {

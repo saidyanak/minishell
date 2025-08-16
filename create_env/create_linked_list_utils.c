@@ -3,14 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   create_linked_list_utils.c                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yuocak <yuocak@student.42kocaeli.com.tr    +#+  +:+       +#+        */
+/*   By: yuocak <yuocak@student.42kocaeli.com.tr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/02 14:52:07 by yuocak            #+#    #+#             */
-/*   Updated: 2025/08/15 16:23:36 by yuocak           ###   ########.fr       */
+/*   Updated: 2025/08/16 15:59:47 by yuocak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
+#include "../libft/libft.h"
 
 void	update_shlvl(t_base *base)
 {

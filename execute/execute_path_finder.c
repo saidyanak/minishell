@@ -3,14 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   execute_path_finder.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yuocak <yuocak@student.42kocaeli.com.tr    +#+  +:+       +#+        */
+/*   By: yuocak <yuocak@student.42kocaeli.com.tr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/03 13:24:13 by yuocak            #+#    #+#             */
-/*   Updated: 2025/08/15 19:07:24 by yuocak           ###   ########.fr       */
+/*   Updated: 2025/08/16 16:01:22 by yuocak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
+#include "../libft/libft.h"
 #include <unistd.h>
 
 static int	is_absolute_or_relative_path(char *command)

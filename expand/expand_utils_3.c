@@ -3,14 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   expand_utils_3.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yuocak <yuocak@student.42kocaeli.com.tr    +#+  +:+       +#+        */
+/*   By: yuocak <yuocak@student.42kocaeli.com.tr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/05 16:01:19 by syanak            #+#    #+#             */
-/*   Updated: 2025/08/15 18:57:09 by yuocak           ###   ########.fr       */
+/*   Updated: 2025/08/16 15:59:06 by yuocak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
+#include "../libft/libft.h"
 
 int	expand_dollar_var(char *str, int i, char **result, t_base *base)
 {

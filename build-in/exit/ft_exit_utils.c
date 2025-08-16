@@ -3,14 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   ft_exit_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yuocak <yuocak@student.42kocaeli.com.tr    +#+  +:+       +#+        */
+/*   By: yuocak <yuocak@student.42kocaeli.com.tr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/03 14:30:31 by yuocak            #+#    #+#             */
-/*   Updated: 2025/08/15 16:29:50 by yuocak           ###   ########.fr       */
+/*   Updated: 2025/08/16 16:05:07 by yuocak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
+#include "../../libft/libft.h"
 
 static int	check_overflow(char *str, int sign, int start_pos)
 {

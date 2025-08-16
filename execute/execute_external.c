@@ -3,14 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   execute_external.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yuocak <yuocak@student.42kocaeli.com.tr    +#+  +:+       +#+        */
+/*   By: yuocak <yuocak@student.42kocaeli.com.tr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 07:45:00 by yuocak            #+#    #+#             */
-/*   Updated: 2025/08/15 19:09:44 by yuocak           ###   ########.fr       */
+/*   Updated: 2025/08/16 16:01:28 by yuocak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
+#include "../libft/libft.h"
 #include <stdio.h>
 #include <sys/wait.h>
 #include <unistd.h>
@@ -72,7 +73,6 @@ int	execute_external_command(t_base *base)
 	if (pid == 0)
 	{
 		child_process(&params);
-		cleanup_heredocs(base);
 		exit(126);
 	}
 	else if (pid > 0)

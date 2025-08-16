@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc_expand.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yuocak <yuocak@student.42kocaeli.com.tr    +#+  +:+       +#+        */
+/*   By: yuocak <yuocak@student.42kocaeli.com.tr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/16 14:30:00 by yuocak            #+#    #+#             */
-/*   Updated: 2025/08/16 14:30:00 by yuocak           ###   ########.fr       */
+/*   Updated: 2025/08/16 15:56:58 by yuocak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 #include <unistd.h>
-
+#include "../../libft/libft.h"
 
 char	*expand_heredoc_var(char *line, int *i, t_base *base)
 {
@@ -32,6 +32,10 @@ char	*expand_heredoc_var(char *line, int *i, t_base *base)
 	var_name = ft_substr(line, start, len);
 	var_value = get_value(base->env, var_name);
 	free(var_name);
+
+
+
+	//düzeltilecek
 	return (var_value ? ft_strdup(var_value) : ft_strdup(""));
 }
 

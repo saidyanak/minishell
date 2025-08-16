@@ -3,14 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   export_display.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: syanak <syanak@student.42kocaeli.com.tr    +#+  +:+       +#+        */
+/*   By: yuocak <yuocak@student.42kocaeli.com.tr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/17 15:14:43 by yuocak            #+#    #+#             */
-/*   Updated: 2025/08/13 20:05:53 by syanak           ###   ########.fr       */
+/*   Updated: 2025/08/16 16:03:56 by yuocak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
+#include "../../libft/libft.h"
 
 int	ascii_strcmp(char *s1, char *s2)
 {

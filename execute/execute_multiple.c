@@ -3,14 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   execute_multiple.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yuocak <yuocak@student.42kocaeli.com.tr    +#+  +:+       +#+        */
+/*   By: yuocak <yuocak@student.42kocaeli.com.tr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/31 23:46:17 by yuocak            #+#    #+#             */
-/*   Updated: 2025/08/15 17:19:19 by yuocak           ###   ########.fr       */
+/*   Updated: 2025/08/16 16:01:47 by yuocak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
+#include "../libft/libft.h"
 #include <errno.h>
 #include <fcntl.h>
 
@@ -74,7 +75,6 @@ int	execute_multiple_command(t_base *base)
 		cleanup_heredocs(base);
 		return (1);
 	}
-	cleanup_heredocs(base);
 	base->data = NULL;
 	return (execute_cleanup_and_wait(&data));
 }

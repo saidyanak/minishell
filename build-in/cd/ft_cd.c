@@ -3,14 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   ft_cd.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yuocak <yuocak@student.42kocaeli.com.tr    +#+  +:+       +#+        */
+/*   By: yuocak <yuocak@student.42kocaeli.com.tr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/01 17:00:00 by yuocak            #+#    #+#             */
-/*   Updated: 2025/08/15 19:08:35 by yuocak           ###   ########.fr       */
+/*   Updated: 2025/08/16 16:03:08 by yuocak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../../minishell.h"
+#include "../../libft/libft.h"
 #include <linux/limits.h>
 #include <stdio.h>
 #include <unistd.h>

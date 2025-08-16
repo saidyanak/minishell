@@ -3,14 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   build_in.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yuocak <yuocak@student.42kocaeli.com.tr    +#+  +:+       +#+        */
+/*   By: yuocak <yuocak@student.42kocaeli.com.tr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/04 13:08:48 by yuocak            #+#    #+#             */
-/*   Updated: 2025/08/03 14:34:52 by yuocak           ###   ########.fr       */
+/*   Updated: 2025/08/16 16:02:27 by yuocak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+#include "../libft/libft.h"
 
 void	ft_build_in(t_token *current_prompt, t_base *base)
 {

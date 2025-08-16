@@ -3,14 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   export_env_utils.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: syanak <syanak@student.42kocaeli.com.tr    +#+  +:+       +#+        */
+/*   By: yuocak <yuocak@student.42kocaeli.com.tr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/17 15:14:49 by yuocak            #+#    #+#             */
-/*   Updated: 2025/08/04 12:15:53 by syanak           ###   ########.fr       */
+/*   Updated: 2025/08/16 16:03:41 by yuocak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
+#include "../../libft/libft.h"
 
 t_env	*find_env_var(t_env *env, char *key)
 {

@@ -3,14 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   execute_command_utils.c                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yuocak <yuocak@student.42kocaeli.com.tr    +#+  +:+       +#+        */
+/*   By: yuocak <yuocak@student.42kocaeli.com.tr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/03 13:23:55 by yuocak            #+#    #+#             */
-/*   Updated: 2025/08/03 13:34:13 by yuocak           ###   ########.fr       */
+/*   Updated: 2025/08/16 16:01:10 by yuocak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
+#include "../libft/libft.h"
 
 int	is_redirection_token(t_token_type type)
 {

@@ -3,14 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   execute_multiple_utils3.c                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yuocak <yuocak@student.42kocaeli.com.tr    +#+  +:+       +#+        */
+/*   By: yuocak <yuocak@student.42kocaeli.com.tr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/15 17:30:00 by yuocak            #+#    #+#             */
-/*   Updated: 2025/08/15 19:07:50 by yuocak           ###   ########.fr       */
+/*   Updated: 2025/08/16 16:02:04 by yuocak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
+#include "../libft/libft.h"
 #include <errno.h>
 #include <fcntl.h>
 #include <stdio.h>

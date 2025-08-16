@@ -3,14 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   word_parser.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yuocak <yuocak@student.42kocaeli.com.tr    +#+  +:+       +#+        */
+/*   By: yuocak <yuocak@student.42kocaeli.com.tr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/04 15:27:44 by syanak            #+#    #+#             */
-/*   Updated: 2025/08/15 19:00:18 by yuocak           ###   ########.fr       */
+/*   Updated: 2025/08/16 15:59:59 by yuocak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
+#include "../libft/libft.h"
 
 static void	set_token_type(int quoted, t_quote_type detected,
 		t_token_type *type, t_quote_type *q_type)

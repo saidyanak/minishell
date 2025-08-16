@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   handle_redirect_utils.c                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yuocak <yuocak@student.42kocaeli.com.tr    +#+  +:+       +#+        */
+/*   By: yuocak <yuocak@student.42kocaeli.com.tr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/15 18:00:00 by yuocak            #+#    #+#             */
-/*   Updated: 2025/08/15 19:08:13 by yuocak           ###   ########.fr       */
+/*   Updated: 2025/08/16 14:36:07 by yuocak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 

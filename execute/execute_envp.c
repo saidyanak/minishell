@@ -6,11 +6,12 @@
 /*   By: yuocak <yuocak@student.42kocaeli.com.tr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 07:30:00 by yuocak            #+#    #+#             */
-/*   Updated: 2025/08/04 10:36:45 by yuocak           ###   ########.fr       */
+/*   Updated: 2025/08/16 16:01:35 by yuocak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
+#include "../libft/libft.h"
 
 int	count_env_vars(t_env *env)
 {

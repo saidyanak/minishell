@@ -3,14 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   word_splitting_utils_1.c                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: syanak <syanak@student.42kocaeli.com.tr    +#+  +:+       +#+        */
+/*   By: yuocak <yuocak@student.42kocaeli.com.tr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/04 14:25:03 by syanak            #+#    #+#             */
-/*   Updated: 2025/08/04 14:49:36 by syanak           ###   ########.fr       */
+/*   Updated: 2025/08/16 15:59:15 by yuocak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
+#include "../libft/libft.h"
 
 char	*extract_word(char *str, int *i)
 {

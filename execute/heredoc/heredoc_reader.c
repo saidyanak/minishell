@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "../../minishell.h"
+#include "../../libft/libft.h"
 #include <sys/wait.h>
 #include <unistd.h>
 
@@ -38,7 +39,7 @@ char	*read_heredoc_buffer(int pipefd, char *content)
 	char	*temp;
 	int		bytes_read;
 
-	while ((bytes_read = read(pipefd, buffer, 1023)) > 0)
+	while((bytes_read = read(pipefd, buffer, 1023)) > 0)
 	{
 		buffer[bytes_read] = '\0';
 		temp = ft_strjoin(content, buffer);

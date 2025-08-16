@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "../../minishell.h"
+#include "../../libft/libft.h"
 #include <readline/readline.h>
 #include <signal.h>
 #include <unistd.h>

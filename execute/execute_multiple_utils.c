@@ -3,14 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   execute_multiple_utils.c                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yuocak <yuocak@student.42kocaeli.com.tr    +#+  +:+       +#+        */
+/*   By: yuocak <yuocak@student.42kocaeli.com.tr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/24 13:00:00 by yuocak            #+#    #+#             */
-/*   Updated: 2025/08/15 19:07:44 by yuocak           ###   ########.fr       */
+/*   Updated: 2025/08/16 16:01:52 by yuocak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
+#include "../libft/libft.h"
 #include <unistd.h>
 
 int	count_commands(t_token *token)

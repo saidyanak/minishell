@@ -11,8 +11,10 @@
 /* ************************************************************************** */
 
 #include "../../minishell.h"
+#include "../../libft/libft.h"
 #include <fcntl.h>
 #include <unistd.h>
+#include <stdio.h>
 
 char	*get_heredoc_content(t_token *token, t_base *base)
 {

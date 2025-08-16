@@ -3,14 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   cleanup_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yuocak <yuocak@student.42kocaeli.com.tr    +#+  +:+       +#+        */
+/*   By: yuocak <yuocak@student.42kocaeli.com.tr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/04 10:31:43 by yuocak            #+#    #+#             */
-/*   Updated: 2025/08/15 19:06:47 by yuocak           ###   ########.fr       */
+/*   Updated: 2025/08/16 15:59:28 by yuocak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
+#include "../libft/libft.h"
 #include <unistd.h>
 
 void	free_commands(t_token **commands)
@@ -38,38 +39,20 @@ void	cleanup_all(t_base *base)
 			base->env = NULL;
 		}
 	}
-		else if (base->data && base->data->commands)
-		{
-			free_child_arg(base->data);
-			base->data = NULL;
-		}
+	else if (base->data && base->data->commands)
+	{
+		free_child_arg(base->data);
+		base->data = NULL;
+	}
 }
 
 void	free_child_arg(t_exec_data *data)
 {
-	int	i;
-
 	if (!data)
 		return ;
 	if (data && data->base)
 		cleanup_heredocs(data->base);
-	if (data->base && data->base->env && data->base->env->key
-		&& data->base->env->value)
-	{
-		free_env_list(data->base->env);
-		data->base->env = NULL;
-	}
-	if (data->commands)
-	{
-		i = 0;
-		while (data->commands[i])
-		{
-			free_tokens(data->commands[i]);
-			i++;
-		}
-		free_commands(data->commands);
-		data->commands = NULL;
-	}
+	free_child_env_and_commands(data);
 	if (data->pids)
 	{
 		free(data->pids);

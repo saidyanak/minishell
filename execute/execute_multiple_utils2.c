@@ -3,14 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   execute_multiple_utils2.c                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yuocak <yuocak@student.42kocaeli.com.tr    +#+  +:+       +#+        */
+/*   By: yuocak <yuocak@student.42kocaeli.com.tr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/24 13:00:00 by yuocak            #+#    #+#             */
-/*   Updated: 2025/08/15 17:20:57 by yuocak           ###   ########.fr       */
+/*   Updated: 2025/08/16 16:01:58 by yuocak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
+#include "../libft/libft.h"
 
 static t_token	*find_previous_token(t_token *start, t_token *target)
 {

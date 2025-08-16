@@ -6,11 +6,12 @@
 /*   By: yuocak <yuocak@student.42kocaeli.com.tr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/17 15:14:55 by yuocak            #+#    #+#             */
-/*   Updated: 2025/08/05 13:03:38 by yuocak           ###   ########.fr       */
+/*   Updated: 2025/08/16 16:04:01 by yuocak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
+#include "../../libft/libft.h"
 
 void	sort_and_print_env(t_env *env)
 {

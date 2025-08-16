@@ -6,11 +6,12 @@
 /*   By: yuocak <yuocak@student.42kocaeli.com.tr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/30 12:00:00 by yuocak            #+#    #+#             */
-/*   Updated: 2025/08/04 10:27:32 by yuocak           ###   ########.fr       */
+/*   Updated: 2025/08/16 15:59:53 by yuocak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
+#include "../libft/libft.h"
 
 void	tokenize_input(char *input, t_base *base)
 {
