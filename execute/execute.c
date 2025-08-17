@@ -79,19 +79,15 @@ void	execute_command(t_base *base)
 		base->exit_status = 2;
 		return ;
 	}
-	
-	// ÖNCELİK 1: PIPE varsa multiple command
 	if (has_pipe_token(base->token))
 	{
 		base->exit_status = execute_multiple_command(base);
 		base->token = NULL;
 	}
-	// ÖNCELİK 2: Redirection varsa (ama pipe yoksa)
 	else if (check_redirection(base->token))
 	{
 		base->exit_status = handle_redirection_execution(base);
 	}
-	// ÖNCELİK 3: Normal single command
 	else
 	{
 		base->exit_status = single_execute_command(base);

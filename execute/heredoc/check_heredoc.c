@@ -17,6 +17,11 @@
 
 int	handle_heredoc_processing(t_base *base)
 {
+	if (!check_syntax_errors(base->token))
+	{
+		base->exit_status = 2;
+		return (0);
+	}
 	heredoc_static_flag(-1);
 	base->exit_status = 0;
 	process_all_heredocs(base);

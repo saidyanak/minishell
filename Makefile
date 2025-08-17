@@ -1,6 +1,6 @@
 NAME = minishell
 
-CC = cc
+CC = gcc
 CFLAGS = -Wall -Wextra -Werror -g
 INCLUDES = -I. -I./libft
 READLINE_FLAGS = -lreadline
@@ -24,6 +24,7 @@ LEAK_TESTER = leak_tester
 LEAK_SRC = leak_tester.c
 
 SRCS = main.c \
+		debug.c\
 	   $(EXPANDIR)/expand.c	\
 	   $(EXPANDIR)/word_splitting.c \
 	   $(EXPANDIR)/expand_quotes.c \

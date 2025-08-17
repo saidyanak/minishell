@@ -78,25 +78,56 @@ int	should_expand_delimiter(char *delimiter)
 	}
 	return (1);
 }
+#include "minishell.h"
+#include "minishell.h"
+
+int	join_quoted_delimiter(char *delimiter, int i, char **result)
+{
+	int		start;
+	char	quote_char;
+	char	*content;
+
+	quote_char = delimiter[i++];
+	start = i;
+	while (delimiter[i] && delimiter[i] != quote_char)
+		i++;
+	if (delimiter[i] != quote_char)
+		return (-1);
+	content = ft_substr(delimiter, start, i - start);
+	*result = join_and_free(*result, content);
+	return (i + 1);
+}
 
 char	*remove_quotes_from_delimiter(char *delimiter)
 {
 	char	*result;
-	char	quote_char;
+	char	temp[2];
 	int		i;
-	int		j;
+	int		next_i;
 
-	if (!delimiter || (delimiter[0] != '\'' && delimiter[0] != '"'))
-		return (ft_strdup(delimiter));
-	quote_char = delimiter[0];
-	result = malloc(ft_strlen(delimiter) - 1);
+	if (!delimiter)
+		return (NULL);
+	result = initialize_empty_content_safe();
 	if (!result)
 		return (NULL);
-	i = 1;
-	j = 0;
-	while (delimiter[i] && delimiter[i] != quote_char)
-		result[j++] = delimiter[i++];
-	result[j] = '\0';
+	i = 0;
+	while (delimiter[i])
+	{
+		if (delimiter[i] == '\'' || delimiter[i] == '"')
+		{
+			next_i = join_quoted_delimiter(delimiter, i, &result);
+			if (next_i == -1)
+				return (free(result), NULL);
+			i = next_i;
+		}
+		else
+		{
+			temp[0] = delimiter[i];
+			temp[1] = '\0';
+			result = join_and_free(result, ft_strdup(temp));
+			i++;
+		}
+	}
 	return (result);
 }
 

@@ -111,6 +111,8 @@ typedef struct s_heredoc_data
 	int						pipefd;
 }							t_heredoc_data;
 
+void    debug_all(t_base *base);
+void    print_tokens(t_token *token);
 t_token	*extract_command_tokens(t_token *token);
 char						*initialize_empty_content_safe(void);
 char						*parse_word_with_quotes(char *input, int *i,

@@ -48,7 +48,7 @@ static void	run_shell_loop(t_base *base)
 
 	while (1)
 	{
-		input = readline("gameofshell$ ");
+		input = readline("minishell$");
 		base->exit_status = check_signal_status(base->exit_status);
 		if (!input)
 		{
