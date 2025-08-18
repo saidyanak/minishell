@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   cleanup_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: syanak <syanak@student.42kocaeli.com.tr    +#+  +:+       +#+        */
+/*   By: yuocak <yuocak@student.42kocaeli.com.tr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/04 10:31:43 by yuocak            #+#    #+#             */
-/*   Updated: 2025/08/16 16:40:25 by syanak           ###   ########.fr       */
+/*   Updated: 2025/08/18 15:51:43 by yuocak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../libft/libft.h"
 #include "../minishell.h"
 #include <unistd.h>
+#include <stdlib.h>
 
 void	free_commands(t_token **commands)
 {
@@ -27,22 +27,11 @@ void	cleanup_all(t_base *base)
 		return ;
 	if (base->data == NULL)
 	{
-		if (base->token)
-		{
-			free_tokens(base->token);
-			base->token = NULL;
-		}
-		cleanup_heredocs(base);
-		if (base->env)
-		{
-			free_env_list(base->env);
-			base->env = NULL;
-		}
+		cleanup_base_normal(base);
 	}
 	else if (base->data && base->data->commands)
 	{
-		free_child_arg(base->data);
-		base->data = NULL;
+		cleanup_base_with_data(base);
 	}
 }
 

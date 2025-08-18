@@ -26,7 +26,10 @@ static t_token	*create_command_token(char *content, t_token_type type,
 	new_token->q_type = q_type;
 	new_token->next = NULL;
 	if (!new_token->content)
-		return (free(new_token), NULL);
+	{
+		free(new_token);
+		return (NULL);
+	}
 	return (new_token);
 }
 

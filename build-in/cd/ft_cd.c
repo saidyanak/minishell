@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_cd.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: syanak <syanak@student.42kocaeli.com.tr    +#+  +:+       +#+        */
+/*   By: yuocak <yuocak@student.42kocaeli.com.tr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/01 17:00:00 by yuocak            #+#    #+#             */
-/*   Updated: 2025/08/17 00:00:00 by syanak           ###   ########.fr       */
+/*   Updated: 2025/08/18 15:43:32 by yuocak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,22 +15,6 @@
 #include <linux/limits.h>
 #include <stdio.h>
 #include <unistd.h>
-
-static int	count_cd_arguments(t_token *token)
-{
-	t_token	*current;
-	int		count;
-
-	count = 0;
-	current = token;
-	while (current)
-	{
-		if (current->type == TOKEN_WORD || current->type == TOKEN_QUOTED_WORD)
-			count++;
-		current = current->next;
-	}
-	return (count - 1);
-}
 
 static char	*get_target_dir(t_token *token, t_env *env)
 {

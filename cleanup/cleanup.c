@@ -6,12 +6,12 @@
 /*   By: yuocak <yuocak@student.42kocaeli.com.tr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/21 12:00:00 by yuocak            #+#    #+#             */
-/*   Updated: 2025/08/16 15:59:21 by yuocak           ###   ########.fr       */
+/*   Updated: 2025/08/18 15:50:09 by yuocak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-#include "../libft/libft.h"
+#include "stdlib.h"
 
 void	cleanup_tokens_and_heredocs(t_base *base)
 {

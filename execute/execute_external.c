@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute_external.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: syanak <syanak@student.42kocaeli.com.tr    +#+  +:+       +#+        */
+/*   By: yuocak <yuocak@student.42kocaeli.com.tr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 07:45:00 by yuocak            #+#    #+#             */
-/*   Updated: 2025/08/16 19:23:18 by syanak           ###   ########.fr       */
+/*   Updated: 2025/08/18 15:31:50 by yuocak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 #include "../minishell.h"
 #include <signal.h>
 #include <stdio.h>
+#include <sys/stat.h>
 #include <sys/wait.h>
 #include <unistd.h>
 
@@ -27,11 +28,32 @@ static void	cleanup_execution(t_exec_params *params)
 		free_string_array(params->envp);
 }
 
-static void	child_process(t_exec_params *params)
+static void	child_process(t_exec_params *params, t_base *base)
 {
+	struct stat	file_stat;
+
 	setup_child_signals();
+	if (stat(params->command_path, &file_stat) == 0)
+	{
+		if (S_ISDIR(file_stat.st_mode))
+		{
+			ft_putstr_fd("minishell: ", STDERR_FILENO);
+			ft_putstr_fd(params->command_path, STDERR_FILENO);
+			ft_putstr_fd(": Is a directory\n", STDERR_FILENO);
+			cleanup_all(base);
+			cleanup_execution(params);
+			exit(126);
+		}
+	}
 	execve(params->command_path, params->argv, params->envp);
-	perror("minishell");
+	ft_putstr_fd("minishell: ", STDERR_FILENO);
+	ft_putstr_fd(params->command_path, STDERR_FILENO);
+	if (access(params->command_path, F_OK) != 0)
+		ft_putstr_fd(": No such file or directory\n", STDERR_FILENO);
+	else if (access(params->command_path, X_OK) != 0)
+		ft_putstr_fd(": Permission denied\n", STDERR_FILENO);
+	else
+		perror("minishell");
 }
 
 static int	parent_process(pid_t pid, t_exec_params *params)
@@ -72,7 +94,7 @@ int	execute_external_command(t_base *base)
 	pid = fork();
 	if (pid == 0)
 	{
-		child_process(&params);
+		child_process(&params, base);
 		cleanup_all(base);
 		cleanup_execution(&params);
 		exit(126);

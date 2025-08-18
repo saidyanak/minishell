@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: syanak <syanak@student.42kocaeli.com.tr    +#+  +:+       +#+        */
+/*   By: yuocak <yuocak@student.42kocaeli.com.tr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/02 11:39:59 by yuocak            #+#    #+#             */
-/*   Updated: 2025/08/16 17:45:19 by syanak           ###   ########.fr       */
+/*   Updated: 2025/08/18 15:58:13 by yuocak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,9 +111,9 @@ typedef struct s_heredoc_data
 	int						pipefd;
 }							t_heredoc_data;
 
-void    debug_all(t_base *base);
-void    print_tokens(t_token *token);
-t_token	*extract_command_tokens(t_token *token);
+void						debug_all(t_base *base);
+void						print_tokens(t_token *token);
+t_token						*extract_command_tokens(t_token *token);
 char						*initialize_empty_content_safe(void);
 char						*parse_word_with_quotes(char *input, int *i,
 								t_token_type *type, t_quote_type *q_type);
@@ -194,11 +194,13 @@ char						*create_temp_filename(void);
 void						heredoc_child_init(int pipefd[2], char *delimiter,
 								t_base *base, t_heredoc_data *data);
 int							heredoc_check_exit_conditions(char *line,
-								char *clean_delimiter, t_heredoc_data *data);
+								char *clean_delimiter,
+								t_heredoc_data *data);
 void						heredoc_process_line(char *line,
 								t_heredoc_data *data);
 void						heredoc_child_process(int pipefd[2],
-								char *delimiter, t_base *base);
+								char *delimiter,
+								t_base *base);
 char						*process_heredoc(char *delimiter, t_base *base);
 
 char						*init_heredoc_content(int pipefd[2], pid_t pid,
@@ -274,15 +276,18 @@ int							should_skip_command_execution(t_exec_data *data,
 int							launch_child_processes(t_exec_data *data);
 int							wait_for_children(t_exec_data *data);
 int							execute_child_process(t_token *cmd,
-								t_exec_data *data, int cmd_index);
+								t_exec_data *data,
+								int cmd_index);
 void						setup_child_redirections(t_token *cmd,
-								t_exec_data *data, int cmd_index);
+								t_exec_data *data,
+								int cmd_index);
 
 void						init_exec_data(t_exec_data *data);
 void						free_tokens_safe(t_exec_data *data);
 void						free_pids(t_exec_data *data);
 int							wait_for_children_utils(int last_exit_status,
-								int status, t_exec_data *data);
+								int status,
+								t_exec_data *data);
 
 int							is_redirection_token(t_token_type type);
 int							is_special_token(t_token_type type);
@@ -300,6 +305,7 @@ void						free_argv(char **argv);
 void						ft_build_in(t_token *current_prompt, t_base *base);
 int							ft_echo(t_token *current_prompt, t_base base);
 t_base						*ft_cd(t_token *current_prompt, t_base *base);
+int							count_cd_arguments(t_token *token);
 int							ft_pwd(t_base base);
 t_base						*ft_export(t_token *token, t_base *base);
 int							ft_env(t_base *base);
@@ -353,5 +359,7 @@ void						cleanup_all(t_base *base);
 void						free_commands(t_token **commands);
 void						free_child_arg(t_exec_data *data);
 void						free_child_env_and_commands(t_exec_data *data);
+void						cleanup_base_normal(t_base *base);
+void						cleanup_base_with_data(t_base *base);
 
 #endif

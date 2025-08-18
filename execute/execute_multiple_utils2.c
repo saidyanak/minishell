@@ -6,7 +6,7 @@
 /*   By: yuocak <yuocak@student.42kocaeli.com.tr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/24 13:00:00 by yuocak            #+#    #+#             */
-/*   Updated: 2025/08/17 00:00:00 by yuocak           ###   ########.fr       */
+/*   Updated: 2025/08/18 15:41:22 by yuocak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,8 +59,6 @@ t_token	**split_commands(t_token *token, int cmd_count)
 	current = token;
 	cmd_index = 0;
 	commands[cmd_index] = current;
-	
-	
 	while (current && cmd_index < cmd_count - 1)
 	{
 		if (current->type == TOKEN_PIPE)

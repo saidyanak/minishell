@@ -6,7 +6,7 @@
 /*   By: yuocak <yuocak@student.42kocaeli.com.tr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 07:15:00 by yuocak            #+#    #+#             */
-/*   Updated: 2025/08/16 16:01:41 by yuocak           ###   ########.fr       */
+/*   Updated: 2025/08/18 15:39:52 by yuocak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,17 +74,21 @@ char	**build_argv_from_tokens(t_token *token)
 int	prepare_execution(t_token *token, t_base *base, t_exec_params *params)
 {
 	params->argv = build_argv_from_tokens(token);
-	if (!params->argv || !(params->argv)[0])
+	if (!params->argv || !(params->argv)[0] || !((params->argv)[0][0]))
 	{
+		ft_putstr_fd("minishell: : command not found\n", 2);
 		free_argv(params->argv);
-		return (1);
+		return (127);
 	}
 	params->command_path = find_command_path((params->argv)[0], base);
 	if (!params->command_path)
 	{
 		ft_putstr_fd("minishell: ", 2);
 		ft_putstr_fd((params->argv)[0], 2);
-		ft_putstr_fd(": command not found\n", 2);
+		if (ft_strchr((params->argv)[0], '/'))
+			ft_putstr_fd(": No such file or directory\n", 2);
+		else
+			ft_putstr_fd(": command not found\n", 2);
 		free_argv(params->argv);
 		return (127);
 	}

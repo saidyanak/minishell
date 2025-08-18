@@ -24,7 +24,6 @@ LEAK_TESTER = leak_tester
 LEAK_SRC = leak_tester.c
 
 SRCS = main.c \
-		debug.c\
 	   $(EXPANDIR)/expand.c	\
 	   $(EXPANDIR)/word_splitting.c \
 	   $(EXPANDIR)/expand_quotes.c \
@@ -35,6 +34,7 @@ SRCS = main.c \
 	   $(EXPANDIR)/word_splitting_utils_2.c \
        $(CLEANDIR)/cleanup.c \
        $(CLEANDIR)/cleanup_utils.c \
+       $(CLEANDIR)/cleanup_base.c \
 	   $(ENVDIR)/create_linked_list.c \
 	   $(ENVDIR)/create_linked_list_utils.c \
 	   $(SIGNALDIR)/singal_handler_utils.c \
@@ -51,6 +51,7 @@ SRCS = main.c \
 	   $(EXECUTEDIR)/syntax_checker_redir.c \
        $(EXECUTEDIR)/execute.c \
 	   $(HEREDOC)/heredoc_expand.c \
+	   $(HEREDOC)/heredoc_temp_file.c \
 	   $(HEREDOC)/check_heredoc.c \
 	   $(HEREDOC)/heredoc_cleanup.c\
 	   $(HEREDOC)/heredoc_process.c\
@@ -76,6 +77,7 @@ SRCS = main.c \
        $(BUILTINDIR)/echo/ft_echo.c \
 	   $(BUILTINDIR)/cd/ft_cd.c \
 	   $(BUILTINDIR)/cd/cd_utils.c \
+	   $(BUILTINDIR)/cd/count_cd_arguments.c \
 	   $(BUILTINDIR)/pwd/ft_pwd.c \
 	   $(BUILTINDIR)/env/ft_env.c \
 	   $(BUILTINDIR)/export/export_parsing.c \

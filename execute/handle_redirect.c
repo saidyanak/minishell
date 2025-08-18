@@ -6,7 +6,7 @@
 /*   By: yuocak <yuocak@student.42kocaeli.com.tr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/24 17:26:39 by yuocak            #+#    #+#             */
-/*   Updated: 2025/08/16 16:02:20 by yuocak           ###   ########.fr       */
+/*   Updated: 2025/08/18 14:37:03 by yuocak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,9 @@ int	redirect_out(t_token *current, int fd)
 	fd = open(current->next->content, O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	if (fd == -1)
 	{
-		perror("open >");
+		ft_putstr_fd("minishell: ", STDERR_FILENO);
+		ft_putstr_fd(current->next->content, STDERR_FILENO);
+		ft_putstr_fd(": Permission denied\n", STDERR_FILENO);
 		return (-1);
 	}
 	else
@@ -47,7 +49,9 @@ int	redirect_append(t_token *current, int fd)
 	fd = open(current->next->content, O_WRONLY | O_CREAT | O_APPEND, 0644);
 	if (fd == -1)
 	{
-		perror("open >>");
+		ft_putstr_fd("minishell: ", STDERR_FILENO);
+		ft_putstr_fd(current->next->content, STDERR_FILENO);
+		ft_putstr_fd(": Permission denied\n", STDERR_FILENO);
 		return (-1);
 	}
 	else
@@ -63,7 +67,9 @@ int	redirect_in(t_token *current, int fd)
 	fd = open(current->next->content, O_RDONLY);
 	if (fd == -1)
 	{
-		perror("open <");
+		ft_putstr_fd("minishell: ", STDERR_FILENO);
+		ft_putstr_fd(current->next->content, STDERR_FILENO);
+		ft_putstr_fd(": No such file or directory\n", STDERR_FILENO);
 		return (-1);
 	}
 	else
