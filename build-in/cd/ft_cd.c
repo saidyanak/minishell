@@ -6,7 +6,7 @@
 /*   By: yuocak <yuocak@student.42kocaeli.com.tr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/01 17:00:00 by yuocak            #+#    #+#             */
-/*   Updated: 2025/08/18 15:43:32 by yuocak           ###   ########.fr       */
+/*   Updated: 2025/08/18 19:52:27 by yuocak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,30 +47,47 @@ static int	check_dir_access(char *path)
 	return (1);
 }
 
-static void	update_pwd_vars(t_env **env, char *old_dir)
+static void	update_pwd_vars(t_env **env, char *old_dir, char *target)
 {
 	char	new_dir[PATH_MAX];
+	char	*current_pwd;
+	char	*updated_pwd;
 
 	set_env_value(env, "OLDPWD", old_dir);
 	if (getcwd(new_dir, PATH_MAX))
 		set_env_value(env, "PWD", new_dir);
+	else
+	{
+		ft_putstr_fd("cd: error retrieving current directory: getcwd:\
+			 cannot access parent directories: No such file or directory\n", 2);
+		current_pwd = get_value(*env, "PWD");
+		if (current_pwd && ft_strcmp(target, "..") == 0)
+		{
+			updated_pwd = ft_strjoin(current_pwd, "/..");
+			set_env_value(env, "PWD", updated_pwd);
+			free(updated_pwd);
+		}
+	}
 }
 
 static int	change_to_dir(char *path, t_env **env)
 {
 	char	current_dir[PATH_MAX];
+	char	*pwd_value;
 
-	if (!getcwd(current_dir, PATH_MAX))
+	pwd_value = get_value(*env, "PWD");
+	if (pwd_value)
+		ft_strlcpy(current_dir, pwd_value, PATH_MAX);
+	else if (!getcwd(current_dir, PATH_MAX))
 	{
-		perror("minishell: cd: getcwd");
-		return (1);
+		if (pwd_value)
+			ft_strlcpy(current_dir, pwd_value, PATH_MAX);
+		else
+			ft_strlcpy(current_dir, "/", PATH_MAX);
 	}
 	if (chdir(path) != 0)
-	{
-		perror("minishell: cd");
-		return (1);
-	}
-	update_pwd_vars(env, current_dir);
+		return (perror("minishell: cd"), 1);
+	update_pwd_vars(env, current_dir, path);
 	return (0);
 }
 

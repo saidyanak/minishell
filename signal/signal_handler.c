@@ -6,7 +6,7 @@
 /*   By: yuocak <yuocak@student.42kocaeli.com.tr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/01 00:01:15 by yuocak            #+#    #+#             */
-/*   Updated: 2025/08/18 14:23:35 by yuocak           ###   ########.fr       */
+/*   Updated: 2025/08/18 18:46:15 by yuocak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,12 +37,6 @@ void	heredoc_sigint(int sig)
 	heredoc_static_flag(1);
 }
 
-void	sigquit_handler(int sig)
-{
-	(void)sig;
-	g_signal = SIGQUIT;
-}
-
 int	check_signal_status(int exit_status)
 {
 	if (g_signal == SIGINT)
@@ -62,9 +56,4 @@ int	check_signal_status(int exit_status)
 		return (130);
 	}
 	return (exit_status);
-}
-
-void	set_g_signal(int sig)
-{
-	g_signal = sig;
 }

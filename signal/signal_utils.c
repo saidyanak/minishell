@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   signal_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yuocak <yuocak@student.42kocaeli.com.tr    +#+  +:+       +#+        */
+/*   By: yuocak <yuocak@student.42kocaeli.com.tr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/15 17:00:00 by yuocak            #+#    #+#             */
-/*   Updated: 2025/08/15 19:07:11 by yuocak           ###   ########.fr       */
+/*   Updated: 2025/08/18 18:42:04 by yuocak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,10 +30,4 @@ int	*heredoc_static_flag(int control)
 		return (&flag);
 	}
 	return (&flag);
-}
-
-void	sigint_execution_handler(int sig)
-{
-	(void)sig;
-	write(STDOUT_FILENO, "\n", 1);
 }

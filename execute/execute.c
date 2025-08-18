@@ -6,7 +6,7 @@
 /*   By: yuocak <yuocak@student.42kocaeli.com.tr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/24 15:07:31 by yuocak            #+#    #+#             */
-/*   Updated: 2025/08/18 15:39:57 by yuocak           ###   ########.fr       */
+/*   Updated: 2025/08/18 19:52:58 by yuocak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,7 @@ void	execute_command(t_base *base)
 	}
 	else
 	{
-		base->exit_status = single_execute_command(base);
 		set_underscore_variable(base, base->token);
+		base->exit_status = single_execute_command(base);
 	}
 }

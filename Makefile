@@ -1,7 +1,7 @@
 NAME = minishell
 
-CC = gcc
-CFLAGS = -Wall -Wextra -Werror -g
+CC = cc
+CFLAGS = -Wall -Wextra -Werror
 INCLUDES = -I. -I./libft
 READLINE_FLAGS = -lreadline
 
@@ -19,9 +19,6 @@ CLEANDIR = cleanup
 
 LIBFT = $(LIBFTDIR)/libft.a
 LIBFT_FLAGS = -L$(LIBFTDIR) -lft
-
-LEAK_TESTER = leak_tester
-LEAK_SRC = leak_tester.c
 
 SRCS = main.c \
 	   $(EXPANDIR)/expand.c	\
@@ -92,55 +89,29 @@ SRCS = main.c \
 
 OBJS = $(SRCS:%.c=$(OBJDIR)/%.o)
 
-GREEN = \033[0;32m
-RED = \033[0;31m
-BLUE = \033[0;34m
-YELLOW = \033[1;33m
-CYAN = \033[0;36m
-MAGENTA = \033[0;35m
-NC = \033[0m
-
 all: $(NAME)
 
 $(NAME): $(LIBFT) $(OBJS)
-	@echo "$(BLUE)Linking $(NAME)...$(NC)"
 	@$(CC) $(CFLAGS) $(OBJS) $(LIBFT_FLAGS) $(READLINE_FLAGS) -o $(NAME)
-	@echo "$(GREEN)✅ $(NAME) compiled successfully!$(NC)"
 
 $(OBJDIR)/%.o: %.c
 	@mkdir -p $(dir $@)
-	@echo "$(YELLOW)Compiling $<...$(NC)"
 	@$(CC) $(CFLAGS) $(INCLUDES) -c $< -o $@
 
 $(LIBFT):
-	@echo "$(BLUE)Building libft...$(NC)"
 	@make -C $(LIBFTDIR)
-	@echo "$(GREEN)✅ libft compiled successfully!$(NC)"
 
 clean:
-	@echo "$(RED)Cleaning object files...$(NC)"
 	@rm -rf $(OBJDIR)
 	@make clean -C $(LIBFTDIR)
-	@echo "$(GREEN)✅ Object files cleaned!$(NC)"
 
 fclean: clean
-	@echo "$(RED)Cleaning $(NAME)...$(NC)"
 	@rm -f $(NAME)
-	@rm -f $(LEAK_TESTER)
-	@rm -f test_output.txt test_list.txt valgrind_report.txt
 	@make fclean -C $(LIBFTDIR)
-	@echo "$(GREEN)✅ $(NAME) cleaned!$(NC)"
 
 re: fclean all
 
 valgrind: $(NAME)
-	@echo "$(BLUE)Running valgrind with readline suppressions...$(NC)"
 	valgrind --tool=memcheck --leak-check=full --show-leak-kinds=all --track-origins=yes --suppressions=readline.supp --track-fds=yes  ./$(NAME)
 
-norm:
-	@echo "$(BLUE)Checking norminette...$(NC)"
-	@norminette $(SRCS) minishell.h
-
-.PHONY: all clean fclean re debug valgrind valgrind-pipe test norm help \
-        test-leaks test-valgrind test-custom test-stress memcheck quick-test \
-        memcheck-advanced perf-test test-report clean-tests
+.PHONY: all clean fclean re valgrind

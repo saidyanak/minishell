@@ -6,7 +6,7 @@
 /*   By: yuocak <yuocak@student.42kocaeli.com.tr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/16 14:30:00 by yuocak            #+#    #+#             */
-/*   Updated: 2025/08/18 16:01:09 by yuocak           ###   ########.fr       */
+/*   Updated: 2025/08/18 17:39:51 by yuocak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,22 +101,18 @@ char	*remove_quotes_from_delimiter(char *delimiter)
 	char	*result;
 	char	temp[2];
 	int		i;
-	int		next_i;
 
-	if (!delimiter)
-		return (NULL);
 	result = initialize_empty_content_safe();
-	if (!result)
+	if (!result || !delimiter)
 		return (NULL);
 	i = 0;
 	while (delimiter[i])
 	{
 		if (delimiter[i] == '\'' || delimiter[i] == '"')
 		{
-			next_i = join_quoted_delimiter(delimiter, i, &result);
-			if (next_i == -1)
+			i = join_quoted_delimiter(delimiter, i, &result);
+			if (i == -1)
 				return (free(result), NULL);
-			i = next_i;
 		}
 		else
 		{

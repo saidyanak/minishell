@@ -6,7 +6,7 @@
 /*   By: yuocak <yuocak@student.42kocaeli.com.tr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/02 11:39:31 by yuocak            #+#    #+#             */
-/*   Updated: 2025/08/16 15:58:12 by yuocak           ###   ########.fr       */
+/*   Updated: 2025/08/18 21:04:37 by yuocak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,11 +21,6 @@ static void	process_input(char *input, t_base *base)
 	if (!input || !*input)
 		return ;
 	add_history(input);
-	if (base->token)
-	{
-		free_tokens(base->token);
-		base->token = NULL;
-	}
 	tokenize_input(input, base);
 	if (!base->token)
 	{
@@ -48,7 +43,7 @@ static void	run_shell_loop(t_base *base)
 
 	while (1)
 	{
-		input = readline("minishell$");
+		input = readline("minishell$: ");
 		base->exit_status = check_signal_status(base->exit_status);
 		if (!input)
 		{

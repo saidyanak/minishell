@@ -6,7 +6,7 @@
 /*   By: yuocak <yuocak@student.42kocaeli.com.tr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/02 11:39:59 by yuocak            #+#    #+#             */
-/*   Updated: 2025/08/18 15:58:13 by yuocak           ###   ########.fr       */
+/*   Updated: 2025/08/18 21:18:27 by yuocak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -255,7 +255,6 @@ int							handle_redirection_execution(t_base *base);
 
 int							count_commands(t_token *token);
 int							**create_pipes(int pipe_count);
-void						set_g_signal(int sig);
 t_token						**split_commands(t_token *token, int cmd_count);
 void						cleanup_pipes(int **pipes, int pipe_count);
 int							handle_redirections(t_token *cmd, t_base *base);
@@ -286,8 +285,7 @@ void						init_exec_data(t_exec_data *data);
 void						free_tokens_safe(t_exec_data *data);
 void						free_pids(t_exec_data *data);
 int							wait_for_children_utils(int last_exit_status,
-								int status,
-								t_exec_data *data);
+								int status, t_exec_data *data);
 
 int							is_redirection_token(t_token_type type);
 int							is_special_token(t_token_type type);

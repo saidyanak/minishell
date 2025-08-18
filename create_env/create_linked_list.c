@@ -6,7 +6,7 @@
 /*   By: yuocak <yuocak@student.42kocaeli.com.tr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/02 11:46:17 by yuocak            #+#    #+#             */
-/*   Updated: 2025/08/16 15:59:38 by yuocak           ###   ########.fr       */
+/*   Updated: 2025/08/18 20:52:43 by yuocak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,8 @@ t_env	*create_minimal_env(void)
 	node = create_new_node("SHLVL=1");
 	if (node)
 		add_new_node(&env_list, node);
-	node = create_new_node("PATH=/usr/local/bin:/usr/bin:/bin");
+	node = create_new_node("OLDPWD");
+	node->value = NULL;
 	if (node)
 		add_new_node(&env_list, node);
 	node = create_new_node("_=/usr/bin/env");
