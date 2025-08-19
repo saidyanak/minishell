@@ -27,7 +27,7 @@ int	check_build_in(char *input)
 		return (1);
 	if (ft_strcmp(input, "unset") == 0 || ft_strcmp(input, "exit") == 0)
 		return (1);
-	if (ft_strcmp(input, "export") == 0 || ft_strcmp(input, "list") == 0)
+	if (ft_strcmp(input, "export") == 0)
 		return (1);
 	return (0);
 }
