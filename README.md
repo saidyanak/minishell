@@ -2,7 +2,7 @@
 
 **Kendi UNIX Kabuğumuz**
 
-Bu proje, [42 Okulu](https://www.42.org.tr) müfredatı kapsamında, `bash` gibi popüler kabukların temel işlevlerini taklit eden kendi UNIX kabuğumuzu sıfırdan oluşturmayı amaçlamaktadır. Proje, proses yönetimi, dosya tanımlayıcıları (file descriptors), sinyal işleme ve komut satırı yorumlama gibi temel C ve UNIX konseptlerini derinlemesine anlamamızı sağlamıştır.
+Bu proje, [42 Okulu](https://42kocaeli.com.tr/) müfredatı kapsamında, `bash` gibi popüler kabukların temel işlevlerini taklit eden kendi UNIX kabuğumuzu sıfırdan oluşturmayı amaçlamaktadır. Proje, proses yönetimi, dosya tanımlayıcıları (file descriptors), sinyal işleme ve komut satırı yorumlama gibi temel C ve UNIX konseptlerini derinlemesine anlamamızı sağlamıştır.
 
 <img width="800" height="400" alt="Screenshot 2025-09-30 004649" src="https://github.com/user-attachments/assets/7153c35a-d2e2-408b-862b-d1e4a78df836" />
 
