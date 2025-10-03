@@ -107,8 +107,8 @@ Mesajim: $MESAJ
 
 Bu proje aşağıdaki kişiler tarafından geliştirilmiştir:
 
-* **[Said Yanak]** - ([@github-kullanici-adin](https://github.com/saidyanak))
-* **[Yusuf Alperen Ocak]** - ([@partner-github-kullanici-adi](https://github.com/alperenocak))
+* **[Said Yanak]** - ([@saidyanak](https://github.com/saidyanak))
+* **[Yusuf Alperen Ocak]** - ([@alperenocak](https://github.com/alperenocak))
 
 ---
 *Bu proje, 42 Network'ün eğitim müfredatının bir parçasıdır.*
