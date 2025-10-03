@@ -50,7 +50,7 @@ Projeyi klonladıktan sonra derlemek ve çalıştırmak için aşağıdaki adım
 
 ```bash
 # 1. Proje reposunu klonlayın
-git clone [https://github.com/kullanici-adiniz/minishell.git](https://github.com/kullanici-adiniz/minishell.git)
+git clone git@github.com:saidyanak/minishell.git
 
 # 2. Proje dizinine gidin
 cd minishell
